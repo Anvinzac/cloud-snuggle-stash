@@ -71,6 +71,15 @@ export const CARD_DESIGNS = [
   { id: "bold", label: "Bold" },
   { id: "gradient", label: "Gradient" },
   { id: "elegant", label: "Elegant" },
+  { id: "avant-garde", label: "Avant-Garde" },
+  { id: "swiss-grid", label: "Swiss Grid" },
+  { id: "fintech", label: "FinTech" },
+  { id: "geometric", label: "Geometric" },
+  { id: "architect", label: "Architect" },
+  { id: "creator", label: "Creator" },
+  { id: "watercolor", label: "Watercolor" },
+  { id: "oil-portrait", label: "Oil Portrait" },
+  { id: "ink-fusion", label: "Ink Fusion" },
 ] as const;
 
 export const CARD_COLORS: string[] = [

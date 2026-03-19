@@ -1,6 +1,8 @@
+import React, { Suspense } from "react";
 import { ContactData } from "./types";
 import { Mail, Phone, MapPin, Globe, Facebook, Instagram } from "lucide-react";
-
+import "./premium-cards.css";
+import { DESIGN_REGISTRY } from "./designs/registry";
 interface CardPreviewProps {
   data: ContactData;
   design: string;
@@ -141,7 +143,17 @@ export const CardPreview = ({ data, design, color, selectedFields, compact }: Ca
     );
   }
 
+  const SelectedDesign = DESIGN_REGISTRY[design];
+  if (SelectedDesign) {
+    return (
+      <React.Suspense fallback={<div className={`${baseClass} items-center justify-center`} style={{ background: color }}><div className="animate-pulse text-sm font-medium">Loading design...</div></div>}>
+        <SelectedDesign data={data} selectedFields={selectedFields} baseClass={baseClass} color={color} compact={compact} />
+      </React.Suspense>
+    );
+  }
+
   // elegant
+  // If no design matches, default to elegant
   return (
     <div className={baseClass} style={{ background: color }}>
       <div className="absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-white/10 to-transparent" />
