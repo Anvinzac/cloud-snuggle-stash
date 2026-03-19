@@ -14,7 +14,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
+      <BrowserRouter basename="/cloud-snuggle-stash">
         <Routes>
           <Route path="/" element={<CloudPaste />} />
           <Route path="/cards" element={<BusinessCardGallery />} />
