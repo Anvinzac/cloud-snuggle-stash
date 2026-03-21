@@ -1,13 +1,14 @@
+import type { CSSProperties } from "react";
 import { BusinessCardTemplateProps } from "../types";
 
-export default function FinTech({ data, selectedFields, baseClass }: BusinessCardTemplateProps) {
+export default function FinTech({ data, selectedFields, baseClass, color }: BusinessCardTemplateProps) {
   const fields = selectedFields.filter((k) => data[k]?.trim());
   const name = data.name || "Your Name";
   const title = data.title || "";
   const company = data.company || "";
 
   return (
-    <div className={`${baseClass} card--fintech !p-0`}>
+    <div className={`${baseClass} card--fintech !p-0`} style={{ "--card-accent": color } as CSSProperties}>
       <div className="ft-orbs">
         <div className="ft-orb ft-orb-1"></div>
         <div className="ft-orb ft-orb-2"></div>

@@ -1,12 +1,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;500;800&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,900&family=Space+Grotesk:wght@300;400;600;700&family=Caveat:wght@600;700&display=swap');
 
+.card--avant-garde,
+.card--swiss-grid,
+.card--fintech,
+.card--geometric,
+.card--architect,
+.card--creator {
+    --card-accent: #d3684b;
+    --card-accent-soft: color-mix(in srgb, var(--card-accent) 28%, white);
+    --card-accent-mid: color-mix(in srgb, var(--card-accent) 55%, white);
+    --card-accent-strong: color-mix(in srgb, var(--card-accent) 72%, black);
+    container-type: inline-size;
+    isolation: isolate;
+}
+
 /* ----------------------------------------------------
    CARD 1: THE AVANT-GARDE EDITORIAL
    ---------------------------------------------------- */
 .card--avant-garde {
-    --bg: #Fbfbf9;
+    --bg: color-mix(in srgb, var(--card-accent) 5%, #fbfbf9);
     --charcoal: #121212;
-    --copper: linear-gradient(135deg, #c38755 0%, #e2b78b 45%, #f1d7bc 55%, #c38755 100%);
+    --copper: linear-gradient(135deg, var(--card-accent-strong) 0%, var(--card-accent) 45%, var(--card-accent-mid) 55%, var(--card-accent-strong) 100%);
     background: var(--bg);
     color: var(--charcoal);
     position: relative;
@@ -127,7 +141,7 @@
 .card--swiss-grid {
     --bg: #0d0d0d;
     --txt: #f4f4f4;
-    --neon: #E1FF00;
+    --neon: var(--card-accent);
     --grid-color: rgba(255, 255, 255, 0.2);
     background: var(--bg) !important;
     color: var(--txt) !important;
@@ -251,9 +265,9 @@
    ---------------------------------------------------- */
 .card--fintech {
     --bg: #020611;
-    --cyan: #00F0FF;
-    --magenta: #FF0055;
-    --deep-blue: #0A2463;
+    --cyan: color-mix(in srgb, var(--card-accent) 85%, white);
+    --magenta: color-mix(in srgb, var(--card-accent) 65%, #FF0055);
+    --deep-blue: color-mix(in srgb, var(--card-accent) 35%, #0A2463);
     background: var(--bg) !important;
     color: #ffffff;
     position: relative;
@@ -435,10 +449,10 @@
    CARD 4: THE GEOMETRIC ARTISAN
    ---------------------------------------------------- */
 .card--geometric {
-    --bg: #F9F4EF;
-    --terracotta: #D3684B;
-    --beige: #E6CBB5;
-    --gold: #D4AF37;
+    --bg: color-mix(in srgb, var(--card-accent) 6%, #F9F4EF);
+    --terracotta: var(--card-accent);
+    --beige: color-mix(in srgb, var(--card-accent) 18%, #E6CBB5);
+    --gold: color-mix(in srgb, var(--card-accent) 45%, #D4AF37);
     --charcoal: #2b2b2b;
     background: var(--bg) !important;
     color: var(--charcoal) !important;
@@ -538,10 +552,10 @@
    CARD 5: THE ELEGANT ARCHITECT
    ---------------------------------------------------- */
 .card--architect {
-    --bg: #F8F8F8;
+    --bg: color-mix(in srgb, var(--card-accent) 4%, #F8F8F8);
     --charcoal: #2C3E50;
-    --platinum: #C5C6C7;
-    --cream: #FFFDD0;
+    --platinum: color-mix(in srgb, var(--card-accent) 30%, #C5C6C7);
+    --cream: color-mix(in srgb, var(--card-accent) 8%, #FFFDD0);
     background: var(--bg) !important;
     color: var(--charcoal) !important;
     padding: 8%;
@@ -637,9 +651,9 @@
    CARD 6: THE VIBRANT CREATOR
    ---------------------------------------------------- */
 .card--creator {
-    --bg: #1A535C;
-    --coral: #FF6B6B;
-    --yellow: #FFE66D;
+    --bg: color-mix(in srgb, var(--card-accent) 28%, #1A535C);
+    --coral: var(--card-accent);
+    --yellow: color-mix(in srgb, var(--card-accent) 40%, #FFE66D);
     --light: #F7FFF7;
     background: var(--bg) !important;
     color: var(--light) !important;
@@ -723,4 +737,5 @@
     width: 100%;
     padding-top: 10%;
     margin: 0;
+    padding-left: 0;
 }

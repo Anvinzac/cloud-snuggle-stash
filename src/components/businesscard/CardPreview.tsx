@@ -27,8 +27,8 @@ export const CardPreview = ({ data, design, color, selectedFields, compact }: Ca
   const company = data.company || "";
 
   const baseClass = compact
-    ? "w-full aspect-[9/16] rounded-2xl overflow-hidden relative flex flex-col justify-between p-5 text-white"
-    : "w-full min-h-[100dvh] flex flex-col justify-between p-8 text-white";
+    ? "w-full aspect-[9/16] rounded-2xl overflow-hidden relative flex flex-col justify-between p-5 text-white [container-type:inline-size]"
+    : "w-full min-h-[100dvh] flex flex-col justify-between p-8 text-white [container-type:inline-size]";
 
   const textSize = compact ? "text-base" : "text-2xl";
   const subSize = compact ? "text-[10px]" : "text-sm";

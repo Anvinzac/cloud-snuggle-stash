@@ -1,6 +1,7 @@
+import type { CSSProperties } from "react";
 import { BusinessCardTemplateProps } from "../types";
 
-export default function AvantGarde({ data, selectedFields, baseClass }: BusinessCardTemplateProps) {
+export default function AvantGarde({ data, selectedFields, baseClass, color }: BusinessCardTemplateProps) {
   const fields = selectedFields.filter((k) => data[k]?.trim());
   const name = data.name || "Your Name";
   const title = data.title || "";
@@ -10,7 +11,7 @@ export default function AvantGarde({ data, selectedFields, baseClass }: Business
   const last = parts.length > 1 ? parts[parts.length - 1] : '';
 
   return (
-    <div className={`${baseClass} card--avant-garde !p-0`}>
+    <div className={`${baseClass} card--avant-garde !p-0`} style={{ "--card-accent": color } as CSSProperties}>
       <div className="ag-frame"></div>
       <div className="ag-content w-full h-full !p-0">
         <header className="ag-header">

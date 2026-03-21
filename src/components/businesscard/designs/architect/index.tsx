@@ -1,22 +1,13 @@
+import type { CSSProperties } from "react";
 import { BusinessCardTemplateProps } from "../types";
-import { Mail, Phone, MapPin, Globe, Facebook, Instagram } from "lucide-react";
 
-const fieldIcons: Record<string, React.ReactNode> = {
-  email: <Mail className="h-3.5 w-3.5" />,
-  phone: <Phone className="h-3.5 w-3.5" />,
-  address: <MapPin className="h-3.5 w-3.5" />,
-  website: <Globe className="h-3.5 w-3.5" />,
-  facebook: <Facebook className="h-3.5 w-3.5" />,
-  instagram: <Instagram className="h-3.5 w-3.5" />,
-};
-
-export default function Architect({ data, selectedFields, baseClass }: BusinessCardTemplateProps) {
+export default function Architect({ data, selectedFields, baseClass, color }: BusinessCardTemplateProps) {
   const fields = selectedFields.filter((k) => data[k]?.trim());
   const name = data.name || "Your Name";
   const title = data.title || "";
 
   return (
-    <div className={`${baseClass} card--architect !p-0`}>
+    <div className={`${baseClass} card--architect !p-0`} style={{ "--card-accent": color } as CSSProperties}>
       <div className="ea-content w-full h-full">
         <header className="ea-header">
           <h1 className="ea-name" style={{ whiteSpace: 'pre-line' }}>{name.replace(' ', '\n')}</h1>
