@@ -9,10 +9,14 @@ import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
 
+const routerBasename = import.meta.env.BASE_URL === "/" ? undefined : import.meta.env.BASE_URL;
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <BrowserRouter basename="/cloud-snuggle-stash">
+      <Toaster />
+      <Sonner />
+      <BrowserRouter basename={routerBasename}>
         <Routes>
           <Route path="/" element={<CloudPaste />} />
           <Route path="/cards" element={<BusinessCardGallery />} />
