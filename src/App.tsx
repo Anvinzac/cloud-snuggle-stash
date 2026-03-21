@@ -12,8 +12,6 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <Toaster />
-      <Sonner />
       <BrowserRouter basename="/cloud-snuggle-stash">
         <Routes>
           <Route path="/" element={<CloudPaste />} />
