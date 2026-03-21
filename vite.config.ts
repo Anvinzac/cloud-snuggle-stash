@@ -5,7 +5,7 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: "/cloud-snuggle-stash/",
+  base: mode === "production" ? "/cloud-snuggle-stash/" : "/",
   server: {
     host: "::",
     port: 8080,
