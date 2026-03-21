@@ -12,14 +12,15 @@ const fieldIcons: Record<string, React.ReactNode> = {
 
 export default function InkFusionCard({ data, color, selectedFields, baseClass, compact }: any) {
   const fields = selectedFields?.filter((k: string) => data[k]?.trim()) || [];
+  const accent = color || '#dc2626';
   
   return (
     <div className={`${baseClass} overflow-hidden font-mono bg-white text-black relative`}>
       {/* High contrast dramatic typography & splatters */}
       
       {/* Bold geometric shape */}
-      <div className="absolute top-0 right-0 w-[80%] h-[120%] bg-black -rotate-12 translate-x-[40%] -translate-y-[10%]" 
-           style={{ transformOrigin: 'top right' }} />
+      <div className="absolute top-0 right-0 w-[80%] h-[120%] -rotate-12 translate-x-[40%] -translate-y-[10%]" 
+           style={{ backgroundColor: accent, transformOrigin: 'top right' }} />
            
       {/* Distressed ink splatter overlay (via SVG) */}
       <div className="absolute inset-0 opacity-20 mix-blend-difference pointer-events-none" style={{
@@ -31,7 +32,7 @@ export default function InkFusionCard({ data, color, selectedFields, baseClass, 
           <h2 className={`${compact ? 'text-3xl' : 'text-5xl'} font-black tracking-tighter uppercase leading-none mix-blend-difference text-white break-words w-[80%]`}>
             {data.name}
           </h2>
-          <div className="h-1 w-16 bg-red-600 mt-4 mb-2" />
+          <div className="h-1 w-16 mt-4 mb-2" style={{ backgroundColor: accent }} />
           {data.title && <p className={`${compact ? 'text-[10px]' : 'text-sm'} uppercase font-bold tracking-widest mix-blend-difference text-white`}>{data.title}</p>}
           {data.company && <p className={`${compact ? 'text-[10px]' : 'text-sm'} font-medium mix-blend-difference text-white/50 mt-1`}>{data.company}</p>}
         </div>
@@ -39,7 +40,7 @@ export default function InkFusionCard({ data, color, selectedFields, baseClass, 
         <div className={`space-y-4 mt-auto`}>
           {fields.filter((k: string) => !["name", "title", "company"].includes(k)).map((k: string) => (
             <div key={k} className={`flex items-center gap-4 ${compact ? 'text-[9px]' : 'text-xs'} font-bold mix-blend-difference text-white/90`}>
-              <span className="text-red-500">{fieldIcons[k]}</span>
+              <span style={{ color: accent }}>{fieldIcons[k]}</span>
               <span className="tracking-widest uppercase">{data[k]}</span>
             </div>
           ))}

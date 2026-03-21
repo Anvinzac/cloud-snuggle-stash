@@ -1,12 +1,13 @@
+import type { CSSProperties } from "react";
 import { BusinessCardTemplateProps } from "../types";
 
-export default function Geometric({ data, selectedFields, baseClass }: BusinessCardTemplateProps) {
+export default function Geometric({ data, selectedFields, baseClass, color }: BusinessCardTemplateProps) {
   const fields = selectedFields.filter((k) => data[k]?.trim());
   const name = data.name || "Your Name";
   const title = data.title || "";
 
   return (
-    <div className={`${baseClass} card--geometric !p-0`}>
+    <div className={`${baseClass} card--geometric !p-0`} style={{ "--card-accent": color } as CSSProperties}>
       <div className="ga-motif"></div>
       <div className="ga-shape"></div>
       
