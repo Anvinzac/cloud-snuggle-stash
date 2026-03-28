@@ -46,6 +46,7 @@ export const BusinessCardSection = ({ user, pasteFields, testMode, onBack }: Bus
   const [importDesign, setImportDesign] = useState("avant-garde");
   const [importColor, setImportColor] = useState(CARD_COLORS[0]);
   const [showControls, setShowControls] = useState(true);
+  const [hiddenDesigns, setHiddenDesigns] = useState<string[]>([]);
 
   useEffect(() => {
     const map: Record<string, string> = {};
@@ -276,8 +277,12 @@ export const BusinessCardSection = ({ user, pasteFields, testMode, onBack }: Bus
            {/* Card ambient glow based on selected color */}
            <div className="absolute inset-0 opacity-20 blur-3xl pointer-events-none transition-colors duration-700" style={{ background: color }} />
            
-           <div className={`transition-all duration-500 ease-out w-full max-w-[340px] md:max-w-[400px] ${showControls ? "scale-95 -translate-y-12 md:-translate-y-16" : "scale-110"}`}>
-             <CardPreview data={cardData} design={design} color={color} selectedFields={selectedFields} />
+           <div className={`transition-all duration-500 ease-out w-full h-full flex flex-col justify-center items-center ${showControls ? "pb-[280px]" : ""}`}>
+             <div className={`transition-transform duration-500 ease-out h-full max-h-[70vh] w-full max-w-[340px] flex justify-center items-center ${showControls ? "scale-95" : "scale-110"}`}>
+               <div className="h-full max-h-full w-auto aspect-[300/533] mx-auto flex-shrink-1">
+                 <CardPreview data={cardData} design={design} color={color} selectedFields={selectedFields} />
+               </div>
+             </div>
            </div>
         </div>
 
@@ -312,21 +317,49 @@ export const BusinessCardSection = ({ user, pasteFields, testMode, onBack }: Bus
             <div className="space-y-6">
               <div>
                 <p className="text-[10px] font-bold text-white/50 mb-3 uppercase tracking-widest">Design Style</p>
-                <div className="flex gap-3 overflow-x-auto pb-2 -mx-6 px-6 scrollbar-hide snap-x">
-                  {CARD_DESIGNS.map((d) => (
-                    <button
-                      key={d.id}
-                      onClick={() => setDesign(d.id)}
-                      className={`px-4 py-2.5 rounded-2xl text-sm font-semibold whitespace-nowrap transition-all duration-300 shrink-0 snap-start border ${
-                        design === d.id
-                          ? "bg-white text-black border-white shadow-[0_0_15px_rgba(255,255,255,0.4)] scale-105"
-                          : "bg-white/5 text-white/70 border-white/10 hover:bg-white/10 hover:text-white active:scale-95"
-                      }`}
-                    >
-                      {d.label}
-                    </button>
+                <div className="flex gap-3 overflow-x-auto pb-4 pt-2 -mx-6 px-6 scrollbar-hide snap-x">
+                  {CARD_DESIGNS.filter(d => !hiddenDesigns.includes(d.id)).map((d) => (
+                    <div key={d.id} className="relative shrink-0 snap-start mt-2">
+                      <button
+                        onClick={() => setDesign(d.id)}
+                        className={`px-4 py-2.5 rounded-2xl text-sm font-semibold whitespace-nowrap transition-all duration-300 border ${
+                          design === d.id
+                            ? "bg-white text-black border-white shadow-[0_0_15px_rgba(255,255,255,0.4)] scale-105"
+                            : "bg-white/5 text-white/70 border-white/10 hover:bg-white/10 hover:text-white active:scale-95"
+                        }`}
+                      >
+                        {d.label}
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setHiddenDesigns(prev => [...prev, d.id]);
+                          
+                          // Save mapping automatically to file
+                          fetch('/api/hide-theme', {
+                            method: 'POST',
+                            body: JSON.stringify({ themeId: d.id }),
+                            headers: { 'Content-Type': 'application/json' }
+                          }).catch(console.error);
+
+                          if (design === d.id) {
+                            const remaining = CARD_DESIGNS.filter(x => x.id !== d.id && !hiddenDesigns.includes(x.id));
+                            if (remaining.length > 0) setDesign(remaining[0].id);
+                          }
+                        }}
+                        className="absolute -top-3 -right-2 bg-red-500/80 hover:bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center z-10"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    </div>
                   ))}
                 </div>
+                {hiddenDesigns.length > 0 && (
+                  <div className="mt-2 p-2 bg-red-500/10 rounded border border-red-500/20 text-xs text-red-200">
+                    <p className="font-bold mb-1">To be removed next time:</p>
+                    <div className="break-all font-mono select-all">"{hiddenDesigns.join('", "')}"</div>
+                  </div>
+                )}
               </div>
 
               <div>
