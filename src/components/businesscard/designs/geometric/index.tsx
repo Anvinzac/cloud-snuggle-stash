@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import { FitText } from "../FitText";
 import { BusinessCardTemplateProps } from "../types";
 
 export default function Geometric({ data, selectedFields, baseClass, color }: BusinessCardTemplateProps) {
@@ -15,11 +16,11 @@ export default function Geometric({ data, selectedFields, baseClass, color }: Bu
         <div className="ga-line"></div>
         <div className="ga-text w-full h-full flex flex-col pt-6 pb-2 min-w-0 pr-4">
           <h1 className="ga-name" style={{ whiteSpace: 'pre-line' }}>{name.replace(' ', '\n')}</h1>
-          <h2 className="ga-role truncate">{title}</h2>
+          <FitText align="left" className="ga-role w-full">{title}</FitText>
           
           <ul className="ga-info mt-auto">
             {fields.filter(k => !["name","title"].includes(k)).slice(0,3).map(k => (
-              <li key={k} className="truncate">{data[k]}</li>
+              <FitText key={k} align="left" className=" w-full">{data[k]}</FitText>
             ))}
           </ul>
         </div>

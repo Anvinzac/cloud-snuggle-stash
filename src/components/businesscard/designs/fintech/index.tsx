@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import { FitText } from "../FitText";
 import { BusinessCardTemplateProps } from "../types";
 
 export default function FinTech({ data, selectedFields, baseClass, color }: BusinessCardTemplateProps) {
@@ -22,12 +23,12 @@ export default function FinTech({ data, selectedFields, baseClass, color }: Busi
         </div>
         
         <div className="ft-glass-panel mt-auto">
-          <h2 className="ft-name truncate">{name}</h2>
-          <p className="ft-role truncate">{title}</p>
+          <FitText align="left" className="ft-name w-full">{name}</FitText>
+          <FitText align="left" className="ft-role w-full">{title}</FitText>
           <div className="ft-divider"></div>
           <ul className="ft-info">
             {fields.filter(k => !["name","title","company"].includes(k)).slice(0,3).map(k => (
-              <li key={k} className="truncate">{data[k]}</li>
+              <FitText key={k} align="left" className=" w-full">{data[k]}</FitText>
             ))}
           </ul>
         </div>

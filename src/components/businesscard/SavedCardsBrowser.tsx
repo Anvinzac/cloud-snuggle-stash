@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { SavedContact, CONTACT_CATEGORIES, STATUS_OPTIONS, MOCK_CONTACTS } from "./types";
 import { CardPreview } from "./CardPreview";
-import { ArrowLeft, Filter, X, ChevronLeft, ChevronRight, Search } from "lucide-react";
+import { ArrowLeft, Filter, X, ChevronLeft, ChevronRight, Search, LayoutGrid, List } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -9,6 +9,7 @@ interface SavedCardsBrowserProps {
   contacts: SavedContact[];
   onBack: () => void;
   testMode?: boolean;
+  isEmbedded?: boolean;
 }
 
 const ContactRow = ({
@@ -122,7 +123,7 @@ const FullScreenCard = ({
         </div>
         <div className="absolute bottom-6 left-4 right-4 flex items-center justify-between">
           <Button variant="ghost" size="sm" className="text-white hover:bg-white/10" onClick={onClose}>
-            <X className="h-4 w-4 mr-1" /> Close
+            <ArrowLeft className="h-4 w-4 mr-1" /> Back
           </Button>
           <div className="flex gap-2">
             {prev && (
@@ -142,7 +143,7 @@ const FullScreenCard = ({
   );
 };
 
-export const SavedCardsBrowser = ({ contacts: propContacts, onBack, testMode }: SavedCardsBrowserProps) => {
+export const SavedCardsBrowser = ({ contacts: propContacts, onBack, testMode, isEmbedded }: SavedCardsBrowserProps) => {
   const contacts = testMode ? (MOCK_CONTACTS as SavedContact[]) : propContacts;
 
   const [activeCategory, setActiveCategory] = useState<string>("All");
@@ -152,6 +153,7 @@ export const SavedCardsBrowser = ({ contacts: propContacts, onBack, testMode }: 
   const [showFilters, setShowFilters] = useState(false);
   const [selectedCard, setSelectedCard] = useState<SavedContact | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [viewMode, setViewMode] = useState<"list" | "grid">("grid");
 
   const now = new Date();
   const threeMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 3, now.getDate());
@@ -202,26 +204,38 @@ export const SavedCardsBrowser = ({ contacts: propContacts, onBack, testMode }: 
   const usedCareers = [...new Set(processedContacts.map((c) => c.career_tag).filter(Boolean))];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-cyan-50 via-white to-violet-50 dark:from-gray-950 dark:via-gray-900 dark:to-violet-950">
-      <div className="max-w-lg mx-auto pt-6 pb-8 px-4 space-y-3">
+    <div className={isEmbedded ? "" : "min-h-screen bg-gradient-to-br from-cyan-50 via-white to-violet-50 dark:from-gray-950 dark:via-gray-900 dark:to-violet-950"}>
+      <div className={`max-w-lg mx-auto px-4 ${isEmbedded ? "pt-2 pb-4" : "pt-6 pb-8"} space-y-3`}>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Button variant="ghost" size="icon" className="h-8 w-8" onClick={onBack}>
-              <ArrowLeft className="h-4 w-4" />
-            </Button>
+            {!isEmbedded && (
+              <Button variant="ghost" size="icon" className="h-8 w-8" onClick={onBack}>
+                <ArrowLeft className="h-4 w-4" />
+              </Button>
+            )}
             <h2 className="text-lg font-bold text-foreground">Saved Cards</h2>
             <span className="text-xs text-muted-foreground bg-muted/60 px-2 py-0.5 rounded-full font-medium">
               {sorted.length}
             </span>
           </div>
-          <Button
-            variant={showFilters ? "default" : "outline"}
-            size="sm"
-            className="h-8"
-            onClick={() => setShowFilters(!showFilters)}
-          >
-            <Filter className="h-3.5 w-3.5 mr-1" /> Filter
-          </Button>
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-8 w-8 p-0"
+              onClick={() => setViewMode(v => v === "list" ? "grid" : "list")}
+            >
+              {viewMode === "list" ? <LayoutGrid className="h-4 w-4 text-muted-foreground" /> : <List className="h-4 w-4 text-muted-foreground" />}
+            </Button>
+            <Button
+              variant={showFilters ? "default" : "outline"}
+              size="sm"
+              className="h-8"
+              onClick={() => setShowFilters(!showFilters)}
+            >
+              <Filter className="h-3.5 w-3.5 mr-1" /> Filter
+            </Button>
+          </div>
         </div>
 
         <div className="relative">
@@ -313,7 +327,7 @@ export const SavedCardsBrowser = ({ contacts: propContacts, onBack, testMode }: 
           <div className="text-center py-16 text-muted-foreground text-sm">
             No contacts found
           </div>
-        ) : (
+        ) : viewMode === "list" ? (
           <div className="space-y-0.5">
             {sorted.map((contact) => (
               <ContactRow
@@ -321,6 +335,33 @@ export const SavedCardsBrowser = ({ contacts: propContacts, onBack, testMode }: 
                 contact={contact}
                 onClick={() => setSelectedCard(contact)}
               />
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 gap-4 pb-8">
+            {sorted.map((contact) => (
+              <button
+                key={contact.id}
+                onClick={() => setSelectedCard(contact)}
+                className="w-full text-left transition-transform active:scale-95 group"
+              >
+                <div className="pointer-events-none rounded-2xl overflow-hidden shadow-lg border border-border/10 ring-1 ring-black/5 group-hover:shadow-xl transition-shadow w-full aspect-[9/16] relative bg-muted">
+                  <div className="absolute inset-0 scale-[1] origin-top">
+                    <CardPreview
+                      data={contact.contact_data}
+                      design={contact.card_design}
+                      color={contact.card_color}
+                      selectedFields={Object.keys(contact.contact_data).filter((k) => contact.contact_data[k]?.trim())}
+                      compact
+                    />
+                  </div>
+                </div>
+                <div className="mt-3 px-1">
+                  <p className="text-xs font-semibold text-foreground truncate">{contact.contact_data.name || "Unnamed"}</p>
+                  <p className="text-[10px] text-muted-foreground truncate leading-tight mt-0.5">{contact.contact_data.title || "No title"}</p>
+                  {contact.contact_data.company && <p className="text-[10px] text-muted-foreground/70 truncate">{contact.contact_data.company}</p>}
+                </div>
+              </button>
             ))}
           </div>
         )}

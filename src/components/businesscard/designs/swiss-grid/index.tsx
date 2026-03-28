@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import { FitText } from "../FitText";
 import { BusinessCardTemplateProps } from "../types";
 
 export default function SwissGrid({ data, selectedFields, baseClass, color }: BusinessCardTemplateProps) {
@@ -23,7 +24,7 @@ export default function SwissGrid({ data, selectedFields, baseClass, color }: Bu
           <div className="sg-barcode"></div>
           <ul className="sg-info">
             {fields.filter(k => !["name","title"].includes(k)).slice(0, 3).map(k => (
-              <li key={k} className="truncate">{data[k]}</li>
+              <FitText key={k} align="left" className=" w-full">{data[k]}</FitText>
             ))}
           </ul>
         </div>

@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import { FitText } from "../FitText";
 import { BusinessCardTemplateProps } from "../types";
 
 export default function Creator({ data, selectedFields, baseClass, color }: BusinessCardTemplateProps) {
@@ -16,7 +17,7 @@ export default function Creator({ data, selectedFields, baseClass, color }: Busi
         
         <ul className="vc-info">
           {fields.filter(k => !["name","title"].includes(k)).slice(0,3).map(k => (
-            <li key={k} className="truncate">{data[k]}</li>
+            <FitText key={k} align="left" className=" w-full">{data[k]}</FitText>
           ))}
         </ul>
       </div>

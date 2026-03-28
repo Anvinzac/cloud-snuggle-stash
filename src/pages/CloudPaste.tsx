@@ -980,29 +980,32 @@ const AuthenticatedView = ({ user }: { user: any }) => {
 
   // ─── Main: Select & Share Mode ───
   return (
-    <div className="min-h-screen bg-gradient-to-br from-cyan-50 via-white to-violet-50 dark:from-gray-950 dark:via-gray-900 dark:to-violet-950 p-4">
-      <div className="max-w-lg mx-auto pt-6 space-y-5">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-cyan-500 to-violet-600 flex items-center justify-center text-white shadow-lg">
-              <Clipboard className="h-5 w-5" />
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-gray-950 dark:via-gray-900 dark:to-indigo-950 pb-28 pt-8 px-4 selection:bg-purple-200 dark:selection:bg-purple-900">
+      <div className="max-w-4xl mx-auto space-y-8">
+        
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-xl ring-4 ring-white/50 dark:ring-white/10">
+              <Clipboard className="h-7 w-7" />
             </div>
             <div>
-              <h1 className="text-lg font-bold text-foreground">CloudPaste</h1>
-              <p className="text-xs text-muted-foreground">Select fields to share via QR</p>
+              <h1 className="text-2xl font-extrabold bg-gradient-to-r from-indigo-700 to-purple-700 dark:from-indigo-400 dark:to-purple-400 bg-clip-text text-transparent">CloudPaste</h1>
+              <p className="text-sm text-muted-foreground font-medium">Select fields to build your shareable QR</p>
             </div>
           </div>
-          <div className="flex gap-1">
-            <Button variant="outline" size="sm" onClick={() => setBusinessCardMode(true)}>
-              <CreditCard className="h-4 w-4 mr-1" /> Card
+          <div className="flex gap-2 shrink-0">
+            <Button variant="outline" className="h-10 rounded-xl border-indigo-200 dark:border-indigo-800 hover:bg-indigo-50 dark:hover:bg-indigo-900/30" onClick={() => setBusinessCardMode(true)}>
+              <CreditCard className="h-4 w-4 mr-2 text-indigo-500" /> Card Design
             </Button>
-            <Button variant="ghost" size="sm" onClick={initSetup}>
-              <Pencil className="h-4 w-4 mr-1" /> Edit
+            <Button variant="ghost" className="h-10 rounded-xl hover:bg-purple-50 dark:hover:bg-purple-900/30" onClick={initSetup}>
+              <Pencil className="h-4 w-4 mr-2 text-purple-500" /> Edit Info
             </Button>
           </div>
         </div>
 
-        <div className="space-y-4">
+        {/* Bento Box Grid Area */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {(() => {
             const basicNames = new Set(BASIC_FIELDS.map((f) => f.field_name));
             const idNames = new Set(ID_FIELDS.map((f) => f.field_name));
@@ -1010,20 +1013,24 @@ const AuthenticatedView = ({ user }: { user: any }) => {
             const socialNames = new Set(SOCIAL_FIELDS.map((f) => f.field_name));
             const dobName = DOB_FIELD.field_name;
 
-            const categories: { label: string; emoji: string; fieldIds: string[] }[] = [];
-            const addCategory = (label: string, emoji: string, nameSet: Set<string>) => {
+            const categories: { label: string; emoji: string; desc: string; fieldIds: string[], color: string }[] = [];
+            const addCategory = (label: string, emoji: string, desc: string, color: string, nameSet: Set<string>) => {
               const ids = fields.filter((f) => nameSet.has(f.field_name)).map((f) => f.id);
-              if (ids.length > 0) categories.push({ label, emoji, fieldIds: ids });
+              if (ids.length > 0) categories.push({ label, emoji, desc, color, fieldIds: ids });
             };
-            addCategory("Basic Info", "📝", basicNames);
+
+            addCategory("Basic Info", "📝", "Core personal details", "from-blue-500/10 to-cyan-500/10 border-blue-200/50 dark:border-blue-500/20 text-blue-600 dark:text-blue-400", basicNames);
+            
             const dobIds = fields.filter((f) => f.field_name === dobName).map((f) => f.id);
-            if (dobIds.length > 0) categories.push({ label: "Date of Birth", emoji: "📅", fieldIds: dobIds });
-            addCategory("Identity", "🪪", idNames);
-            addCategory("Company", "🏢", companyNames);
-            addCategory("Social Media", "📱", socialNames);
+            if (dobIds.length > 0) categories.push({ label: "Date of Birth", emoji: "📅", desc: "Your birthday", color: "from-amber-500/10 to-orange-500/10 border-amber-200/50 dark:border-amber-500/20 text-amber-600 dark:text-amber-400", fieldIds: dobIds });
+            
+            addCategory("Identity", "🪪", "Official documents", "from-rose-500/10 to-red-500/10 border-rose-200/50 dark:border-rose-500/20 text-rose-600 dark:text-rose-400", idNames);
+            addCategory("Company", "🏢", "Work & business", "from-emerald-500/10 to-green-500/10 border-emerald-200/50 dark:border-emerald-500/20 text-emerald-600 dark:text-emerald-400", companyNames);
+            addCategory("Social", "📱", "Online presence", "from-purple-500/10 to-fuchsia-500/10 border-purple-200/50 dark:border-purple-500/20 text-purple-600 dark:text-purple-400", socialNames);
+            
             const knownNames = new Set([...basicNames, ...idNames, ...companyNames, ...socialNames, dobName]);
             const customIds = fields.filter((f) => !knownNames.has(f.field_name)).map((f) => f.id);
-            if (customIds.length > 0) categories.push({ label: "Custom", emoji: "✨", fieldIds: customIds });
+            if (customIds.length > 0) categories.push({ label: "Custom", emoji: "✨", desc: "Your unique fields", color: "from-pink-500/10 to-rose-500/10 border-pink-200/50 dark:border-pink-500/20 text-pink-600 dark:text-pink-400", fieldIds: customIds });
 
             const toggleCategory = (fieldIds: string[]) => {
               const allSelected = fieldIds.every((id) => selectedIds.has(id));
@@ -1034,70 +1041,133 @@ const AuthenticatedView = ({ user }: { user: any }) => {
               });
             };
 
-            const renderField = (field: PasteField) => {
+            const renderFieldChip = (field: PasteField) => {
               const isVisible = visibleIds.has(field.id);
               const isSelected = selectedIds.has(field.id);
               return (
                 <div
                   key={field.id}
                   onClick={() => toggleSelection(field.id)}
-                  className={`flex items-center gap-3 rounded-xl border p-3 transition-all cursor-pointer select-none ${
+                  className={`relative group flex flex-col justify-center px-4 py-3 rounded-2xl cursor-pointer transition-all duration-300 ease-out select-none overflow-hidden ${
                     isSelected
-                      ? "border-cyan-400/60 bg-cyan-50/50 dark:bg-cyan-950/20 shadow-sm"
-                      : "border-border/50 bg-card/80 backdrop-blur-sm"
+                      ? "bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-md shadow-indigo-500/25 scale-[1.02] ring-1 ring-white/20 active:scale-95"
+                      : "bg-white/60 dark:bg-gray-800/60 hover:bg-white dark:hover:bg-gray-800 border-border/50 border hover:border-indigo-300 dark:hover:border-indigo-700 hover:shadow-sm active:scale-95"
                   }`}
                 >
-                  <Checkbox checked={isSelected} onCheckedChange={() => toggleSelection(field.id)} onClick={(e) => e.stopPropagation()} className="shrink-0 pointer-events-none" />
-                  <div className="flex-1 min-w-0">
-                    <div className="text-xs font-medium text-muted-foreground">{field.field_name}</div>
-                    <div className="text-sm font-semibold text-foreground truncate">
-                      {isVisible ? field.field_value : "•".repeat(Math.min(field.field_value.length, 20))}
+                  {/* Subtle inner glow for selected state */}
+                  {isSelected && <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />}
+                  
+                  <div className="flex items-center justify-between gap-3 relative z-10">
+                    <div className="min-w-0 flex-1">
+                      <div className={`text-[10px] uppercase tracking-wider font-bold mb-0.5 ${isSelected ? "text-indigo-100" : "text-muted-foreground"}`}>
+                        {field.field_name}
+                      </div>
+                      <div className={`text-sm font-semibold truncate ${isSelected ? "text-white" : "text-foreground"}`}>
+                        {isVisible ? field.field_value : "•".repeat(Math.min(field.field_value.length, 12))}
+                      </div>
                     </div>
+                    
+                    <button 
+                      onClick={(e) => { e.stopPropagation(); toggleVisibility(field.id); }} 
+                      className={`shrink-0 h-8 w-8 rounded-full flex items-center justify-center transition-colors ${
+                        isSelected 
+                          ? "bg-white/20 hover:bg-white/30 text-white" 
+                          : "bg-muted/50 hover:bg-muted text-muted-foreground"
+                      }`}
+                    >
+                      {isVisible ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    </button>
                   </div>
-                  <button onClick={(e) => { e.stopPropagation(); toggleVisibility(field.id); }} className="shrink-0 h-8 w-8 rounded-lg flex items-center justify-center hover:bg-muted transition-colors">
-                    {isVisible ? <EyeOff className="h-4 w-4 text-muted-foreground" /> : <Eye className="h-4 w-4 text-muted-foreground" />}
-                  </button>
+                  
+                  {isSelected && (
+                    <div className="absolute top-2 right-2 h-2 w-2 rounded-full bg-white animate-pulse" />
+                  )}
                 </div>
               );
             };
 
-            return categories.map((cat) => {
+            return categories.map((cat, idx) => {
               const allSelected = cat.fieldIds.every((id) => selectedIds.has(id));
               const someSelected = cat.fieldIds.some((id) => selectedIds.has(id));
+              
+              // Give some bento boxes a span to make the grid masonry-like
+              const isLarge = cat.fieldIds.length > 3;
+              const colSpanClass = isLarge ? "md:col-span-2 lg:col-span-2" : "col-span-1";
+
               return (
-                <div key={cat.label} className="space-y-2">
-                  <button
-                    onClick={() => toggleCategory(cat.fieldIds)}
-                    className="flex items-center gap-2 w-full text-left group"
-                  >
-                    <Checkbox
-                      checked={allSelected}
-                      className={`shrink-0 ${someSelected && !allSelected ? "opacity-60" : ""}`}
-                      onCheckedChange={() => toggleCategory(cat.fieldIds)}
-                      onClick={(e) => e.stopPropagation()}
-                    />
-                    <span className="text-xs font-semibold text-muted-foreground group-hover:text-foreground transition-colors">
-                      {cat.emoji} {cat.label} ({cat.fieldIds.length})
-                    </span>
-                  </button>
-                  {cat.fieldIds.map((id) => renderField(fields.find((f) => f.id === id)!))}
+                <div 
+                  key={cat.label} 
+                  className={`bg-card/40 dark:bg-card/20 backdrop-blur-xl border border-white/40 dark:border-white/5 rounded-3xl p-5 shadow-sm transition-all hover:shadow-md ${colSpanClass} relative overflow-hidden flex flex-col`}
+                >
+                  {/* Decorative background gradient */}
+                  <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${cat.color} rounded-full blur-3xl -mr-10 -mt-10 opacity-60 pointer-events-none`} />
+
+                  <div className="flex items-start justify-between mb-4 relative z-10">
+                    <div className="flex gap-3">
+                      <div className="text-2xl pt-1">{cat.emoji}</div>
+                      <div>
+                        <h2 className="text-base font-bold text-foreground">{cat.label}</h2>
+                        <p className="text-xs text-muted-foreground">{cat.desc}</p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => toggleCategory(cat.fieldIds)}
+                      className={`text-xs font-semibold px-3 py-1.5 rounded-full transition-colors ${
+                        allSelected 
+                          ? "bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300" 
+                          : "bg-muted text-muted-foreground hover:bg-indigo-50 hover:text-indigo-600 dark:hover:bg-indigo-900/20"
+                      }`}
+                    >
+                      {allSelected ? "Deselect All" : "Select All"}
+                    </button>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 relative z-10 flex-1 content-start">
+                    {cat.fieldIds.map((id) => renderFieldChip(fields.find((f) => f.id === id)!))}
+                  </div>
                 </div>
               );
             });
           })()}
         </div>
+      </div>
 
-        <Button
-          onClick={generateQR}
-          disabled={selectedIds.size === 0}
-          className="w-full bg-gradient-to-r from-cyan-500 to-violet-600 hover:from-cyan-600 hover:to-violet-700 text-white shadow-lg disabled:opacity-50"
-        >
-          <QrCode className="h-4 w-4 mr-2" />
-          QR-ize ({selectedIds.size} field{selectedIds.size !== 1 ? "s" : ""})
-        </Button>
+      {/* Floating Action Bar (FAB) */}
+      <div className="fixed bottom-6 left-0 right-0 px-4 z-50 pointer-events-none flex justify-center">
+        <div className="pointer-events-auto w-full max-w-lg bg-white/70 dark:bg-gray-900/80 backdrop-blur-2xl border border-white/50 dark:border-white/10 rounded-full p-2.5 shadow-2xl flex items-center justify-between gap-3 overflow-hidden ring-1 ring-black/5 dark:ring-white/10 relative">
+          
+          {/* Animated background glow if items selected */}
+          {selectedIds.size > 0 && (
+            <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 animate-pulse pointer-events-none" />
+          )}
 
-        <div className="text-center">
-          <Link to="/"><Button variant="ghost" size="sm"><ArrowLeft className="h-4 w-4 mr-1" /> Home</Button></Link>
+          <div className="flex items-center gap-3 pl-3 relative z-10">
+            <Link to="/">
+              <Button variant="ghost" size="icon" className="h-10 w-10 shrink-0 rounded-full hover:bg-black/5 dark:hover:bg-white/10">
+                <ArrowLeft className="h-5 w-5 text-foreground" />
+              </Button>
+            </Link>
+            
+            <div className="flex flex-col justify-center h-10">
+              <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Sharing</span>
+              <span className={`text-sm font-bold ${selectedIds.size > 0 ? "text-indigo-600 dark:text-indigo-400" : "text-foreground"}`}>
+                {selectedIds.size} Field{selectedIds.size !== 1 ? "s" : ""}
+              </span>
+            </div>
+          </div>
+          
+          <Button
+            onClick={generateQR}
+            disabled={selectedIds.size === 0}
+            className={`h-12 px-6 rounded-full font-bold shadow-lg transition-all duration-300 relative z-10 ${
+              selectedIds.size > 0
+                ? "bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white scale-100 ring-2 ring-indigo-500/30 hover:ring-indigo-500/50"
+                : "bg-muted text-muted-foreground scale-95 opacity-80"
+            }`}
+          >
+            <QrCode className="h-5 w-5 mr-2" />
+            Generate QR
+          </Button>
         </div>
       </div>
     </div>
