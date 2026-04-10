@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Business Card Preview Gallery</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #111;
+    color: #fff;
+    font-family: system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+  }
+
+  /* ── Toolbar ── */
+  #toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #1a1a1a;
+    border-bottom: 1px solid #2a2a2a;
+    padding: 12px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .toolbar-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .toolbar-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: #888;
+    white-space: nowrap;
+  }
+
+  .name-btn {
+    background: #2a2a2a;
+    border: 1px solid #3a3a3a;
+    color: #ccc;
+    padding: 5px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all .15s;
+    white-space: nowrap;
+  }
+  .name-btn:hover { background: #333; color: #fff; }
+  .name-btn.active { background: #444; border-color: #666; color: #fff; }
+
+  .swatch-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .swatch {
+    width: 22px;
+    height: 22px;
+    border-radius: 3px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: transform .1s, border-color .1s;
+  }
+  .swatch:hover { transform: scale(1.2); }
+  .swatch.active { border-color: #fff; transform: scale(1.15); }
+
+  /* ── Gallery ── */
+  #gallery {
+    padding: 24px 20px;
+  }
+
+  .section-header {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    color: #555;
+    margin: 28px 0 14px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #222;
+  }
+  .section-header:first-child { margin-top: 0; }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+  }
+
+  /* ── Card Slot ── */
+  .card-slot {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .card-slot-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .card-slot-label {
+    font-size: 12px;
+    color: #ccc;
+    font-weight: 500;
+  }
+
+  .card-slot-id {
+    font-size: 10px;
+    font-family: monospace;
+    color: #555;
+  }
+
+  /* The frame keeps 300:533 aspect ratio */
+  .card-frame {
+    width: 100%;
+    aspect-ratio: 300 / 533;
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+    background: #1a1a1a;
+  }
+
+  /* The inner wrapper scales the 300×533 card down to fit the frame */
+  .card-scale-wrapper {
+    position: absolute;
+    top: 0; left: 0;
+    width: 300px;
+    height: 533px;
+    transform-origin: top left;
+    /* scale set via JS */
+  }
+
+  .card-scale-wrapper > div {
+    width: 300px !important;
+    height: 533px !important;
+  }
+</style>
+</head>
+<body>
+
+<div id="toolbar">
+  <div class="toolbar-group">
+    <span class="toolbar-label">Name</span>
+    <button class="name-btn active" data-name="Nguyen Minh">2-word</button>
+    <button class="name-btn" data-name="Tran Van Kien">3-word</button>
+    <button class="name-btn" data-name="Nguyen Hoang Thu Huong">4-word</button>
+  </div>
+  <div class="toolbar-group">
+    <span class="toolbar-label">Accent</span>
+    <div class="swatch-grid" id="swatches"></div>
+  </div>
+</div>
+
+<div id="gallery"></div>
+
+<script>
+// ── State ──────────────────────────────────────────────────────────────────
+const ACCENT_COLORS = [
+  '#1a1a2e','#16213e','#0f3460','#533483',
+  '#e94560','#2d6a4f','#bc6c25','#023047',
+  '#264653','#2a9d8f','#e76f51','#6d6875',
+  '#1d3557','#457b9d','#e63946','#fca311'
+];
+
+const NAMES = {
+  '2-word':  'Nguyen Minh',
+  '3-word':  'Tran Van Kien',
+  '4-word':  'Nguyen Hoang Thu Huong'
+};
+
+let currentName  = 'Nguyen Minh';
+let currentColor = '#e94560';
+
+function getData() {
+  return {
+    name:    currentName,
+    title:   'Senior Manager',
+    company: 'VinGroup Corp',
+    email:   'nguyen.minh@vingroup.vn',
+    phone:   '+84 912 345 678',
+    address: '123 Nguyen Hue, Q1, HCM',
+    website: 'vingroup.vn'
+  };
+}
+
+// ── Card Designs ───────────────────────────────────────────────────────────
+const CARDS = [
+  {
+    id: 'noir-split',
+    label: 'Noir Split',
+    section: 'New Designs',
+    render(data, color) {
+      const nameParts = data.name.split(' ').map(p => `<span style="display:block">${p}</span>`).join('');
+      return `<div style="width:300px;height:533px;background:#0a0a0a;border-left:4px solid ${color};position:relative;overflow:hidden;font-family:system-ui,sans-serif">
+        <div style="position:absolute;top:0;left:0;right:0;height:50%;background:rgba(255,255,255,.03)"></div>
+        <div style="position:absolute;top:0;left:0;right:0;bottom:0;padding:28px 24px;display:flex;flex-direction:column;justify-content:space-between">
+          <div>
+            <div style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:${color};margin-bottom:14px">${data.company}</div>
+            <div style="font-size:34px;font-weight:800;color:#fff;line-height:1.05;letter-spacing:-.01em">${nameParts}</div>
+            <div style="font-size:11px;color:#888;margin-top:10px;letter-spacing:.05em">${data.title}</div>
+          </div>
+          <div style="border-top:1px solid #222;padding-top:16px">
+            <div style="font-size:10px;color:#666;line-height:1.9;font-family:monospace">
+              <div>${data.phone}</div>
+              <div>${data.email}</div>
+              <div>${data.address}</div>
+              <div style="color:${color}">${data.website}</div>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    }
+  },
+  {
+    id: 'diagonal-slash',
+    label: 'Diagonal Slash',
+    section: 'New Designs',
+    render(data, color) {
+      const nameParts = data.name.split(' ').map(p => `<div>${p}</div>`).join('');
+      return `<div style="width:300px;height:533px;background:#f5f5f0;position:relative;overflow:hidden;font-family:system-ui,sans-serif">
+        <div style="position:absolute;top:-60px;right:-60px;width:160px;height:160px;background:${color};transform:rotate(45deg)"></div>
+        <div style="position:absolute;top:0;left:0;right:0;bottom:0;padding:32px 28px;display:flex;flex-direction:column;justify-content:space-between">
+          <div>
+            <div style="font-size:30px;font-weight:900;text-transform:uppercase;color:#111;line-height:1;letter-spacing:-.02em;margin-top:8px">${nameParts}</div>
+            <div style="font-size:10px;color:#888;margin-top:10px;letter-spacing:.06em;text-transform:uppercase">${data.title}</div>
+          </div>
+          <div>
+            <div style="height:2px;background:${color};margin-bottom:16px"></div>
+            <div style="font-size:10px;color:#555;line-height:1.9">
+              <div>${data.company}</div>
+              <div>${data.phone}</div>
+              <div>${data.email}</div>
+              <div>${data.address}</div>
+              <div style="color:${color}">${data.website}</div>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    }
+  },
+  {
+    id: 'glass-dark',
+    label: 'Glass Dark',
+    section: 'New Designs',
+    render(data, color) {
+      const nameParts = data.name.split(' ').map(p => `<div>${p}</div>`).join('');
+      return `<div style="width:300px;height:533px;background:linear-gradient(135deg,#0d0d1a,#1a0d2e);position:relative;overflow:hidden;font-family:system-ui,sans-serif">
+        <div style="position:absolute;top:-40px;left:-40px;width:200px;height:200px;background:${color};opacity:.25;border-radius:50%;filter:blur(50px)"></div>
+        <div style="position:absolute;bottom:-60px;right:-40px;width:220px;height:220px;background:${color};opacity:.2;border-radius:50%;filter:blur(60px)"></div>
+        <div style="position:absolute;top:0;left:0;right:0;bottom:0;margin:20px;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);backdrop-filter:blur(4px);display:flex;flex-direction:column;justify-content:space-between;padding:28px 24px">
+          <div style="text-align:center;margin-top:20px">
+            <div style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:${color};margin-bottom:16px">${data.company}</div>
+            <div style="font-size:28px;font-weight:700;color:#fff;line-height:1.1">${nameParts}</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.5);margin-top:8px;letter-spacing:.05em">${data.title}</div>
+          </div>
+          <div style="border-top:1px solid rgba(255,255,255,.1);padding-top:16px">
+            <div style="font-size:10px;color:rgba(255,255,255,.5);line-height:1.9;text-align:center">
+              <div>${data.phone}</div>
+              <div>${data.email}</div>
+              <div>${data.address}</div>
+              <div style="color:${color}">${data.website}</div>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    }
+  },
+  {
+    id: 'minimal-serif',
+    label: 'Minimal Serif',
+    section: 'New Designs',
+    render(data, color) {
+      const nameParts = data.name.split(' ').map(p => `<div>${p}</div>`).join('');
+      return `<div style="width:300px;height:533px;background:#faf9f7;border-top:3px solid ${color};position:relative;font-family:Georgia,serif">
+        <div style="padding:32px 28px;height:100%;display:flex;flex-direction:column;justify-content:space-between">
+          <div style="text-align:center;margin-top:24px">
+            <div style="font-size:28px;font-style:italic;color:#1a1a1a;line-height:1.15;font-weight:400">${nameParts}</div>
+            <div style="height:1px;background:${color};margin:18px auto;width:60px"></div>
+            <div style="font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:#888;font-family:system-ui,sans-serif">${data.company}</div>
+            <div style="font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#aaa;margin-top:4px;font-family:system-ui,sans-serif">${data.title}</div>
+          </div>
+          <div style="text-align:center;border-top:1px solid #e8e6e2;padding-top:18px">
+            <div style="font-size:10px;color:#777;line-height:2;font-family:system-ui,sans-serif">
+              <div>${data.phone}</div>
+              <div>${data.email}</div>
+              <div>${data.address}</div>
+              <div style="color:${color}">${data.website}</div>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    }
+  },
+  {
+    id: 'brutalist-block',
+    label: 'Brutalist Block',
+    section: 'New Designs',
+    render(data, color) {
+      const nameParts = data.name.split(' ').map(p => `<div>${p}</div>`).join('');
+      return `<div style="width:300px;height:533px;background:#fff;position:relative;overflow:hidden;font-family:system-ui,sans-serif">
+        <div style="position:absolute;top:0;left:0;right:0;height:45%;background:${color};display:flex;align-items:flex-end;padding:0 24px 20px">
+          <div style="font-size:30px;font-weight:900;text-transform:uppercase;color:#fff;line-height:1;letter-spacing:-.02em">${nameParts}</div>
+        </div>
+        <div style="position:absolute;top:45%;left:0;right:0;bottom:0;padding:20px 24px;display:flex;flex-direction:column;justify-content:space-between">
+          <div>
+            <div style="font-size:12px;font-weight:700;color:#111;text-transform:uppercase;letter-spacing:.05em">${data.title}</div>
+            <div style="font-size:11px;color:#555;margin-top:3px">${data.company}</div>
+            <div style="height:2px;background:#111;margin-top:14px"></div>
+          </div>
+          <div style="font-size:10px;color:#444;line-height:1.9">
+            <div>${data.phone}</div>
+            <div>${data.email}</div>
+            <div>${data.address}</div>
+            <div style="color:${color};font-weight:600">${data.website}</div>
+          </div>
+        </div>
+      </div>`;
+    }
+  },
+  {
+    id: 'corner-accent',
+    label: 'Corner Accent',
+    section: 'New Designs',
+    render(data, color) {
+      const nameParts = data.name.split(' ').map(p => `<div>${p}</div>`).join('');
+      return `<div style="width:300px;height:533px;background:#f8f8f8;position:relative;overflow:hidden;font-family:system-ui,sans-serif">
+        <div style="position:absolute;bottom:0;right:0;width:0;height:0;border-style:solid;border-width:0 0 120px 120px;border-color:transparent transparent ${color} transparent"></div>
+        <div style="position:absolute;bottom:0;right:0;width:0;height:0;border-style:solid;border-width:0 0 80px 80px;border-color:transparent transparent rgba(0,0,0,.15) transparent"></div>
+        <div style="position:absolute;top:0;left:0;right:0;bottom:0;padding:32px 28px;display:flex;flex-direction:column;justify-content:space-between">
+          <div>
+            <div style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:${color};margin-bottom:12px">${data.company}</div>
+            <div style="font-size:28px;font-weight:800;color:#111;line-height:1.05">${nameParts}</div>
+            <div style="font-size:11px;color:#888;margin-top:8px;letter-spacing:.04em">${data.title}</div>
+          </div>
+          <div style="font-size:10px;color:#666;line-height:1.9">
+            <div>${data.phone}</div>
+            <div>${data.email}</div>
+            <div>${data.address}</div>
+            <div style="color:${color}">${data.website}</div>
+          </div>
+        </div>
+      </div>`;
+    }
+  },
+  {
+    id: 'vertical-band',
+    label: 'Vertical Band',
+    section: 'New Designs',
+    render(data, color) {
+      const nameParts = data.name.split(' ').map(p => `<div>${p}</div>`).join('');
+      return `<div style="width:300px;height:533px;background:#fff;position:relative;overflow:hidden;font-family:system-ui,sans-serif;display:flex">
+        <div style="width:72px;background:${color};display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <div style="transform:rotate(-90deg);white-space:nowrap;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.85);font-weight:600">${data.company}</div>
+        </div>
+        <div style="flex:1;padding:28px 20px;display:flex;flex-direction:column;justify-content:space-between">
+          <div>
+            <div style="font-size:24px;font-weight:800;color:#111;line-height:1.05">${nameParts}</div>
+            <div style="font-size:10px;color:#888;margin-top:8px;letter-spacing:.05em;text-transform:uppercase">${data.title}</div>
+          </div>
+          <div style="font-size:10px;color:#555;line-height:1.9;text-align:right">
+            <div>${data.phone}</div>
+            <div>${data.email}</div>
+            <div>${data.address}</div>
+            <div style="color:${color};font-weight:600">${data.website}</div>
+          </div>
+        </div>
+      </div>`;
+    }
+  },
+  {
+    id: 'circle-focus',
+    label: 'Circle Focus',
+    section: 'New Designs',
+    render(data, color) {
+      const nameParts = data.name.split(' ').map(p => `<div>${p}</div>`).join('');
+      return `<div style="width:300px;height:533px;background:#0e0e0e;position:relative;overflow:hidden;font-family:system-ui,sans-serif">
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:340px;height:340px;border-radius:50%;border:1px solid ${color};opacity:.15"></div>
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:260px;height:260px;border-radius:50%;border:1px solid ${color};opacity:.25"></div>
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:180px;height:180px;border-radius:50%;border:1px solid ${color};opacity:.4"></div>
+        <div style="position:absolute;top:0;left:0;right:0;bottom:0;padding:32px 24px;display:flex;flex-direction:column;justify-content:space-between">
+          <div style="text-align:center;margin-top:16px">
+            <div style="font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:${color};margin-bottom:14px">${data.company}</div>
+            <div style="font-size:26px;font-weight:700;color:#fff;line-height:1.1">${nameParts}</div>
+            <div style="font-size:10px;color:rgba(255,255,255,.45);margin-top:8px;letter-spacing:.06em">${data.title}</div>
+          </div>
+          <div style="text-align:center;border-top:1px solid #222;padding-top:16px">
+            <div style="font-size:10px;color:rgba(255,255,255,.45);line-height:1.9">
+              <div>${data.phone}</div>
+              <div>${data.email}</div>
+              <div>${data.address}</div>
+              <div style="color:${color}">${data.website}</div>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    }
+  },
+  {
+    id: 'grid-lines',
+    label: 'Grid Lines',
+    section: 'New Designs',
+    render(data, color) {
+      const nameParts = data.name.split(' ').map(p => `<div>${p}</div>`).join('');
+      return `<div style="width:300px;height:533px;background:#fff;border-top:4px solid ${color};position:relative;overflow:hidden;font-family:system-ui,sans-serif">
+        <div style="position:absolute;top:0;left:0;right:0;bottom:0;background-image:radial-gradient(circle,#ddd 1px,transparent 1px);background-size:18px 18px;opacity:.5"></div>
+        <div style="position:absolute;top:0;left:0;right:0;bottom:0;padding:28px 24px;display:flex;flex-direction:column;justify-content:space-between">
+          <div>
+            <div style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:${color};margin-bottom:12px">${data.company}</div>
+            <div style="font-size:30px;font-weight:900;text-transform:uppercase;color:#111;line-height:1;letter-spacing:-.02em">${nameParts}</div>
+            <div style="font-size:10px;color:#888;margin-top:8px;letter-spacing:.05em">${data.title}</div>
+          </div>
+          <div>
+            <div style="height:1px;background:#ddd;margin-bottom:14px"></div>
+            <div style="font-size:10px;color:#555;line-height:1.9">
+              <div>${data.phone}</div>
+              <div>${data.email}</div>
+              <div>${data.address}</div>
+              <div style="color:${color};font-weight:600">${data.website}</div>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    }
+  },
+  {
+    id: 'neon-outline',
+    label: 'Neon Outline',
+    section: 'New Designs',
+    render(data, color) {
+      const nameParts = data.name.split(' ').map(p => `<div>${p}</div>`).join('');
+      return `<div style="width:300px;height:533px;background:#050510;position:relative;overflow:hidden;font-family:system-ui,sans-serif">
+        <div style="position:absolute;top:16px;left:16px;right:16px;bottom:16px;border:1px solid ${color};border-radius:4px;box-shadow:0 0 12px ${color}44,inset 0 0 12px ${color}22"></div>
+        <div style="position:absolute;top:0;left:0;right:0;bottom:0;padding:40px 32px;display:flex;flex-direction:column;justify-content:space-between">
+          <div>
+            <div style="font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:${color};text-shadow:0 0 8px ${color};margin-bottom:14px">${data.company}</div>
+            <div style="font-size:28px;font-weight:800;color:#fff;line-height:1.05;text-shadow:0 0 20px rgba(255,255,255,.3)">${nameParts}</div>
+            <div style="font-size:10px;color:rgba(255,255,255,.4);margin-top:8px;letter-spacing:.06em;text-shadow:0 0 6px ${color}88">${data.title}</div>
+          </div>
+          <div style="border-top:1px solid ${color}44;padding-top:16px">
+            <div style="font-size:10px;color:rgba(255,255,255,.4);line-height:1.9;font-family:monospace">
+              <div>${data.phone}</div>
+              <div>${data.email}</div>
+              <div>${data.address}</div>
+              <div style="color:${color};text-shadow:0 0 6px ${color}">${data.website}</div>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    }
+  }
+];
+
+// ── Build Toolbar ──────────────────────────────────────────────────────────
+const swatchContainer = document.getElementById('swatches');
+ACCENT_COLORS.forEach(hex => {
+  const s = document.createElement('div');
+  s.className = 'swatch' + (hex === currentColor ? ' active' : '');
+  s.style.background = hex;
+  s.title = hex;
+  s.addEventListener('click', () => {
+    document.querySelectorAll('.swatch').forEach(el => el.classList.remove('active'));
+    s.classList.add('active');
+    currentColor = hex;
+    renderGallery();
+  });
+  swatchContainer.appendChild(s);
+});
+
+document.querySelectorAll('.name-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.name-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentName = btn.dataset.name;
+    renderGallery();
+  });
+});
+
+// ── Render Gallery ─────────────────────────────────────────────────────────
+function renderGallery() {
+  const gallery = document.getElementById('gallery');
+  const data = getData();
+
+  // Group cards by section
+  const sections = {};
+  CARDS.forEach(card => {
+    const sec = card.section || 'New Designs';
+    if (!sections[sec]) sections[sec] = [];
+    sections[sec].push(card);
+  });
+
+  gallery.innerHTML = '';
+
+  Object.entries(sections).forEach(([sectionName, cards]) => {
+    const header = document.createElement('div');
+    header.className = 'section-header';
+    header.textContent = sectionName;
+    gallery.appendChild(header);
+
+    const grid = document.createElement('div');
+    grid.className = 'cards-grid';
+
+    cards.forEach(card => {
+      const slot = document.createElement('div');
+      slot.className = 'card-slot';
+
+      const meta = document.createElement('div');
+      meta.className = 'card-slot-meta';
+      meta.innerHTML = `<span class="card-slot-label">${card.label}</span><span class="card-slot-id">${card.id}</span>`;
+
+      const frame = document.createElement('div');
+      frame.className = 'card-frame';
+
+      const wrapper = document.createElement('div');
+      wrapper.className = 'card-scale-wrapper';
+      wrapper.innerHTML = card.render(data, currentColor);
+
+      frame.appendChild(wrapper);
+      slot.appendChild(meta);
+      slot.appendChild(frame);
+      grid.appendChild(slot);
+    });
+
+    gallery.appendChild(grid);
+  });
+
+  // Scale each card to fit its frame
+  requestAnimationFrame(scaleCards);
+}
+
+function scaleCards() {
+  document.querySelectorAll('.card-frame').forEach(frame => {
+    const wrapper = frame.querySelector('.card-scale-wrapper');
+    if (!wrapper) return;
+    const scale = frame.offsetWidth / 300;
+    wrapper.style.transform = `scale(${scale})`;
+    frame.style.height = (533 * scale) + 'px';
+  });
+}
+
+// Re-scale on resize
+window.addEventListener('resize', scaleCards);
+
+// Initial render
+renderGallery();
+</script>
+</body>
+</html>
