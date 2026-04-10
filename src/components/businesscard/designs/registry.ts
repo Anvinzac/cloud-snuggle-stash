@@ -7,7 +7,6 @@ export const DESIGN_REGISTRY: Record<string, React.LazyExoticComponent<React.Com
   "geometric": lazy(() => import("./geometric")),
   "architect": lazy(() => import("./architect")),
   "creator": lazy(() => import("./creator")),
-  "watercolor": lazy(() => import("./watercolor")),
   "oil-portrait": lazy(() => import("./oil-portrait")),
   "heritage-curator": lazy(() => import("./heritage-curator")),
   "swiss-brutalist": lazy(() => import("./swiss-brutalist")),
@@ -33,10 +32,5 @@ export const DESIGN_REGISTRY: Record<string, React.LazyExoticComponent<React.Com
   "fashion-designer": lazy(() => import("./fashion-designer")),
   "private-banker": lazy(() => import("./private-banker")),
   "creative-director": lazy(() => import("./creative-director")),
-  "environmental-scientist": lazy(() => import("./environmental-scientist")),
-  "luxury-car-dealer": lazy(() => import("./luxury-car-dealer")),
-  "yoga-studio": lazy(() => import("./yoga-studio")),
-  "music-producer": lazy(() => import("./music-producer")),
-  "travel-agent": lazy(() => import("./travel-agent")),
-  "food-critic": lazy(() => import("./food-critic")),
+
 };

@@ -12,21 +12,23 @@ export default function ArtisanBaker({ data, selectedFields, baseClass }: Busine
       <div className="card arch-arch-card-5 w-full h-full">
         <div className="arch-card-5-content">
           <div className="arch-card-5-bread" />
-          <div className="arch-card-5-header w-full">
-            <FitText align="left" className="arch-card-5-brand w-full px-4">{data.company || "Artisan Bakery"}</FitText>
+          <div className="arch-card-5-header w-full overflow-hidden">
+            <FitText align="center" className="arch-card-5-brand w-full px-4 overflow-hidden" style={{ fontFamily: "'Permanent Marker', cursive" }}>
+              {data.company || "Artisan Bakery"}
+            </FitText>
           </div>
-          <div className="arch-card-5-main w-full">
-            <FitText align="center" className="arch-card-5-name max-w-[200px] mx-auto text-center">{name}</FitText>
-            <FitText align="center" className="arch-card-5-title max-w-[200px] mx-auto text-center">{title}</FitText>
+          <div className="arch-card-5-main w-full overflow-hidden">
+            <FitText align="center" className="arch-card-5-name w-full px-4 overflow-hidden" style={{ fontFamily: "'Permanent Marker', cursive" }}>{name}</FitText>
+            <FitText align="center" className="arch-card-5-title w-full px-4 overflow-hidden" style={{ fontFamily: "'Libre Franklin', sans-serif" }}>{title}</FitText>
             <div className="arch-card-5-divider" />
-            <div className="arch-card-5-contact w-full">
+            <div className="arch-card-5-contact w-full overflow-hidden" style={{ fontFamily: "'Libre Franklin', sans-serif" }}>
               {fields.filter(k => !["name", "title", "company"].includes(k)).slice(0, 3).map(k => (
-                <FitText key={k} align="center" className="max-w-[200px] mx-auto text-center">{data[k]}</FitText>
+                <FitText key={k} align="center" className="w-full px-4 overflow-hidden">{data[k]}</FitText>
               ))}
             </div>
           </div>
-          <div className="arch-card-5-footer w-full">
-            <p className="arch-card-5-tagline">"Baked with love"</p>
+          <div className="arch-card-5-footer w-full overflow-hidden">
+            <p className="arch-card-5-tagline" style={{ fontFamily: "'Permanent Marker', cursive", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>"Baked with love"</p>
           </div>
         </div>
       </div>

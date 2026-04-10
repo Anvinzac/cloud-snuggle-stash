@@ -6,31 +6,33 @@ export default function BotanicalFlorist({ data, selectedFields, baseClass }: Bu
   const fields = selectedFields.filter((k) => data[k]?.trim());
   const name = data.name || "Your Name";
   const title = data.title || "";
-  const initials = data.company?.charAt(0).toUpperCase() || "F";
+  const initial = (data.company || "Verdant Studio").charAt(0).toUpperCase();
 
   return (
     <div className={`${baseClass} card--botanical-florist !p-0`}>
       <div className="card card-13 w-full h-full">
         <div className="card-13-content">
           <div className="card-13-leaf" />
-          <div className="card-13-header w-full">
-            <FitText align="left" className="card-13-brand w-full px-4">{data.company || "Verdant Studio"}</FitText>
-            <div className="card-13-monogram flex items-center justify-center font-['Cormorant_Garamond'] text-2xl italic text-[var(--bf-forest)] opacity-60">
-              {initials}
+          <div className="card-13-header w-full overflow-hidden">
+            <FitText align="center" className="card-13-brand w-full px-4 overflow-hidden" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+              {data.company || "Verdant Studio"}
+            </FitText>
+            <div className="card-13-monogram" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "24px", fontStyle: "italic", color: "var(--bf-forest)", opacity: 0.6, display: "flex", alignItems: "center", justifyContent: "center" }}>
+              {initial}
             </div>
           </div>
-          <div className="card-13-main w-full">
-            <FitText align="left" className="card-13-name max-w-full px-2">{name}</FitText>
-            <FitText align="left" className="card-13-title max-w-full px-4">{title}</FitText>
+          <div className="card-13-main w-full overflow-hidden">
+            <FitText align="center" className="card-13-name w-full px-2 overflow-hidden" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{name}</FitText>
+            <FitText align="center" className="card-13-title w-full px-4 overflow-hidden" style={{ fontFamily: "'Libre Franklin', sans-serif" }}>{title}</FitText>
             <div className="card-13-divider" />
-            <div className="card-13-contact w-full">
+            <div className="card-13-contact w-full overflow-hidden">
               {fields.filter(k => !["name", "title", "company"].includes(k)).slice(0, 3).map(k => (
-                <FitText key={k} align="center" className="max-w-[200px] mx-auto">{data[k]}</FitText>
+                <FitText key={k} align="center" className="w-full px-4 overflow-hidden" style={{ fontFamily: "'Libre Franklin', sans-serif" }}>{data[k]}</FitText>
               ))}
             </div>
           </div>
-          <div className="card-13-footer w-full !left-0">
-            <FitText align="left" className="card-13-quote w-full px-4">"Where nature meets art"</FitText>
+          <div className="card-13-footer w-full overflow-hidden">
+            <p className="card-13-quote" style={{ fontFamily: "'Cormorant Garamond', serif", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>"Where nature meets art"</p>
           </div>
         </div>
       </div>

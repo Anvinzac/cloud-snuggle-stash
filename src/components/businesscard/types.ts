@@ -71,7 +71,6 @@ export const CARD_DESIGNS = [
   { id: "geometric", label: "Geometric" },
   { id: "architect", label: "Architect" },
   { id: "creator", label: "Creator" },
-  { id: "watercolor", label: "Watercolor" },
   { id: "oil-portrait", label: "Oil Portrait" },
   { id: "heritage-curator", label: "Heritage Curator" },
   { id: "swiss-brutalist", label: "Swiss Brutalist" },
@@ -97,12 +96,7 @@ export const CARD_DESIGNS = [
   { id: "fashion-designer", label: "Fashion Designer" },
   { id: "private-banker", label: "Private Banker" },
   { id: "creative-director", label: "Creative Director" },
-  { id: "environmental-scientist", label: "Environmental Scientist" },
-  { id: "luxury-car-dealer", label: "Luxury Car Dealer" },
-  { id: "yoga-studio", label: "Yoga Studio" },
-  { id: "music-producer", label: "Music Producer" },
-  { id: "travel-agent", label: "Travel Agent" },
-  { id: "food-critic", label: "Food Critic" },
+
 ] as const;
 
 export const CARD_COLORS: string[] = [

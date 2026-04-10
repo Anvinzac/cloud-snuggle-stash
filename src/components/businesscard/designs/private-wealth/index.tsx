@@ -13,26 +13,28 @@ export default function PrivateWealth({ data, selectedFields, baseClass }: Busin
       <div className="card card-8 w-full h-full">
         <div className="card-8-content">
           <div className="card-8-crest" />
-          <div className="card-8-header w-full">
-            <FitText align="left" className="card-8-brand block max-w-full px-4">{data.company || "Private Wealth Partners"}</FitText>
+          <div className="card-8-header w-full overflow-hidden">
+            <FitText align="center" className="card-8-brand w-full px-4 overflow-hidden" style={{ fontFamily: "'Cinzel', serif" }}>
+              {data.company || "Private Wealth Partners"}
+            </FitText>
           </div>
-          <div className="card-8-main w-full">
-            <FitText align="left" className="card-8-name max-w-full px-2">{name}</FitText>
-            <FitText align="left" className="card-8-title max-w-full px-4">{title}</FitText>
+          <div className="card-8-main w-full overflow-hidden">
+            <FitText align="center" className="card-8-name w-full px-2 overflow-hidden" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{name}</FitText>
+            <FitText align="center" className="card-8-title w-full px-4 overflow-hidden" style={{ fontFamily: "'Libre Franklin', sans-serif" }}>{title}</FitText>
             <div className="card-8-divider" />
-            <div className="card-8-info">
+            <div className="card-8-info overflow-hidden">
               {displayFields.slice(0, 2).map((k) => (
-                <FitText key={k} align="left" className="card-8-info-item w-full">
-                  <p className="card-8-info-label truncate">{k}</p>
-                  <p className="card-8-info-value truncate">{data[k]}</p>
-                </FitText>
+                <div key={k} className="card-8-info-item overflow-hidden">
+                  <p className="card-8-info-label" style={{ fontFamily: "'Libre Franklin', sans-serif", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{k}</p>
+                  <p className="card-8-info-value" style={{ fontFamily: "'Cormorant Garamond', serif", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{data[k]}</p>
+                </div>
               ))}
             </div>
           </div>
-          <div className="card-8-footer">
-            <div className="card-8-contact w-full">
+          <div className="card-8-footer overflow-hidden">
+            <div className="card-8-contact w-full overflow-hidden" style={{ fontFamily: "'Libre Franklin', sans-serif" }}>
               {displayFields.slice(2, 4).map(k => (
-                <FitText key={k} align="center" className="mx-auto max-w-[150px]">{data[k]}</FitText>
+                <FitText key={k} align="center" className="w-full px-4 overflow-hidden">{data[k]}</FitText>
               ))}
             </div>
           </div>

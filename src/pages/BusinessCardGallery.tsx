@@ -18,9 +18,7 @@ export default function BusinessCardGallery() {
   const [color, setColor] = useState(CARD_COLORS[0]);
   const [selectedFields] = useState(["name", "title", "company", "phone", "email", "address", "website"]);
 
-  // We only want to showcase the premium designs
-  const PREMIUIM_IDS = ['avant-garde', 'swiss-grid', 'fintech', 'geometric', 'architect', 'creator', 'watercolor', 'oil-portrait', 'ink-fusion'];
-  const premiumDesigns = CARD_DESIGNS.filter(d => PREMIUIM_IDS.includes(d.id));
+  const premiumDesigns = CARD_DESIGNS;
 
   return (
     <div className="min-h-screen bg-neutral-100 p-8 font-sans">
@@ -31,7 +29,7 @@ export default function BusinessCardGallery() {
           </Link>
           <div>
             <h1 className="text-3xl font-black text-neutral-900">Premium Card Gallery</h1>
-            <p className="text-neutral-500 mt-1">Showcasing the 9 ultra-premium React templates.</p>
+            <p className="text-neutral-500 mt-1">All {CARD_DESIGNS.length} card designs.</p>
           </div>
         </div>
 
