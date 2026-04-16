@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Card Designer - Drag & Drop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #0a0a0a;
+    color: #fff;
+    overflow: hidden;
+    height: 100vh;
+  }
+
+  .app-container {
+    display: grid;
+    grid-template-columns: 280px 1fr 320px;
+    height: 100vh;
+  }
+
+  /* ═══ LEFT SIDEBAR - TEXT FIELDS ═══ */
+  .sidebar-left {
+    background: #111;
+    border-right: 1px solid #222;
+    padding: 20px;
+    overflow-y: auto;
+  }
+
+  .sidebar-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #666;
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+
+  .text-field-item {
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 8px;
+    cursor: grab;
+    transition: all 0.2s;
+  }
+
+  .text-field-item:hover {
+    background: #222;
+    border-color: #3a3a3a;
+    transform: translateX(4px);
+  }
+
+  .text-field-item:active {
+    cursor: grabbing;
+  }
+
+  .text-field-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: #ccc;
+    margin-bottom: 4px;
+  }
+
+  .text-field-preview {
+    font-size: 10px;
+    color: #666;
+  }
+
+  /* ═══ CENTER - CANVAS ═══ */
+  .canvas-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    position: relative;
+  }
+
+  .canvas-wrapper {
+    position: relative;
+    width: 300px;
+    height: 533px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  #canvas {
+    width: 300px;
+    height: 533px;
+    position: relative;
+    background: #fff;
+    overflow: hidden;
+  }
+
+  .canvas-element {
+    position: absolute;
+    cursor: move;
+    user-select: none;
+    padding: 8px;
+    min-width: 60px;
+    min-height: 30px;
+  }
+
+  .canvas-element.selected {
+    outline: 2px solid #00d4ff;
+    outline-offset: 2px;
+  }
+
+  .canvas-element .resize-handle {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 12px;
+    height: 12px;
+    background: #00d4ff;
+    cursor: nwse-resize;
+    border-radius: 2px;
+  }
+
+  .decorative-frame {
+    position: absolute;
+    pointer-events: none;
+    border: 2px solid rgba(0,0,0,0.2);
+  }
+
+  /* ═══ RIGHT SIDEBAR - CONTROLS ═══ */
+  .sidebar-right {
+    background: #111;
+    border-left: 1px solid #222;
+    padding: 20px;
+    overflow-y: auto;
+  }
+
+  .control-section {
+    margin-bottom: 24px;
+  }
+
+  .control-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #888;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .color-picker-group {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .color-input-wrapper {
+    flex: 1;
+    position: relative;
+  }
+
+  .color-input-wrapper input[type="color"] {
+    width: 100%;
+    height: 40px;
+    border: 1px solid #333;
+    border-radius: 4px;
+    cursor: pointer;
+    background: transparent;
+  }
+
+  .color-input-wrapper label {
+    font-size: 9px;
+    color: #666;
+    position: absolute;
+    top: -14px;
+    left: 0;
+  }
+
+  .btn {
+    width: 100%;
+    padding: 10px;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 6px;
+    color: #ccc;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 8px;
+  }
+
+  .btn:hover {
+    background: #222;
+    border-color: #444;
+    color: #fff;
+  }
+
+  .btn.active {
+    background: #00d4ff;
+    border-color: #00d4ff;
+    color: #000;
+  }
+
+  input[type="range"] {
+    width: 100%;
+    margin: 8px 0;
+  }
+
+  select, input[type="text"], input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 4px;
+    color: #ccc;
+    font-size: 12px;
+    margin-bottom: 8px;
+  }
+
+  .frame-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .frame-option {
+    aspect-ratio: 1;
+    border: 2px solid #333;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    background: #1a1a1a;
+  }
+
+  .frame-option:hover {
+    border-color: #555;
+    transform: scale(1.05);
+  }
+
+  .frame-option.active {
+    border-color: #00d4ff;
+    background: #00d4ff22;
+  }
+
+  .frame-preview {
+    position: absolute;
+    inset: 8px;
+    border: 2px solid #666;
+  }
+
+  .frame-preview.circle { border-radius: 50%; }
+  .frame-preview.rounded { border-radius: 8px; }
+  .frame-preview.diamond { transform: rotate(45deg); }
+
+  .image-upload-area {
+    border: 2px dashed #333;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 12px;
+  }
+
+  .image-upload-area:hover {
+    border-color: #555;
+    background: #1a1a1a;
+  }
+
+  .image-upload-area input {
+    display: none;
+  }
+
+  .toolbar {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 8px;
+    padding: 8px 12px;
+    display: flex;
+    gap: 8px;
+    z-index: 100;
+  }
+
+  .toolbar-btn {
+    background: transparent;
+    border: 1px solid #444;
+    color: #ccc;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .toolbar-btn:hover {
+    background: #222;
+    border-color: #666;
+    color: #fff;
+  }
+</style>
+</head>
+<body>
+
+<div class="app-container">
+  <!-- LEFT SIDEBAR: Text Fields -->
+  <div class="sidebar-left">
+    <h3 class="sidebar-title">Text Fields</h3>
+    <div id="textFieldsList"></div>
+  </div>
+
+  <!-- CENTER: Canvas -->
+  <div class="canvas-area">
+    <div class="toolbar">
+      <button class="toolbar-btn" onclick="exportCard()">Export PNG</button>
+      <button class="toolbar-btn" onclick="clearCanvas()">Clear All</button>
+      <button class="toolbar-btn" onclick="resetCanvas()">Reset</button>
+    </div>
+    
+    <div class="canvas-wrapper">
+      <div id="canvas"></div>
+    </div>
+  </div>
+
+  <!-- RIGHT SIDEBAR: Controls -->
+  <div class="sidebar-right">
+    <h3 class="sidebar-title">Background</h3>
+    
+    <div class="control-section">
+      <button class="btn" id="bgTypeGradient" onclick="setBgType('gradient')">Gradient</button>
+      <button class="btn" id="bgTypeImage" onclick="setBgType('image')">Image</button>
+      <button class="btn" id="bgTypeSolid" onclick="setBgType('solid')">Solid Color</button>
+    </div>
+
+    <div id="gradientControls" class="control-section">
+      <div class="color-picker-group">
+        <div class="color-input-wrapper">
+          <label>Color 1</label>
+          <input type="color" id="gradientColor1" value="#667eea" onchange="updateBackground()">
+        </div>
+        <div class="color-input-wrapper">
+          <label>Color 2</label>
+          <input type="color" id="gradientColor2" value="#764ba2" onchange="updateBackground()">
+        </div>
+      </div>
+      <label class="control-label">Angle</label>
+      <input type="range" id="gradientAngle" min="0" max="360" value="135" oninput="updateBackground()">
+    </div>
+
+    <div id="imageControls" class="control-section" style="display:none;">
+      <div class="image-upload-area" onclick="document.getElementById('bgImageInput').click()">
+        <input type="file" id="bgImageInput" accept="image/*" onchange="handleImageUpload(event)">
+        <div style="font-size:12px;color:#888;">Click to upload image</div>
+      </div>
+    </div>
+
+    <div id="solidControls" class="control-section" style="display:none;">
+      <input type="color" id="solidColor" value="#ffffff" onchange="updateBackground()">
+    </div>
+
+    <hr style="border:none;border-top:1px solid #222;margin:24px 0;">
+
+    <h3 class="sidebar-title">Decorative Frames</h3>
+    <div class="frame-grid" id="frameGrid"></div>
+
+    <hr style="border:none;border-top:1px solid #222;margin:24px 0;">
+
+    <div id="elementControls" style="display:none;">
+      <h3 class="sidebar-title">Selected Element</h3>
+      
+      <div class="control-section">
+        <label class="control-label">Font Family</label>
+        <select id="fontFamily" onchange="updateSelectedElement()">
+          <option value="Inter">Inter</option>
+          <option value="Playfair Display">Playfair Display</option>
+          <option value="Montserrat">Montserrat</option>
+          <option value="Roboto">Roboto</option>
+        </select>
+
+        <label class="control-label">Font Size</label>
+        <input type="number" id="fontSize" min="8" max="72" value="16" onchange="updateSelectedElement()">
+
+        <label class="control-label">Font Weight</label>
+        <select id="fontWeight" onchange="updateSelectedElement()">
+          <option value="300">Light</option>
+          <option value="400">Regular</option>
+          <option value="500">Medium</option>
+          <option value="600">Semi Bold</option>
+          <option value="700">Bold</option>
+        </select>
+
+        <label class="control-label">Text Color</label>
+        <input type="color" id="textColor" value="#000000" onchange="updateSelectedElement()">
+
+        <label class="control-label">Text Content</label>
+        <input type="text" id="textContent" oninput="updateSelectedElement()">
+
+        <button class="btn" onclick="deleteSelected()" style="background:#ff4444;border-color:#ff4444;color:#fff;margin-top:12px;">Delete Element</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════════════════════
+const TEXT_FIELDS = [
+  { id: 'name', label: 'Name', placeholder: 'Nguyen Van A' },
+  { id: 'position', label: 'Position', placeholder: 'Senior Manager' },
+  { id: 'company', label: 'Company', placeholder: 'VinGroup Corp' },
+  { id: 'phone', label: 'Phone', placeholder: '+84 912 345 678' },
+  { id: 'email', label: 'Email', placeholder: 'nguyen@company.vn' },
+  { id: 'address', label: 'Address', placeholder: '123 Nguyen Hue, Q1, HCM' },
+  { id: 'website', label: 'Website', placeholder: 'company.vn' },
+  { id: 'quote', label: 'Favorite Quote', placeholder: 'Your inspiring quote' },
+  { id: 'social', label: 'Social Media', placeholder: '@username' }
+];
+
+const FRAMES = [
+  { id: 'none', label: 'None', style: {} },
+  { id: 'rect1', label: 'Rectangle', style: { top: '20px', left: '20px', width: '260px', height: '180px', borderRadius: '0' } },
+  { id: 'rect2', label: 'Wide Rect', style: { top: '40px', left: '20px', width: '260px', height: '120px', borderRadius: '0' } },
+  { id: 'circle1', label: 'Circle', style: { top: '30px', left: '90px', width: '120px', height: '120px', borderRadius: '50%' } },
+  { id: 'rounded1', label: 'Rounded', style: { top: '20px', left: '20px', width: '260px', height: '180px', borderRadius: '16px' } },
+  { id: 'split1', label: 'Split Top', style: { top: '0', left: '0', width: '300px', height: '200px', borderRadius: '0', borderBottom: '3px solid rgba(0,0,0,0.3)' } },
+  { id: 'split2', label: 'Split Side', style: { top: '0', left: '0', width: '100px', height: '533px', borderRadius: '0', borderRight: '3px solid rgba(0,0,0,0.3)' } },
+  { id: 'corner1', label: 'Corner', style: { top: '20px', right: '20px', width: '140px', height: '140px', borderRadius: '8px' } },
+  { id: 'bottom1', label: 'Bottom', style: { bottom: '20px', left: '20px', width: '260px', height: '100px', borderRadius: '8px' } }
+];
+
+let state = {
+  bgType: 'gradient',
+  bgImage: null,
+  elements: [],
+  selectedElement: null,
+  draggedField: null,
+  currentFrame: 'none',
+  nextZIndex: 10
+};
+
+// ═══════════════════════════════════════════════════════════════════════════
+// INITIALIZATION
+// ═══════════════════════════════════════════════════════════════════════════
+function init() {
+  renderTextFields();
+  renderFrames();
+  updateBackground();
+  setupCanvasListeners();
+  setBgType('gradient');
+}
+
+function renderTextFields() {
+  const container = document.getElementById('textFieldsList');
+  container.innerHTML = TEXT_FIELDS.map(field => `
+    <div class="text-field-item" draggable="true" data-field-id="${field.id}">
+      <div class="text-field-label">${field.label}</div>
+      <div class="text-field-preview">${field.placeholder}</div>
+    </div>
+  `).join('');
+
+  // Add drag listeners
+  document.querySelectorAll('.text-field-item').forEach(item => {
+    item.addEventListener('dragstart', handleDragStart);
+  });
+}
+
+function renderFrames() {
+  const container = document.getElementById('frameGrid');
+  container.innerHTML = FRAMES.map(frame => `
+    <div class="frame-option ${frame.id === state.currentFrame ? 'active' : ''}" 
+         onclick="selectFrame('${frame.id}')"
+         title="${frame.label}">
+      <div class="frame-preview ${frame.id.includes('circle') ? 'circle' : frame.id.includes('rounded') ? 'rounded' : ''}"></div>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// BACKGROUND CONTROLS
+// ═══════════════════════════════════════════════════════════════════════════
+function setBgType(type) {
+  state.bgType = type;
+  
+  document.getElementById('bgTypeGradient').classList.toggle('active', type === 'gradient');
+  document.getElementById('bgTypeImage').classList.toggle('active', type === 'image');
+  document.getElementById('bgTypeSolid').classList.toggle('active', type === 'solid');
+  
+  document.getElementById('gradientControls').style.display = type === 'gradient' ? 'block' : 'none';
+  document.getElementById('imageControls').style.display = type === 'image' ? 'block' : 'none';
+  document.getElementById('solidControls').style.display = type === 'solid' ? 'block' : 'none';
+  
+  updateBackground();
+}
+
+function updateBackground() {
+  const canvas = document.getElementById('canvas');
+  
+  if (state.bgType === 'gradient') {
+    const color1 = document.getElementById('gradientColor1').value;
+    const color2 = document.getElementById('gradientColor2').value;
+    const angle = document.getElementById('gradientAngle').value;
+    canvas.style.background = `linear-gradient(${angle}deg, ${color1}, ${color2})`;
+  } else if (state.bgType === 'solid') {
+    const color = document.getElementById('solidColor').value;
+    canvas.style.background = color;
+  } else if (state.bgType === 'image' && state.bgImage) {
+    canvas.style.background = `url(${state.bgImage}) center/cover`;
+  }
+}
+
+function handleImageUpload(event) {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      state.bgImage = e.target.result;
+      updateBackground();
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// FRAME SELECTION
+// ═══════════════════════════════════════════════════════════════════════════
+function selectFrame(frameId) {
+  state.currentFrame = frameId;
+  renderFrames();
+  
+  // Remove existing frame
+  const existingFrame = document.querySelector('.decorative-frame');
+  if (existingFrame) existingFrame.remove();
+  
+  // Add new frame
+  if (frameId !== 'none') {
+    const frame = FRAMES.find(f => f.id === frameId);
+    const frameEl = document.createElement('div');
+    frameEl.className = 'decorative-frame';
+    Object.assign(frameEl.style, frame.style);
+    document.getElementById('canvas').appendChild(frameEl);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// DRAG & DROP
+// ═══════════════════════════════════════════════════════════════════════════
+function handleDragStart(e) {
+  const fieldId = e.target.dataset.fieldId;
+  state.draggedField = TEXT_FIELDS.find(f => f.id === fieldId);
+  e.dataTransfer.effectAllowed = 'copy';
+}
+
+function setupCanvasListeners() {
+  const canvas = document.getElementById('canvas');
+  
+  canvas.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'copy';
+  });
+  
+  canvas.addEventListener('drop', (e) => {
+    e.preventDefault();
+    if (!state.draggedField) return;
+    
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    addElement(state.draggedField, x, y);
+    state.draggedField = null;
+  });
+  
+  canvas.addEventListener('click', (e) => {
+    if (e.target === canvas) {
+      deselectAll();
+    }
+  });
+}
+
+function addElement(field, x, y) {
+  const element = {
+    id: Date.now(),
+    fieldId: field.id,
+    text: field.placeholder,
+    x: Math.max(0, Math.min(x - 50, 250)),
+    y: Math.max(0, Math.min(y - 15, 500)),
+    width: 120,
+    height: 30,
+    fontSize: 16,
+    fontFamily: 'Inter',
+    fontWeight: 400,
+    color: '#000000',
+    zIndex: state.nextZIndex++
+  };
+  
+  state.elements.push(element);
+  renderElement(element);
+}
+
+function renderElement(element) {
+  const canvas = document.getElementById('canvas');
+  const el = document.createElement('div');
+  el.className = 'canvas-element';
+  el.dataset.elementId = element.id;
+  el.style.left = element.x + 'px';
+  el.style.top = element.y + 'px';
+  el.style.width = element.width + 'px';
+  el.style.minHeight = element.height + 'px';
+  el.style.fontSize = element.fontSize + 'px';
+  el.style.fontFamily = element.fontFamily;
+  el.style.fontWeight = element.fontWeight;
+  el.style.color = element.color;
+  el.style.zIndex = element.zIndex;
+  el.textContent = element.text;
+  
+  const resizeHandle = document.createElement('div');
+  resizeHandle.className = 'resize-handle';
+  el.appendChild(resizeHandle);
+  
+  el.addEventListener('mousedown', (e) => handleElementMouseDown(e, element));
+  resizeHandle.addEventListener('mousedown', (e) => handleResizeStart(e, element));
+  
+  canvas.appendChild(el);
+}
+
+function handleElementMouseDown(e, element) {
+  if (e.target.classList.contains('resize-handle')) return;
+  
+  e.stopPropagation();
+  selectElement(element);
+  
+  const startX = e.clientX;
+  const startY = e.clientY;
+  const startElX = element.x;
+  const startElY = element.y;
+  
+  function onMouseMove(e) {
+    const dx = e.clientX - startX;
+    const dy = e.clientY - startY;
+    element.x = Math.max(0, Math.min(startElX + dx, 300 - element.width));
+    element.y = Math.max(0, Math.min(startElY + dy, 533 - element.height));
+    updateElementDOM(element);
+  }
+  
+  function onMouseUp() {
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  }
+  
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+}
+
+function handleResizeStart(e, element) {
+  e.stopPropagation();
+  
+  const startX = e.clientX;
+  const startY = e.clientY;
+  const startWidth = element.width;
+  const startHeight = element.height;
+  
+  function onMouseMove(e) {
+    const dx = e.clientX - startX;
+    const dy = e.clientY - startY;
+    element.width = Math.max(60, Math.min(startWidth + dx, 300 - element.x));
+    element.height = Math.max(30, startHeight + dy);
+    updateElementDOM(element);
+  }
+  
+  function onMouseUp() {
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  }
+  
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+}
+
+function updateElementDOM(element) {
+  const el = document.querySelector(`[data-element-id="${element.id}"]`);
+  if (!el) return;
+  
+  el.style.left = element.x + 'px';
+  el.style.top = element.y + 'px';
+  el.style.width = element.width + 'px';
+  el.style.minHeight = element.height + 'px';
+  el.style.fontSize = element.fontSize + 'px';
+  el.style.fontFamily = element.fontFamily;
+  el.style.fontWeight = element.fontWeight;
+  el.style.color = element.color;
+  el.textContent = element.text;
+  
+  // Re-add resize handle
+  let handle = el.querySelector('.resize-handle');
+  if (!handle) {
+    handle = document.createElement('div');
+    handle.className = 'resize-handle';
+    handle.addEventListener('mousedown', (e) => handleResizeStart(e, element));
+    el.appendChild(handle);
+  }
+}
+
+function selectElement(element) {
+  deselectAll();
+  state.selectedElement = element;
+  
+  const el = document.querySelector(`[data-element-id="${element.id}"]`);
+  el.classList.add('selected');
+  
+  // Show controls
+  document.getElementById('elementControls').style.display = 'block';
+  document.getElementById('fontFamily').value = element.fontFamily;
+  document.getElementById('fontSize').value = element.fontSize;
+  document.getElementById('fontWeight').value = element.fontWeight;
+  document.getElementById('textColor').value = element.color;
+  document.getElementById('textContent').value = element.text;
+}
+
+function deselectAll() {
+  state.selectedElement = null;
+  document.querySelectorAll('.canvas-element').forEach(el => el.classList.remove('selected'));
+  document.getElementById('elementControls').style.display = 'none';
+}
+
+function updateSelectedElement() {
+  if (!state.selectedElement) return;
+  
+  state.selectedElement.fontFamily = document.getElementById('fontFamily').value;
+  state.selectedElement.fontSize = parseInt(document.getElementById('fontSize').value);
+  state.selectedElement.fontWeight = document.getElementById('fontWeight').value;
+  state.selectedElement.color = document.getElementById('textColor').value;
+  state.selectedElement.text = document.getElementById('textContent').value;
+  
+  updateElementDOM(state.selectedElement);
+}
+
+function deleteSelected() {
+  if (!state.selectedElement) return;
+  
+  const el = document.querySelector(`[data-element-id="${state.selectedElement.id}"]`);
+  if (el) el.remove();
+  
+  state.elements = state.elements.filter(e => e.id !== state.selectedElement.id);
+  deselectAll();
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// TOOLBAR ACTIONS
+// ═══════════════════════════════════════════════════════════════════════════
+function clearCanvas() {
+  if (!confirm('Clear all elements?')) return;
+  state.elements = [];
+  document.querySelectorAll('.canvas-element').forEach(el => el.remove());
+  deselectAll();
+}
+
+function resetCanvas() {
+  if (!confirm('Reset everything?')) return;
+  clearCanvas();
+  selectFrame('none');
+  setBgType('gradient');
+  document.getElementById('gradientColor1').value = '#667eea';
+  document.getElementById('gradientColor2').value = '#764ba2';
+  updateBackground();
+}
+
+function exportCard() {
+  // Simple export - in production you'd use html2canvas or similar
+  alert('Export functionality would use html2canvas library to convert the canvas to PNG. For now, use screenshot tools!');
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// START
+// ═══════════════════════════════════════════════════════════════════════════
+init();
+</script>
+</body>
+</html>

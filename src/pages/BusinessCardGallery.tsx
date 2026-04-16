@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { CARD_DESIGNS, CARD_COLORS } from "../components/businesscard/types";
 import { CardPreview } from "../components/businesscard/CardPreview";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Palette } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const MOCK_DATA = {
@@ -27,10 +27,16 @@ export default function BusinessCardGallery() {
           <Link to="/" className="p-2 hover:bg-neutral-200 rounded-full transition-colors">
             <ArrowLeft className="w-6 h-6" />
           </Link>
-          <div>
+          <div className="flex-1">
             <h1 className="text-3xl font-black text-neutral-900">Premium Card Gallery</h1>
             <p className="text-neutral-500 mt-1">All {CARD_DESIGNS.length} card designs.</p>
           </div>
+          <Link to="/designer">
+            <button className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-500 to-violet-600 text-white rounded-lg font-semibold hover:from-cyan-600 hover:to-violet-700 transition-all shadow-lg">
+              <Palette className="w-4 h-4" />
+              Create Custom Design
+            </button>
+          </Link>
         </div>
 
         <div className="flex gap-2 bg-white p-4 rounded-xl shadow-sm overflow-x-auto">
