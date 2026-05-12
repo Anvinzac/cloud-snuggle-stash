@@ -46,7 +46,7 @@ export const CardPreview = ({ data, design, color, selectedFields, compact }: Ca
 
   if (SelectedDesign) {
     return (
-      <div className={containerClass} style={{ background: color }} ref={containerRef}>
+      <div className={`${containerClass} bc-canvas`} style={{ background: color }} ref={containerRef}>
         <div 
           style={{ 
             width: 300, 
@@ -67,7 +67,7 @@ export const CardPreview = ({ data, design, color, selectedFields, compact }: Ca
   }
 
   return (
-    <div className={containerClass} style={{ background: color }}>
+    <div className={`${containerClass} bc-canvas`} style={{ background: color }}>
       <div className="text-sm font-medium text-white/50">Design not found</div>
     </div>
   );

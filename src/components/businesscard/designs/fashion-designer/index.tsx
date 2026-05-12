@@ -12,7 +12,7 @@ export default function FashionDesigner({ data, selectedFields, baseClass }: Bus
 
   return (
     <div className={`${baseClass} card--fashion-designer !p-0`}>
-      <div className="card arch-arch-card-7 w-full h-full">
+      <div className="card arch-card-7 w-full h-full">
         <div className="arch-card-7-content">
           <div className="arch-card-7-icon" />
           <div className="arch-card-7-header w-[calc(100%-80px)]">

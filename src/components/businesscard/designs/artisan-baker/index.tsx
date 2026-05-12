@@ -9,7 +9,7 @@ export default function ArtisanBaker({ data, selectedFields, baseClass }: Busine
 
   return (
     <div className={`${baseClass} card--artisan-baker !p-0`}>
-      <div className="card arch-arch-card-5 w-full h-full">
+      <div className="card arch-card-5 w-full h-full">
         <div className="arch-card-5-content">
           <div className="arch-card-5-bread" />
           <div className="arch-card-5-header w-full overflow-hidden">

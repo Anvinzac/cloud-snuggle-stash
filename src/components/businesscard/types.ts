@@ -28,6 +28,40 @@ export interface SavedContact {
   updated_at: string;
 }
 
+export interface CanvasElement {
+  id: number;
+  fieldId: string;
+  text: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  fontSize: number;
+  fontFamily: string;
+  fontWeight: number;
+  color: string;
+  zIndex: number;
+}
+
+export interface SavedCardDesign {
+  id: string;
+  user_id: string;
+  design_name: string;
+  bg_type: 'gradient' | 'image' | 'solid';
+  gradient_color1: string;
+  gradient_color2: string;
+  gradient_angle: number;
+  solid_color: string;
+  bg_image: string | null;
+  current_frame: string;
+  elements: CanvasElement[];
+  card_data: ContactData;
+  selected_fields: string[];
+  template_id: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface CardTemplate {
   id: string;
   user_id: string;

@@ -9,7 +9,7 @@ export default function WellnessCoach({ data, selectedFields, baseClass }: Busin
 
   return (
     <div className={`${baseClass} card--wellness-coach !p-0`}>
-      <div className="card arch-arch-card-6 w-full h-full">
+      <div className="card arch-card-6 w-full h-full">
         <div className="arch-card-6-content">
           <div className="arch-card-6-lotus" />
           <div className="arch-card-6-header w-full">

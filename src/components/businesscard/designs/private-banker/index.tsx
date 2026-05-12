@@ -9,7 +9,7 @@ export default function PrivateBanker({ data, selectedFields, baseClass }: Busin
 
   return (
     <div className={`${baseClass} card--private-banker !p-0`}>
-      <div className="card arch-arch-card-8 w-full h-full">
+      <div className="card arch-card-8 w-full h-full">
         <div className="arch-card-8-content">
           <div className="arch-card-8-crest" />
           <div className="arch-card-8-header w-full">

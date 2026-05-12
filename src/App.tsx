@@ -19,8 +19,8 @@ const App = () => (
       <Sonner />
       <BrowserRouter basename={routerBasename}>
         <Routes>
-          <Route path="/" element={<CloudPaste />} />
-          <Route path="/cards" element={<BusinessCardGallery />} />
+          <Route path="/" element={<BusinessCardGallery />} />
+          <Route path="/share" element={<CloudPaste />} />
           <Route path="/designer" element={<CardDesigner />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

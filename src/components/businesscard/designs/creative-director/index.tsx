@@ -13,7 +13,7 @@ export default function CreativeDirector({ data, selectedFields, baseClass }: Bu
 
   return (
     <div className={`${baseClass} card--creative-director !p-0`}>
-      <div className="card arch-arch-card-9 w-full h-full">
+      <div className="card arch-card-9 w-full h-full">
         <div className="arch-card-9-content">
           <div className="arch-card-9-shapes" />
           <div className="arch-card-9-header w-[calc(100%-80px)] overflow-hidden">

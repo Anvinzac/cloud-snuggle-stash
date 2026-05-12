@@ -9,7 +9,7 @@ export default function NaturePreserve({ data, selectedFields, baseClass }: Busi
 
   return (
     <div className={`${baseClass} card--nature-preserve !p-0`}>
-      <div className="card arch-arch-card-2 w-full h-full">
+      <div className="card arch-card-2 w-full h-full">
         <div className="arch-card-2-content">
           <div className="arch-card-2-leaf" />
           <div className="arch-card-2-header w-full px-4 overflow-hidden">

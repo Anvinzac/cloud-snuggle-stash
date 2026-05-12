@@ -12,7 +12,7 @@ export default function UrbanArchitect({ data, selectedFields, baseClass }: Busi
 
   return (
     <div className={`${baseClass} card--urban-architect !p-0`}>
-      <div className="card arch-arch-card-1 w-full h-full">
+      <div className="card arch-card-1 w-full h-full">
         <div className="arch-card-1-content">
           <div className="arch-card-1-grid">
             <span /><span /><span />

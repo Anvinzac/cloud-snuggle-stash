@@ -12,7 +12,7 @@ export default function TechPioneer({ data, selectedFields, baseClass }: Busines
 
   return (
     <div className={`${baseClass} card--tech-pioneer !p-0`}>
-      <div className="card arch-arch-card-3 w-full h-full">
+      <div className="card arch-card-3 w-full h-full">
         <div className="arch-card-3-content">
           <div className="arch-card-3-circuit" />
           <div className="arch-card-3-header">

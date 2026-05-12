@@ -1,0 +1,2238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Museum Collection — Portrait Business Cards</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Outfit:wght@200;300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=Libre+Franklin:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --cobalt: #1a3a5c;
+            --ivory: #faf8f4;
+            --silver: #c0c5ce;
+            
+            --emerald: #1d4e3e;
+            --sand: #d4c5a9;
+            --charcoal: #2d2d2d;
+            
+            --crimson: #8b2942;
+            --blush: #f5e6e8;
+            --plum: #3d1f2f;
+            
+            --saffron: #d4a84b;
+            --espresso: #2c1810;
+            --cream: #f9f5ef;
+            
+            --electric: #0066ff;
+            --black: #0a0a0a;
+            --ice: #e8eef4;
+            
+            --terracotta: #c45a3b;
+            --sage: #8a9a84;
+            --warm-white: #faf7f2;
+            
+            --jade: #2d8b74;
+            --stone: #6b6b6b;
+            --muted-gold: #b8a068;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #0a0a0a;
+            padding: 80px 40px;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .gallery-header {
+            text-align: center;
+            margin-bottom: 100px;
+        }
+
+        .gallery-header h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-size: 14px;
+            letter-spacing: 12px;
+            text-transform: uppercase;
+            color: #666;
+            margin-bottom: 16px;
+        }
+
+        .gallery-header p {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 300;
+            font-size: 11px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #444;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 60px;
+            max-width: 1600px;
+            margin: 0 auto;
+            justify-items: center;
+        }
+
+        .card-container {
+            width: 280px;
+            height: 497px;
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.4),
+                0 8px 24px rgba(0, 0, 0, 0.3);
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s ease;
+        }
+
+        .card-container:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 
+                0 32px 80px rgba(0, 0, 0, 0.5),
+                0 16px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Card 1: Cobalt Minimal */
+        .card-1 {
+            background: var(--cobalt);
+        }
+
+        .card-1::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(135deg, rgba(255,255,255,0.03) 0%, transparent 50%),
+                radial-gradient(ellipse at 100% 0%, rgba(192,197,206,0.15) 0%, transparent 50%);
+        }
+
+        .card-1::after {
+            content: 'A';
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-size: 180px;
+            color: rgba(192, 197, 206, 0.06);
+            line-height: 1;
+        }
+
+        .card-1-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 48px 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-1-top {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .card-1-logo {
+            width: 48px;
+            height: 48px;
+            border: 1px solid var(--silver);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-1-logo::before {
+            content: 'A';
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            color: var(--silver);
+        }
+
+        .card-1-name {
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--silver);
+        }
+
+        .card-1-bottom {
+            text-align: center;
+        }
+
+        .card-1-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-size: 42px;
+            color: var(--ivory);
+            line-height: 1.1;
+            margin-bottom: 8px;
+        }
+
+        .card-1-subtitle {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 300;
+            font-size: 10px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--silver);
+            margin-bottom: 32px;
+        }
+
+        .card-1-contact {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 300;
+            font-size: 11px;
+            color: rgba(192, 197, 206, 0.6);
+            letter-spacing: 1px;
+        }
+
+        /* Card 2: Emerald Luxe */
+        .card-2 {
+            background: var(--sand);
+        }
+
+        .card-2::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+        }
+
+        .card-2::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--emerald);
+        }
+
+        .card-2-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 48px 40px;
+            position: relative;
+        }
+
+        .card-2-ornament {
+            position: absolute;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 1px;
+            background: var(--emerald);
+        }
+
+        .card-2-ornament::before,
+        .card-2-ornament::after {
+            content: '';
+            position: absolute;
+            top: -3px;
+            width: 7px;
+            height: 7px;
+            border: 1px solid var(--emerald);
+            transform: rotate(45deg);
+        }
+
+        .card-2-ornament::before {
+            left: -14px;
+        }
+
+        .card-2-ornament::after {
+            right: -14px;
+        }
+
+        .card-2-center {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .card-2-name {
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            font-size: 28px;
+            color: var(--charcoal);
+            margin-bottom: 12px;
+        }
+
+        .card-2-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400;
+            font-size: 12px;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: var(--emerald);
+            margin-bottom: 40px;
+        }
+
+        .card-2-divider {
+            width: 40px;
+            height: 1px;
+            background: var(--emerald);
+            opacity: 0.4;
+            margin-bottom: 40px;
+        }
+
+        .card-2-contact {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 300;
+            font-size: 11px;
+            color: var(--charcoal);
+            opacity: 0.7;
+            line-height: 2;
+        }
+
+        .card-2-logo {
+            width: 56px;
+            height: 56px;
+            border: 1px solid var(--emerald);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .card-2-logo::before {
+            content: '✦';
+            color: var(--emerald);
+            font-size: 14px;
+        }
+
+        /* Card 3: Crimson Opulent */
+        .card-3 {
+            background: var(--plum);
+        }
+
+        .card-3::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at 30% 20%, rgba(139, 41, 66, 0.4) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(139, 41, 66, 0.3) 0%, transparent 50%);
+        }
+
+        .card-3::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            border: 1px solid rgba(139, 41, 66, 0.2);
+            border-radius: 50%;
+        }
+
+        .card-3-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 48px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-3-monogram {
+            width: 80px;
+            height: 80px;
+            border: 1px solid var(--blush);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 32px;
+            position: relative;
+        }
+
+        .card-3-monogram::before {
+            content: '';
+            position: absolute;
+            inset: 4px;
+            border: 1px solid rgba(245, 230, 232, 0.3);
+            border-radius: 50%;
+        }
+
+        .card-3-monogram::after {
+            content: 'A';
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-size: 32px;
+            font-style: italic;
+            color: var(--blush);
+        }
+
+        .card-3-name {
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            font-size: 32px;
+            color: var(--blush);
+            margin-bottom: 8px;
+        }
+
+        .card-3-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-size: 11px;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--crimson);
+            margin-bottom: 40px;
+        }
+
+        .card-3-ornament {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+
+        .card-3-ornament::before,
+        .card-3-ornament::after {
+            content: '';
+            width: 32px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--crimson));
+        }
+
+        .card-3-ornament::after {
+            background: linear-gradient(90deg, var(--crimson), transparent);
+        }
+
+        .card-3-contact {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 300;
+            font-size: 10px;
+            color: var(--blush);
+            opacity: 0.6;
+            line-height: 2.2;
+        }
+
+        /* Card 4: Saffron Artisan */
+        .card-4 {
+            background: var(--espresso);
+        }
+
+        .card-4::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 40px,
+                    rgba(212, 168, 75, 0.02) 40px,
+                    rgba(212, 168, 75, 0.02) 80px
+                );
+        }
+
+        .card-4::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at 80% 20%, rgba(212, 168, 75, 0.15) 0%, transparent 40%);
+        }
+
+        .card-4-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 48px 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-4-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .card-4-brand {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-size: 9px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--saffron);
+            opacity: 0.8;
+        }
+
+        .card-4-monogram {
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            font-size: 24px;
+            color: var(--saffron);
+        }
+
+        .card-4-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .card-4-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400;
+            font-size: 44px;
+            color: var(--cream);
+            line-height: 1.1;
+            margin-bottom: 16px;
+        }
+
+        .card-4-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 300;
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--saffron);
+            margin-bottom: 40px;
+        }
+
+        .card-4-divider {
+            width: 60px;
+            height: 1px;
+            background: linear-gradient(90deg, var(--saffron), transparent);
+            margin-bottom: 32px;
+        }
+
+        .card-4-contact {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 300;
+            font-size: 10px;
+            color: var(--cream);
+            opacity: 0.5;
+            line-height: 2;
+        }
+
+        /* Card 5: Electric Noir */
+        .card-5 {
+            background: var(--black);
+        }
+
+        .card-5::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(180deg, rgba(0, 102, 255, 0.03) 0%, transparent 30%),
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(0, 102, 255, 0.02) 2px,
+                    rgba(0, 102, 255, 0.02) 4px
+                );
+            animation: scanlines 8s linear infinite;
+        }
+
+        @keyframes scanlines {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 100px; }
+        }
+
+        .card-5::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--electric);
+            box-shadow: 
+                0 0 20px var(--electric),
+                0 0 40px var(--electric);
+        }
+
+        .card-5-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 48px 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-5-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-5-logo {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--electric);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .card-5-logo::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border: 1px solid rgba(0, 102, 255, 0.3);
+        }
+
+        .card-5-logo::after {
+            content: 'A';
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--electric);
+        }
+
+        .card-5-status {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 400;
+            font-size: 9px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--ice);
+            opacity: 0.4;
+        }
+
+        .card-5-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .card-5-label {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 300;
+            font-size: 9px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--electric);
+            margin-bottom: 16px;
+        }
+
+        .card-5-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 36px;
+            color: var(--ice);
+            line-height: 1.1;
+            margin-bottom: 12px;
+        }
+
+        .card-5-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 300;
+            font-size: 11px;
+            color: var(--ice);
+            opacity: 0.5;
+            letter-spacing: 1px;
+        }
+
+        .card-5-contact {
+            margin-top: 48px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(0, 102, 255, 0.2);
+        }
+
+        .card-5-contact p {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 300;
+            font-size: 10px;
+            color: var(--ice);
+            opacity: 0.4;
+            line-height: 2;
+        }
+
+        /* Card 6: Terracotta Warmth */
+        .card-6 {
+            background: var(--warm-white);
+        }
+
+        .card-6::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at 20% 80%, rgba(196, 90, 59, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(138, 154, 132, 0.1) 0%, transparent 50%);
+        }
+
+        .card-6::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 120px;
+            background: linear-gradient(to top, rgba(196, 90, 59, 0.05), transparent);
+        }
+
+        .card-6-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 48px 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-6-branch {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            width: 60px;
+            height: 60px;
+            opacity: 0.15;
+        }
+
+        .card-6-branch::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 1px solid var(--terracotta);
+            border-radius: 50% 0 50% 0;
+            transform: rotate(45deg);
+        }
+
+        .card-6-top {
+            margin-bottom: auto;
+        }
+
+        .card-6-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400;
+            font-size: 38px;
+            color: var(--terracotta);
+            line-height: 1.1;
+            margin-bottom: 8px;
+        }
+
+        .card-6-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 300;
+            font-size: 10px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--sage);
+        }
+
+        .card-6-center {
+            margin: auto 0;
+        }
+
+        .card-6-logo {
+            width: 72px;
+            height: 72px;
+            border: 1px solid rgba(196, 90, 59, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+
+        .card-6-logo::before {
+            content: 'A';
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 28px;
+            color: var(--terracotta);
+        }
+
+        .card-6-quote {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400;
+            font-size: 13px;
+            font-style: italic;
+            color: var(--sage);
+            text-align: center;
+            max-width: 160px;
+            line-height: 1.6;
+        }
+
+        .card-6-bottom {
+            margin-top: auto;
+        }
+
+        .card-6-contact {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 300;
+            font-size: 10px;
+            color: var(--terracotta);
+            opacity: 0.6;
+            line-height: 2;
+            text-align: center;
+        }
+
+        /* Card 7: Plum Rose Gold */
+        .card-7 {
+            background: #1a1520;
+        }
+
+        .card-7::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at 50% 0%, rgba(184, 160, 104, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(139, 80, 107, 0.2) 0%, transparent 50%);
+        }
+
+        .card-7::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1px;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(184, 160, 104, 0.3), transparent 30%, transparent 70%, rgba(184, 160, 104, 0.3));
+        }
+
+        .card-7-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 48px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-7-monogram {
+            width: 96px;
+            height: 96px;
+            border: 1px solid rgba(184, 160, 104, 0.4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 32px;
+            position: relative;
+        }
+
+        .card-7-monogram::before {
+            content: '';
+            position: absolute;
+            inset: 8px;
+            border: 1px solid rgba(184, 160, 104, 0.2);
+            border-radius: 50%;
+        }
+
+        .card-7-monogram::after {
+            content: 'A';
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-size: 40px;
+            font-style: italic;
+            color: rgba(184, 160, 104, 0.8);
+        }
+
+        .card-7-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400;
+            font-size: 32px;
+            color: #f0ece8;
+            margin-bottom: 8px;
+        }
+
+        .card-7-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 300;
+            font-size: 9px;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: rgba(184, 160, 104, 0.7);
+            margin-bottom: 48px;
+        }
+
+        .card-7-ornament {
+            width: 40px;
+            height: 40px;
+            position: relative;
+            margin-bottom: 48px;
+        }
+
+        .card-7-ornament::before,
+        .card-7-ornament::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border: 1px solid rgba(184, 160, 104, 0.4);
+            transform: rotate(45deg);
+        }
+
+        .card-7-ornament::before {
+            top: 0;
+            left: 0;
+        }
+
+        .card-7-ornament::after {
+            bottom: 0;
+            right: 0;
+        }
+
+        .card-7-contact {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 300;
+            font-size: 10px;
+            color: #f0ece8;
+            opacity: 0.4;
+            line-height: 2.2;
+        }
+
+        /* Card 8: Jade Stone */
+        .card-8 {
+            background: linear-gradient(180deg, #f5f4f2 0%, #e8e6e2 100%);
+        }
+
+        .card-8::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%232d8b74' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .card-8::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 40px;
+            width: 1px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--jade), transparent 30%, transparent 70%, var(--jade));
+            opacity: 0.2;
+        }
+
+        .card-8-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 48px 56px 48px 56px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-8-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 48px;
+        }
+
+        .card-8-brand {
+            font-family: 'Syne', sans-serif;
+            font-weight: 600;
+            font-size: 11px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--stone);
+        }
+
+        .card-8-logo {
+            width: 36px;
+            height: 36px;
+            background: var(--jade);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-8-logo::before {
+            content: 'A';
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            color: white;
+        }
+
+        .card-8-main {
+            margin: auto 0;
+        }
+
+        .card-8-name {
+            font-family: 'Syne', sans-serif;
+            font-weight: 600;
+            font-size: 36px;
+            color: var(--charcoal);
+            line-height: 1.1;
+            margin-bottom: 12px;
+        }
+
+        .card-8-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 400;
+            font-size: 10px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--jade);
+            margin-bottom: 40px;
+        }
+
+        .card-8-divider {
+            width: 48px;
+            height: 2px;
+            background: var(--muted-gold);
+            margin-bottom: 32px;
+        }
+
+        .card-8-contact {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 300;
+            font-size: 11px;
+            color: var(--stone);
+            line-height: 2;
+        }
+
+        /* Card 9: Obsidian Luxe */
+        .card-9 {
+            background: #0d0d0d;
+        }
+
+        .card-9::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(135deg, rgba(255,255,255,0.02) 0%, transparent 50%),
+                radial-gradient(ellipse at 0% 100%, rgba(139, 80, 107, 0.1) 0%, transparent 50%);
+        }
+
+        .card-9::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: 
+                linear-gradient(90deg, rgba(184, 160, 104, 0.1) 0%, transparent 20%, transparent 80%, rgba(184, 160, 104, 0.1) 100%);
+        }
+
+        .card-9-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 48px 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-9-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-9-brand {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-size: 10px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.3);
+        }
+
+        .card-9-date {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 300;
+            font-size: 9px;
+            color: rgba(255,255,255,0.2);
+            letter-spacing: 1px;
+        }
+
+        .card-9-center {
+            text-align: center;
+        }
+
+        .card-9-monogram {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-size: 120px;
+            color: rgba(184, 160, 104, 0.15);
+            line-height: 1;
+            margin-bottom: 24px;
+        }
+
+        .card-9-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400;
+            font-size: 28px;
+            color: #f5f5f5;
+            margin-bottom: 8px;
+        }
+
+        .card-9-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 300;
+            font-size: 9px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: rgba(184, 160, 104, 0.6);
+        }
+
+        .card-9-bottom {
+            text-align: center;
+        }
+
+        .card-9-contact {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 300;
+            font-size: 10px;
+            color: rgba(255,255,255,0.3);
+            line-height: 2;
+        }
+
+        /* Card 10: Ivory Botanical */
+        .card-10 {
+            background: #faf8f5;
+        }
+
+        .card-10::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath fill='%232d4e3e' fill-opacity='0.04' d='M100 0 Q140 60 100 100 Q60 140 100 200 Q140 140 100 100 Q60 60 100 0z'/%3E%3C/svg%3E");
+            background-size: 120px 120px;
+        }
+
+        .card-10::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 200px;
+            background: linear-gradient(to top, rgba(45, 78, 62, 0.04), transparent);
+        }
+
+        .card-10-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 48px 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-10-leaf {
+            position: absolute;
+            top: 48px;
+            left: 40px;
+            width: 80px;
+            height: 80px;
+            opacity: 0.06;
+        }
+
+        .card-10-leaf::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 1px solid var(--emerald);
+            border-radius: 50% 0 50% 0;
+            transform: rotate(45deg);
+        }
+
+        .card-10-header {
+            text-align: center;
+            margin-bottom: auto;
+        }
+
+        .card-10-brand {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400;
+            font-size: 9px;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--emerald);
+            margin-bottom: 24px;
+        }
+
+        .card-10-name {
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            font-size: 42px;
+            color: var(--charcoal);
+            line-height: 1.1;
+            margin-bottom: 8px;
+        }
+
+        .card-10-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 300;
+            font-size: 10px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--stone);
+        }
+
+        .card-10-center {
+            display: flex;
+            justify-content: center;
+            margin: auto 0;
+        }
+
+        .card-10-logo {
+            width: 64px;
+            height: 64px;
+            border: 1px solid var(--emerald);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .card-10-logo::before {
+            content: '';
+            position: absolute;
+            inset: 6px;
+            border: 1px solid rgba(45, 78, 62, 0.2);
+            border-radius: 50%;
+        }
+
+        .card-10-logo::after {
+            content: 'A';
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 24px;
+            color: var(--emerald);
+        }
+
+        .card-10-footer {
+            margin-top: auto;
+            text-align: center;
+        }
+
+        .card-10-contact {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 300;
+            font-size: 10px;
+            color: var(--stone);
+            line-height: 2;
+        }
+
+        .card-10-divider {
+            width: 40px;
+            height: 1px;
+            background: var(--emerald);
+            opacity: 0.3;
+            margin: 24px auto;
+        }
+
+        /* Card 11: Midnight Blue */
+        .card-11 {
+            background: #0f1729;
+        }
+
+        .card-11::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at 100% 0%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 0% 100%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+        }
+
+        .card-11::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.5), transparent);
+        }
+
+        .card-11-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 48px 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-11-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 56px;
+        }
+
+        .card-11-brand {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 500;
+            font-size: 10px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(59, 130, 246, 0.8);
+        }
+
+        .card-11-logo {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(59, 130, 246, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-11-logo::before {
+            content: 'A';
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            color: rgba(59, 130, 246, 0.8);
+        }
+
+        .card-11-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .card-11-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 40px;
+            color: #f1f5f9;
+            line-height: 1;
+            margin-bottom: 12px;
+        }
+
+        .card-11-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 300;
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(139, 92, 246, 0.8);
+            margin-bottom: 40px;
+        }
+
+        .card-11-ornament {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(59, 130, 246, 0.6), transparent);
+        }
+
+        .card-11-footer {
+            margin-top: auto;
+        }
+
+        .card-11-contact {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 300;
+            font-size: 10px;
+            color: rgba(241, 245, 249, 0.4);
+            line-height: 2;
+        }
+
+        /* Card 12: Warm Linen */
+        .card-12 {
+            background: #f5f2ed;
+        }
+
+        .card-12::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            opacity: 0.02;
+        }
+
+        .card-12::after {
+            content: '';
+            position: absolute;
+            top: 48px;
+            left: 40px;
+            right: 40px;
+            bottom: 48px;
+            border: 1px solid rgba(44, 24, 16, 0.08);
+        }
+
+        .card-12-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 48px 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-12-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .card-12-brand {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400;
+            font-size: 9px;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: var(--stone);
+            margin-bottom: 24px;
+        }
+
+        .card-12-logo {
+            width: 56px;
+            height: 56px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .card-12-logo::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border: 1px solid var(--espresso);
+            border-radius: 50%;
+        }
+
+        .card-12-logo::after {
+            content: 'A';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            color: var(--espresso);
+        }
+
+        .card-12-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .card-12-name {
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            font-size: 36px;
+            color: var(--espresso);
+            line-height: 1.1;
+            margin-bottom: 8px;
+        }
+
+        .card-12-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400;
+            font-size: 11px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--saffron);
+        }
+
+        .card-12-ornament {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            margin: 32px 0;
+        }
+
+        .card-12-ornament::before,
+        .card-12-ornament::after {
+            content: '';
+            width: 32px;
+            height: 1px;
+            background: var(--espresso);
+            opacity: 0.2;
+        }
+
+        .card-12-ornament-icon {
+            color: var(--saffron);
+            font-size: 12px;
+        }
+
+        .card-12-contact {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 300;
+            font-size: 10px;
+            color: var(--stone);
+            line-height: 2;
+        }
+
+        /* Card 13: Slate Minimal */
+        .card-13 {
+            background: #1e1e1e;
+        }
+
+        .card-13::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(180deg, rgba(255,255,255,0.02) 0%, transparent 30%);
+        }
+
+        .card-13::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #333, #555, #333);
+        }
+
+        .card-13-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 48px 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-13-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: auto;
+        }
+
+        .card-13-brand {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 500;
+            font-size: 10px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #666;
+        }
+
+        .card-13-initials {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            color: #444;
+        }
+
+        .card-13-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .card-13-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 32px;
+            color: #e5e5e5;
+            line-height: 1.1;
+            margin-bottom: 8px;
+        }
+
+        .card-13-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 300;
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        .card-13-line {
+            width: 48px;
+            height: 1px;
+            background: #333;
+        }
+
+        .card-13-footer {
+            margin-top: auto;
+        }
+
+        .card-13-contact {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 300;
+            font-size: 10px;
+            color: #555;
+            line-height: 2;
+        }
+
+        /* Card 14: Rose Quartz */
+        .card-14 {
+            background: #fdf8f6;
+        }
+
+        .card-14::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at 80% 20%, rgba(218, 143, 143, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 20% 80%, rgba(184, 160, 104, 0.1) 0%, transparent 50%);
+        }
+
+        .card-14::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(218, 143, 143, 0.08), transparent 30%, transparent 70%, rgba(218, 143, 143, 0.08));
+        }
+
+        .card-14-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 48px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-14-monogram {
+            width: 88px;
+            height: 88px;
+            border: 1px solid rgba(184, 160, 104, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 32px;
+            position: relative;
+        }
+
+        .card-14-monogram::before {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            border: 1px dashed rgba(184, 160, 104, 0.2);
+            border-radius: 50%;
+        }
+
+        .card-14-monogram::after {
+            content: 'A';
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400;
+            font-size: 36px;
+            font-style: italic;
+            color: #8b5a5a;
+        }
+
+        .card-14-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400;
+            font-size: 30px;
+            color: #3d3030;
+            margin-bottom: 8px;
+        }
+
+        .card-14-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 300;
+            font-size: 9px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: rgba(139, 90, 90, 0.7);
+            margin-bottom: 40px;
+        }
+
+        .card-14-divider {
+            width: 32px;
+            height: 32px;
+            position: relative;
+            margin-bottom: 40px;
+        }
+
+        .card-14-divider::before,
+        .card-14-divider::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border: 1px solid rgba(184, 160, 104, 0.4);
+        }
+
+        .card-14-divider::before {
+            top: 0;
+            left: 0;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .card-14-divider::after {
+            bottom: 0;
+            right: 0;
+            border-left: none;
+            border-top: none;
+        }
+
+        .card-14-contact {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 300;
+            font-size: 10px;
+            color: #8b5a5a;
+            opacity: 0.6;
+            line-height: 2.2;
+        }
+
+        /* Card 15: Forest Noir */
+        .card-15 {
+            background: #0a0f0a;
+        }
+
+        .card-15::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at 30% 70%, rgba(45, 78, 62, 0.2) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 30%, rgba(45, 78, 62, 0.1) 0%, transparent 50%);
+        }
+
+        .card-15::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--jade), transparent 30%, transparent 70%, var(--jade));
+        }
+
+        .card-15-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 48px 40px 48px 48px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-15-header {
+            margin-bottom: auto;
+        }
+
+        .card-15-brand {
+            font-family: 'Syne', sans-serif;
+            font-weight: 600;
+            font-size: 9px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--jade);
+            margin-bottom: 40px;
+        }
+
+        .card-15-name {
+            font-family: 'Syne', sans-serif;
+            font-weight: 600;
+            font-size: 38px;
+            color: #f5f5f5;
+            line-height: 1.1;
+            margin-bottom: 8px;
+        }
+
+        .card-15-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 300;
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(45, 140, 116, 0.6);
+        }
+
+        .card-15-center {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin: auto 0;
+        }
+
+        .card-15-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--jade), transparent);
+            opacity: 0.3;
+        }
+
+        .card-15-icon {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(45, 140, 116, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-15-icon::before {
+            content: '✦';
+            color: var(--jade);
+            font-size: 12px;
+        }
+
+        .card-15-footer {
+            margin-top: auto;
+        }
+
+        .card-15-contact {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 300;
+            font-size: 10px;
+            color: rgba(245, 245, 245, 0.4);
+            line-height: 2;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                gap: 40px;
+            }
+
+            .card-container {
+                width: 240px;
+                height: 426px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 40px 20px;
+            }
+
+            .gallery-header h1 {
+                font-size: 12px;
+                letter-spacing: 8px;
+            }
+
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                gap: 32px;
+            }
+
+            .card-container {
+                width: 220px;
+                height: 391px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="gallery-header">
+        <h1>Museum Collection</h1>
+        <p>Portrait Business Cards</p>
+    </div>
+
+    <div class="gallery">
+        <!-- Card 1: Cobalt Minimal -->
+        <div class="card-container">
+            <div class="card card-1">
+                <div class="card-1-content">
+                    <div class="card-1-top">
+                        <div class="card-1-logo"></div>
+                        <span class="card-1-name">Atelier</span>
+                    </div>
+                    <div class="card-1-bottom">
+                        <h2 class="card-1-title">Alexandra<br>Chen</h2>
+                        <p class="card-1-subtitle">Creative Director</p>
+                        <p class="card-1-contact">alex@atelier.studio</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 2: Emerald Luxe -->
+        <div class="card-container">
+            <div class="card card-2">
+                <div class="card-2-content">
+                    <div class="card-2-ornament"></div>
+                    <div class="card-2-center">
+                        <h2 class="card-2-name">Marcus Webb</h2>
+                        <p class="card-2-title">Principal Architect</p>
+                        <div class="card-2-divider"></div>
+                        <div class="card-2-logo"></div>
+                    </div>
+                    <p class="card-2-contact">
+                        marcus@webb-studio.com<br>
+                        +1 212 555 0147
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 3: Crimson Opulent -->
+        <div class="card-container">
+            <div class="card card-3">
+                <div class="card-3-content">
+                    <div class="card-3-monogram"></div>
+                    <h2 class="card-3-name">Valentina</h2>
+                    <p class="card-3-title">Creative Director</p>
+                    <div class="card-3-ornament"></div>
+                    <div class="card-3-contact">
+                        valentina@maison-noir.com<br>
+                        +33 1 42 61 00 00
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 4: Saffron Artisan -->
+        <div class="card-container">
+            <div class="card card-4">
+                <div class="card-4-content">
+                    <div class="card-4-header">
+                        <span class="card-4-brand">Artisan Coffee Co.</span>
+                        <span class="card-4-monogram">A</span>
+                    </div>
+                    <div class="card-4-main">
+                        <h2 class="card-4-name">Amelia<br>Ross</h2>
+                        <p class="card-4-title">Head Roaster</p>
+                        <div class="card-4-divider"></div>
+                        <div class="card-4-contact">
+                            amelia@artisancoffee.co<br>
+                            45 Brew Lane, Portland
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 5: Electric Noir -->
+        <div class="card-container">
+            <div class="card card-5">
+                <div class="card-5-content">
+                    <div class="card-5-header">
+                        <div class="card-5-logo"></div>
+                        <span class="card-5-status">AVAILABLE</span>
+                    </div>
+                    <div class="card-5-main">
+                        <span class="card-5-label">FULL STACK DEVELOPER</span>
+                        <h2 class="card-5-name">Adrian<br>Kowalski</h2>
+                        <p class="card-5-title">Building the future</p>
+                    </div>
+                    <div class="card-5-contact">
+                        <p>adrian@techforge.io<br>
+                        +48 22 555 0199</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 6: Terracotta Warmth -->
+        <div class="card-container">
+            <div class="card card-6">
+                <div class="card-6-content">
+                    <div class="card-6-branch"></div>
+                    <div class="card-6-top">
+                        <h2 class="card-6-name">Olivia<br>Mason</h2>
+                        <p class="card-6-title">Interior Designer</p>
+                    </div>
+                    <div class="card-6-center">
+                        <div class="card-6-logo"></div>
+                        <p class="card-6-quote">"Design is thinking made visual"</p>
+                    </div>
+                    <div class="card-6-bottom">
+                        <p class="card-6-contact">
+                            hello@oliviamason.design<br>
+                            +1 310 555 0182
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 7: Plum Rose Gold -->
+        <div class="card-container">
+            <div class="card card-7">
+                <div class="card-7-content">
+                    <div class="card-7-monogram"></div>
+                    <h2 class="card-7-name">Aurora Blake</h2>
+                    <p class="card-7-title">Fashion Editor</p>
+                    <div class="card-7-ornament"></div>
+                    <div class="card-7-contact">
+                        aurora@blakeeditorial.com<br>
+                        +44 20 7946 0958
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 8: Jade Stone -->
+        <div class="card-container">
+            <div class="card card-8">
+                <div class="card-8-content">
+                    <div class="card-8-header">
+                        <span class="card-8-brand">Studio Eight</span>
+                        <div class="card-8-logo"></div>
+                    </div>
+                    <div class="card-8-main">
+                        <h2 class="card-8-name">James<br>Miller</h2>
+                        <p class="card-8-title">Brand Strategist</p>
+                        <div class="card-8-divider"></div>
+                        <div class="card-8-contact">
+                            james@studioeight.co<br>
+                            +1 212 555 0163
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 9: Obsidian Luxe -->
+        <div class="card-container">
+            <div class="card card-9">
+                <div class="card-9-content">
+                    <div class="card-9-top">
+                        <span class="card-9-brand">Private</span>
+                        <span class="card-9-date">MMXXIV</span>
+                    </div>
+                    <div class="card-9-center">
+                        <div class="card-9-monogram">A</div>
+                        <h2 class="card-9-name">Alexander</h2>
+                        <p class="card-9-title">Art Director</p>
+                    </div>
+                    <div class="card-9-bottom">
+                        <div class="card-9-contact">
+                            alexander@private.studio<br>
+                            +1 917 555 0144
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 10: Ivory Botanical -->
+        <div class="card-container">
+            <div class="card card-10">
+                <div class="card-10-content">
+                    <div class="card-10-leaf"></div>
+                    <div class="card-10-header">
+                        <p class="card-10-brand">Verdant Studio</p>
+                        <h2 class="card-10-name">Elena<br>Woods</h2>
+                        <p class="card-10-title">Landscape Architect</p>
+                    </div>
+                    <div class="card-10-center">
+                        <div class="card-10-logo"></div>
+                    </div>
+                    <div class="card-10-footer">
+                        <div class="card-10-divider"></div>
+                        <p class="card-10-contact">
+                            elena@verdantstudio.com<br>
+                            +1 503 555 0128
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 11: Midnight Blue -->
+        <div class="card-container">
+            <div class="card card-11">
+                <div class="card-11-content">
+                    <div class="card-11-header">
+                        <span class="card-11-brand">Axiom</span>
+                        <div class="card-11-logo"></div>
+                    </div>
+                    <div class="card-11-main">
+                        <h2 class="card-11-name">Aiden<br>Park</h2>
+                        <p class="card-11-title">Product Designer</p>
+                        <div class="card-11-ornament"></div>
+                    </div>
+                    <div class="card-11-footer">
+                        <div class="card-11-contact">
+                            aiden@axiom.design<br>
+                            +82 2 555 0187
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 12: Warm Linen -->
+        <div class="card-container">
+            <div class="card card-12">
+                <div class="card-12-content">
+                    <div class="card-12-header">
+                        <p class="card-12-brand">Est. 1892</p>
+                        <div class="card-12-logo"></div>
+                    </div>
+                    <div class="card-12-main">
+                        <h2 class="card-12-name">Nathan<br>Holt</h2>
+                        <p class="card-12-title">Master Barber</p>
+                        <div class="card-12-ornament">
+                            <span class="card-12-ornament-icon">✦</span>
+                        </div>
+                        <div class="card-12-contact">
+                            nathan@holtbarbershop.com<br>
+                            +1 212 555 0195
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 13: Slate Minimal -->
+        <div class="card-container">
+            <div class="card card-13">
+                <div class="card-13-content">
+                    <div class="card-13-header">
+                        <span class="card-13-brand">Studio</span>
+                        <span class="card-13-initials">AK</span>
+                    </div>
+                    <div class="card-13-main">
+                        <h2 class="card-13-name">Alex<br>Kim</h2>
+                        <p class="card-13-title">Photographer</p>
+                        <div class="card-13-line"></div>
+                    </div>
+                    <div class="card-13-footer">
+                        <div class="card-13-contact">
+                            alex@studio-ak.com<br>
+                            +1 323 555 0161
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 14: Rose Quartz -->
+        <div class="card-container">
+            <div class="card card-14">
+                <div class="card-14-content">
+                    <div class="card-14-monogram"></div>
+                    <h2 class="card-14-name">Sophia Lane</h2>
+                    <p class="card-14-title">Wedding Planner</p>
+                    <div class="card-14-divider"></div>
+                    <div class="card-14-contact">
+                        sophia@lanevents.com<br>
+                        +1 415 555 0173
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 15: Forest Noir -->
+        <div class="card-container">
+            <div class="card card-15">
+                <div class="card-15-content">
+                    <div class="card-15-header">
+                        <span class="card-15-brand">Native</span>
+                    </div>
+                    <div class="card-15-main">
+                        <h2 class="card-15-name">Oliver<br>Reed</h2>
+                        <p class="card-15-title">Sustainability Director</p>
+                    </div>
+                    <div class="card-15-center">
+                        <div class="card-15-line"></div>
+                        <div class="card-15-icon"></div>
+                        <div class="card-15-line"></div>
+                    </div>
+                    <div class="card-15-footer">
+                        <div class="card-15-contact">
+                            oliver@native.green<br>
+                            +1 503 555 0149
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

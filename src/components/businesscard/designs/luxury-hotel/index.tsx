@@ -9,7 +9,7 @@ export default function LuxuryHotel({ data, selectedFields, baseClass }: Busines
 
   return (
     <div className={`${baseClass} card--luxury-hotel !p-0`}>
-      <div className="card arch-arch-card-4 w-full h-full">
+      <div className="card arch-card-4 w-full h-full">
         <div className="arch-card-4-content">
           <div className="arch-card-4-fleur" />
           <div className="arch-card-4-header w-full overflow-hidden">

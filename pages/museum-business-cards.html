@@ -1,0 +1,2847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Museum Collection — Ultra-Premium Business Cards</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Space+Grotesk:wght@300;400;500;600;700&family=Cinzel:wght@400;500;600;700&family=Inter:wght@200;300;400;500;600&family=Syne:wght@400;500;600;700;800&family=Bebas+Neue&family=Libre+Franklin:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Card 1: Heritage Curator */
+            --hc-cobalt: #1a3a5c;
+            --hc-ivory: #faf8f4;
+            --hc-silver: #c0c5ce;
+            
+            /* Card 2: Swiss Brutalist */
+            --sb-electric: #0066ff;
+            --sb-black: #0a0a0a;
+            --sb-ice: #e8eef4;
+            
+            /* Card 3: High-Jewelry Minimalist */
+            --hj-emerald: #1d4e3e;
+            --hj-sand: #d4c5a9;
+            --hj-charcoal: #2d2d2d;
+            
+            /* Card 4: Haute Couture Editorial */
+            --hcrt-crimson: #8b2942;
+            --hcrt-blush: #f5e6e8;
+            --hcrt-plum: #3d1f2f;
+            
+            /* Card 5: Artisan Roaster */
+            --ar-saffron: #d4a84b;
+            --ar-espresso: #2c1810;
+            --ar-cream: #f9f5ef;
+            
+            /* Card 6: Modern Apothecary */
+            --ma-terracotta: #c45a3b;
+            --ma-sage: #8a9a84;
+            --ma-warm-white: #faf7f2;
+            
+            /* Card 7: Luxury Cosmetics */
+            --lc-plum: #4a2040;
+            --lc-rose-gold: #b8a068;
+            --lc-mist: #f0ece8;
+            
+            /* Card 8: Private Wealth */
+            --pw-jade: #2d8b74;
+            --pw-stone: #6b6b6b;
+            --pw-muted-gold: #b8a068;
+            
+            /* Card 9: Layered FinTech */
+            --lf-midnight: #0a1628;
+            --lf-frost: rgba(255,255,255,0.08);
+            --lf-cyan: #00d4ff;
+            --lf-magenta: #ff00aa;
+            
+            /* Card 10: Vinyl Producer */
+            --vp-matte: #111111;
+            --vp-gloss: #1a1a1a;
+            --vp-white: #ffffff;
+            
+            /* Card 11: Michelin Chef */
+            --mc-bone: #f5f3ef;
+            --mc-charcoal: #2d2d2d;
+            --mc-copper: #b87333;
+            
+            /* Card 12: Avant-Garde Studio */
+            --ag-acid: #d4ff00;
+            --ag-concrete: #8a8a8a;
+            --ag-pitch: #0a0a0a;
+            
+            /* Card 13: Botanical Florist */
+            --bf-forest: #2d4a2d;
+            --bf-linen: #f5f0e6;
+            --bf-peach: #e8c4a8;
+            
+            /* Card 14: Cyberpunk Developer */
+            --cp-matrix: #00ff00;
+            --cp-slate: #1a1a2e;
+            --cp-pink: #ff0080;
+            
+            /* Card 15: Kinetic Typographer */
+            --kt-ultramarine: #1a3a6b;
+            --kt-stark: #ffffff;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #111111;
+            padding: 100px 60px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .presentation-header {
+            text-align: center;
+            margin-bottom: 100px;
+        }
+
+        .presentation-header h1 {
+            font-family: 'Cinzel', serif;
+            font-weight: 400;
+            font-size: 13px;
+            letter-spacing: 16px;
+            text-transform: uppercase;
+            color: #555;
+            margin-bottom: 16px;
+        }
+
+        .presentation-header p {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 300;
+            font-size: 11px;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: #444;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 80px;
+            max-width: 1800px;
+            margin: 0 auto;
+            justify-items: center;
+        }
+
+        .card-frame {
+            width: 300px;
+            height: 533px;
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 
+                0 40px 80px rgba(0,0,0,0.5),
+                0 20px 40px rgba(0,0,0,0.4),
+                0 8px 16px rgba(0,0,0,0.3);
+            transition: transform 0.6s cubic-bezier(0.16,1,0.3,1), box-shadow 0.6s ease;
+        }
+
+        .card-frame:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 
+                0 60px 100px rgba(0,0,0,0.6),
+                0 30px 60px rgba(0,0,0,0.5),
+                0 12px 24px rgba(0,0,0,0.4);
+        }
+
+        .card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* ============================================
+           CARD 1: THE HERITAGE CURATOR
+           ============================================ */
+        .card-1 {
+            background: var(--hc-ivory);
+        }
+
+        .card-1::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 70%;
+            width: 1px;
+            height: 100%;
+            background: var(--hc-silver);
+            z-index: 3;
+        }
+
+        .card-1::after {
+            content: '';
+            position: absolute;
+            top: -60px;
+            left: calc(70% - 50px);
+            width: 100px;
+            height: 100px;
+            background: var(--hc-cobalt);
+            border-radius: 50%;
+            z-index: 2;
+        }
+
+        .card-1-content {
+            position: relative;
+            height: 100%;
+            z-index: 4;
+        }
+
+        .card-1-sidebar {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 30%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 24px;
+        }
+
+        .card-1-brand {
+            font-family: 'Cinzel', serif;
+            font-weight: 400;
+            font-size: 7px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--hc-cobalt);
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            transform: rotate(180deg);
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        .card-1-info {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            text-align: right;
+        }
+
+        .card-1-info p {
+            font-family: 'Libre Franklin', sans-serif;
+            font-weight: 300;
+            font-size: 8px;
+            letter-spacing: 2px;
+            color: var(--hc-charcoal);
+            opacity: 0.7;
+            line-height: 2.8;
+            text-transform: uppercase;
+        }
+
+        .card-1-main {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 0 40px 0 32px;
+            width: 70%;
+        }
+
+        .card-1-title {
+            font-family: 'Libre Franklin', sans-serif;
+            font-weight: 200;
+            font-size: 8px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--hc-cobalt);
+            margin-bottom: 20px;
+        }
+
+        .card-1-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-size: 52px;
+            line-height: 0.95;
+            color: var(--hc-charcoal);
+            margin-bottom: 24px;
+        }
+
+        .card-1-name span {
+            display: block;
+        }
+
+        .card-1-monogram {
+            position: absolute;
+            top: 32px;
+            left: 32px;
+            width: 48px;
+            height: 48px;
+            border: 1px solid var(--hc-silver);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-1-monogram::before {
+            content: 'HC';
+            font-family: 'Cinzel', serif;
+            font-size: 12px;
+            letter-spacing: 2px;
+            color: var(--hc-cobalt);
+        }
+
+        /* ============================================
+           CARD 2: THE SWISS BRUTALIST
+           ============================================ */
+        .card-2 {
+            background: var(--sb-black);
+        }
+
+        .card-2::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(90deg, transparent 32%, rgba(232,238,244,0.05) 32%, rgba(232,238,244,0.05) 34%, transparent 34%),
+                linear-gradient(90deg, transparent 65%, rgba(232,238,244,0.05) 65%, rgba(232,238,244,0.05) 67%, transparent 67%),
+                linear-gradient(180deg, transparent 32%, rgba(232,238,244,0.05) 32%, rgba(232,238,244,0.05) 34%, transparent 34%),
+                linear-gradient(180deg, transparent 65%, rgba(232,238,244,0.05) 65%, rgba(232,238,244,0.05) 67%, transparent 67%);
+        }
+
+        .card-2::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 80px;
+            height: 60px;
+            background: repeating-linear-gradient(
+                -45deg,
+                transparent,
+                transparent 4px,
+                var(--sb-electric) 4px,
+                var(--sb-electric) 6px
+            );
+            opacity: 0.3;
+        }
+
+        .card-2-content {
+            position: relative;
+            height: 100%;
+            padding: 32px;
+            z-index: 2;
+        }
+
+        .card-2-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 40px;
+        }
+
+        .card-2-brand {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 10px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--sb-electric);
+        }
+
+        .card-2-id {
+            font-family: 'Space Mono', monospace;
+            font-size: 8px;
+            color: var(--sb-ice);
+            opacity: 0.4;
+        }
+
+        .card-2-main {
+            margin-bottom: 32px;
+        }
+
+        .card-2-label {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 300;
+            font-size: 7px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--sb-ice);
+            opacity: 0.4;
+            margin-bottom: 8px;
+        }
+
+        .card-2-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 36px;
+            line-height: 1;
+            color: var(--sb-white);
+            letter-spacing: -1px;
+        }
+
+        .card-2-block {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 32px;
+        }
+
+        .card-2-data {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(232,238,244,0.1);
+            padding: 16px;
+        }
+
+        .card-2-data-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 7px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--sb-ice);
+            opacity: 0.4;
+            margin-bottom: 6px;
+        }
+
+        .card-2-data-value {
+            font-family: 'Space Mono', monospace;
+            font-size: 14px;
+            color: var(--sb-electric);
+        }
+
+        .card-2-footer {
+            position: absolute;
+            bottom: 32px;
+            left: 32px;
+            right: 32px;
+        }
+
+        .card-2-contact {
+            font-family: 'Space Mono', monospace;
+            font-size: 9px;
+            color: var(--sb-ice);
+            opacity: 0.5;
+            line-height: 2;
+        }
+
+        .card-2-barcode {
+            position: absolute;
+            bottom: 32px;
+            right: 32px;
+            display: flex;
+            gap: 2px;
+        }
+
+        .card-2-barcode span {
+            width: 2px;
+            height: 24px;
+            background: var(--sb-ice);
+            opacity: 0.2;
+        }
+
+        .card-2-barcode span:nth-child(1) { height: 16px; }
+        .card-2-barcode span:nth-child(2) { height: 24px; }
+        .card-2-barcode span:nth-child(3) { height: 20px; }
+        .card-2-barcode span:nth-child(4) { height: 12px; }
+        .card-2-barcode span:nth-child(5) { height: 24px; }
+
+        /* ============================================
+           CARD 3: THE HIGH-JEWELRY MINIMALIST
+           ============================================ */
+        .card-3 {
+            background: var(--hj-sand);
+        }
+
+        .card-3::before {
+            content: '';
+            position: absolute;
+            top: 32px;
+            left: 32px;
+            right: 32px;
+            bottom: 50%;
+            border: 1px solid var(--hj-emerald);
+            pointer-events: none;
+        }
+
+        .card-3::after {
+            content: '';
+            position: absolute;
+            bottom: 32px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 10px solid var(--hj-emerald);
+        }
+
+        .card-3-content {
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 40px;
+            z-index: 2;
+        }
+
+        .card-3-monogram {
+            width: 56px;
+            height: 56px;
+            position: relative;
+            margin-bottom: 40px;
+        }
+
+        .card-3-monogram::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 12px;
+            background: var(--hj-emerald);
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        }
+
+        .card-3-monogram::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 12px;
+            background: var(--hj-emerald);
+            clip-path: polygon(50% 100%, 0% 0%, 100% 0%);
+        }
+
+        .card-3-name {
+            font-family: 'Libre Franklin', sans-serif;
+            font-weight: 200;
+            font-size: 28px;
+            letter-spacing: 16px;
+            text-transform: uppercase;
+            color: var(--hj-charcoal);
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .card-3-title {
+            font-family: 'Libre Franklin', sans-serif;
+            font-weight: 300;
+            font-size: 8px;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: var(--hj-emerald);
+            margin-bottom: 48px;
+        }
+
+        .card-3-ornament {
+            width: 40px;
+            height: 1px;
+            background: var(--hj-emerald);
+            opacity: 0.4;
+            position: relative;
+            margin-bottom: 48px;
+        }
+
+        .card-3-ornament::before,
+        .card-3-ornament::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 4px;
+            background: var(--hj-emerald);
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        }
+
+        .card-3-ornament::before {
+            left: -10px;
+        }
+
+        .card-3-ornament::after {
+            right: -10px;
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        .card-3-contact {
+            text-align: center;
+        }
+
+        .card-3-contact p {
+            font-family: 'Libre Franklin', sans-serif;
+            font-weight: 300;
+            font-size: 9px;
+            letter-spacing: 2px;
+            color: var(--hj-charcoal);
+            opacity: 0.6;
+            line-height: 2.4;
+        }
+
+        /* ============================================
+           CARD 4: THE HAUTE COUTURE EDITORIAL
+           ============================================ */
+        .card-4 {
+            background: var(--hcrt-blush);
+        }
+
+        .card-4::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: var(--hcrt-plum);
+            z-index: 1;
+        }
+
+        .card-4::after {
+            content: 'V';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            font-size: 280px;
+            color: var(--hcrt-crimson);
+            opacity: 0.06;
+            z-index: 2;
+            line-height: 1;
+        }
+
+        .card-4-content {
+            position: relative;
+            height: 100%;
+            z-index: 3;
+        }
+
+        .card-4-header {
+            padding: 32px;
+            position: relative;
+        }
+
+        .card-4-brand {
+            font-family: 'Cinzel', serif;
+            font-weight: 400;
+            font-size: 7px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .card-4-main {
+            position: absolute;
+            top: 50%;
+            left: 32px;
+            right: 32px;
+            transform: translateY(-50%);
+        }
+
+        .card-4-name {
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            font-size: 52px;
+            font-style: italic;
+            line-height: 0.95;
+            color: var(--hcrt-blush);
+            margin-bottom: 8px;
+        }
+
+        .card-4-surname {
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            font-size: 52px;
+            font-style: italic;
+            line-height: 0.95;
+            color: var(--hcrt-crimson);
+        }
+
+        .card-4-title {
+            font-family: 'Libre Franklin', sans-serif;
+            font-weight: 300;
+            font-size: 8px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.6);
+            margin-top: 24px;
+        }
+
+        .card-4-footer {
+            position: absolute;
+            bottom: 32px;
+            left: 32px;
+            right: 32px;
+        }
+
+        .card-4-contact {
+            font-family: 'Libre Franklin', sans-serif;
+            font-weight: 300;
+            font-size: 9px;
+            letter-spacing: 2px;
+            color: rgba(255,255,255,0.5);
+            line-height: 2.2;
+        }
+
+        .card-4-monogram {
+            position: absolute;
+            top: 50%;
+            right: 32px;
+            transform: translateY(-50%);
+            width: 72px;
+            height: 72px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-4-monogram::before {
+            content: 'V';
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-style: italic;
+            color: rgba(255,255,255,0.4);
+        }
+
+        /* ============================================
+           CARD 5: THE ARTISAN ROASTER
+           ============================================ */
+        .card-5 {
+            background: var(--ar-cream);
+        }
+
+        .card-5::before {
+            content: '';
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            right: 24px;
+            bottom: 24px;
+            border: 2px solid var(--ar-espresso);
+            border-radius: 50px 0 50px 0;
+            pointer-events: none;
+        }
+
+        .card-5::after {
+            content: '';
+            position: absolute;
+            top: 32px;
+            left: 32px;
+            right: 32px;
+            bottom: 32px;
+            border: 1px solid var(--ar-saffron);
+            border-radius: 50px 0 50px 0;
+            pointer-events: none;
+        }
+
+        .card-5-content {
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 48px;
+            z-index: 2;
+        }
+
+        .card-5-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .card-5-brand {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 9px;
+            letter-spacing: 6px;
+            color: var(--ar-espresso);
+            opacity: 0.5;
+            margin-bottom: 8px;
+        }
+
+        .card-5-badge {
+            display: inline-block;
+            padding: 8px 24px;
+            border: 2px solid var(--ar-espresso);
+            border-radius: 30px;
+            margin-bottom: 8px;
+        }
+
+        .card-5-badge-inner {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 10px;
+            letter-spacing: 4px;
+            color: var(--ar-espresso);
+        }
+
+        .card-5-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 48px;
+            letter-spacing: 4px;
+            color: var(--ar-espresso);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .card-5-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 12px;
+            letter-spacing: 8px;
+            color: var(--ar-saffron);
+        }
+
+        .card-5-divider {
+            width: 60px;
+            height: 3px;
+            background: var(--ar-espresso);
+            margin: 32px 0;
+        }
+
+        .card-5-contact {
+            text-align: center;
+        }
+
+        .card-5-contact p {
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            font-size: 9px;
+            letter-spacing: 2px;
+            color: var(--ar-espresso);
+            opacity: 0.6;
+            line-height: 2.4;
+        }
+
+        .card-5-footer {
+            position: absolute;
+            bottom: 48px;
+            left: 0;
+            right: 0;
+            text-align: center;
+        }
+
+        .card-5-tagline {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 11px;
+            color: var(--ar-saffron);
+        }
+
+        /* ============================================
+           CARD 6: THE MODERN APOTHECARY
+           ============================================ */
+        .card-6 {
+            background: var(--ma-warm-white);
+        }
+
+        .card-6::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 70%;
+            background: linear-gradient(180deg, transparent 0%, rgba(196,90,59,0.03) 100%);
+            border-radius: 200px 200px 0 0;
+        }
+
+        .card-6::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            border: 1px solid rgba(138,154,132,0.1);
+            border-radius: 50%;
+        }
+
+        .card-6-content {
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 48px 40px;
+            z-index: 2;
+        }
+
+        .card-6-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .card-6-brand {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400;
+            font-size: 8px;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--ma-terracotta);
+            margin-bottom: 8px;
+        }
+
+        .card-6-logo {
+            width: 56px;
+            height: 56px;
+            margin: 0 auto;
+            border: 1px solid var(--ma-sage);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .card-6-logo::before {
+            content: '';
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(138,154,132,0.3);
+            border-radius: 50%;
+        }
+
+        .card-6-logo::after {
+            content: '✦';
+            position: absolute;
+            font-size: 10px;
+            color: var(--ma-sage);
+        }
+
+        .card-6-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .card-6-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400;
+            font-size: 36px;
+            color: var(--ma-terracotta);
+            margin-bottom: 8px;
+        }
+
+        .card-6-title {
+            font-family: 'Libre Franklin', sans-serif;
+            font-weight: 300;
+            font-size: 8px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--ma-sage);
+            margin-bottom: 32px;
+        }
+
+        .card-6-divider {
+            width: 32px;
+            height: 1px;
+            background: var(--ma-sage);
+            opacity: 0.4;
+            margin: 0 auto 32px;
+        }
+
+        .card-6-contact {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .card-6-contact-item {
+            position: relative;
+            padding-bottom: 16px;
+        }
+
+        .card-6-contact-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 1px;
+            background: rgba(138,154,132,0.2);
+        }
+
+        .card-6-contact-item:last-child::after {
+            display: none;
+        }
+
+        .card-6-contact-item p {
+            font-family: 'Libre Franklin', sans-serif;
+            font-weight: 300;
+            font-size: 9px;
+            letter-spacing: 1px;
+            color: var(--ma-terracotta);
+            opacity: 0.6;
+        }
+
+        .card-6-footer {
+            text-align: center;
+            margin-top: 32px;
+        }
+
+        .card-6-quote {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 11px;
+            color: var(--ma-sage);
+            opacity: 0.8;
+        }
+
+        /* ============================================
+           CARD 7: THE LUXURY COSMETICS
+           ============================================ */
+        .card-7 {
+            background: var(--lc-mist);
+        }
+
+        .card-7::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at 30% 20%, rgba(74,32,64,0.15) 0%, transparent 50%);
+        }
+
+        .card-7::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: -20px;
+            width: 200px;
+            height: 200px;
+            border: 1px solid rgba(184,160,104,0.1);
+            border-radius: 50%;
+        }
+
+        .card-7-content {
+            position: relative;
+            height: 100%;
+            z-index: 2;
+        }
+
+        .card-7-circles {
+            position: absolute;
+            bottom: -60px;
+            left: -60px;
+            width: 300px;
+            height: 300px;
+        }
+
+        .card-7-circles::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 200px;
+            height: 200px;
+            border: 1px solid rgba(184,160,104,0.15);
+            border-radius: 50%;
+        }
+
+        .card-7-circles::after {
+            content: '';
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
+            width: 120px;
+            height: 120px;
+            border: 1px solid rgba(184,160,104,0.2);
+            border-radius: 50%;
+        }
+
+        .card-7-header {
+            position: absolute;
+            top: 40px;
+            left: 0;
+            right: 0;
+            text-align: center;
+        }
+
+        .card-7-monogram {
+            width: 72px;
+            height: 72px;
+            margin: 0 auto;
+            border: 1px solid var(--lc-rose-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .card-7-monogram::before {
+            content: '';
+            position: absolute;
+            inset: 6px;
+            border: 1px solid rgba(184,160,104,0.3);
+            border-radius: 50%;
+        }
+
+        .card-7-monogram::after {
+            content: 'S';
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 28px;
+            font-style: italic;
+            color: var(--lc-rose-gold);
+        }
+
+        .card-7-brand {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400;
+            font-size: 8px;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--lc-plum);
+            opacity: 0.6;
+            margin-top: 24px;
+        }
+
+        .card-7-main {
+            position: absolute;
+            bottom: 48px;
+            right: 32px;
+            left: 32px;
+            text-align: right;
+        }
+
+        .card-7-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400;
+            font-size: 32px;
+            color: var(--lc-plum);
+            margin-bottom: 4px;
+        }
+
+        .card-7-title {
+            font-family: 'Libre Franklin', sans-serif;
+            font-weight: 300;
+            font-size: 8px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--lc-rose-gold);
+            margin-bottom: 24px;
+        }
+
+        .card-7-divider {
+            width: 40px;
+            height: 1px;
+            background: var(--lc-rose-gold);
+            opacity: 0.4;
+            margin: 0 0 24px auto;
+        }
+
+        .card-7-contact {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .card-7-contact p {
+            font-family: 'Libre Franklin', sans-serif;
+            font-weight: 300;
+            font-size: 9px;
+            letter-spacing: 1px;
+            color: var(--lc-plum);
+            opacity: 0.5;
+        }
+
+        /* ============================================
+           CARD 8: THE PRIVATE WEALTH
+           ============================================ */
+        .card-8 {
+            background: #f8f7f5;
+        }
+
+        .card-8::before {
+            content: '';
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            right: 16px;
+            bottom: 16px;
+            border: 2px solid var(--pw-jade);
+            pointer-events: none;
+        }
+
+        .card-8::after {
+            content: '';
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            right: 24px;
+            bottom: 24px;
+            border: 1px solid rgba(184,160,104,0.3);
+            pointer-events: none;
+        }
+
+        .card-8-content {
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 48px 40px;
+            z-index: 2;
+        }
+
+        .card-8-crest {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 160px;
+            height: 160px;
+            opacity: 0.04;
+        }
+
+        .card-8-crest::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 60px;
+            border: 2px solid var(--pw-muted-gold);
+            border-bottom: none;
+        }
+
+        .card-8-crest::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 60px;
+            border: 2px solid var(--pw-muted-gold);
+            border-top: none;
+        }
+
+        .card-8-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .card-8-brand {
+            font-family: 'Cinzel', serif;
+            font-weight: 400;
+            font-size: 8px;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--pw-jade);
+        }
+
+        .card-8-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .card-8-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400;
+            font-size: 40px;
+            color: var(--mc-charcoal);
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .card-8-title {
+            font-family: 'Libre Franklin', sans-serif;
+            font-weight: 300;
+            font-size: 8px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--pw-jade);
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .card-8-divider {
+            width: 60px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--pw-muted-gold), transparent);
+            margin: 0 auto 32px;
+        }
+
+        .card-8-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            text-align: center;
+        }
+
+        .card-8-info-item {
+            padding: 12px;
+        }
+
+        .card-8-info-label {
+            font-family: 'Libre Franklin', sans-serif;
+            font-weight: 300;
+            font-size: 7px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--pw-stone);
+            opacity: 0.5;
+            margin-bottom: 4px;
+        }
+
+        .card-8-info-value {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 14px;
+            color: var(--mc-charcoal);
+        }
+
+        .card-8-footer {
+            text-align: center;
+            margin-top: 32px;
+        }
+
+        .card-8-contact {
+            font-family: 'Libre Franklin', sans-serif;
+            font-weight: 300;
+            font-size: 9px;
+            letter-spacing: 1px;
+            color: var(--pw-stone);
+            opacity: 0.6;
+            line-height: 2;
+        }
+
+        /* ============================================
+           CARD 9: THE LAYERED FINTECH
+           ============================================ */
+        .card-9 {
+            background: var(--lf-midnight);
+        }
+
+        .card-9::before {
+            content: '';
+            position: absolute;
+            top: 20%;
+            left: -30%;
+            width: 150%;
+            height: 150%;
+            background: 
+                radial-gradient(circle at 30% 30%, rgba(0,212,255,0.15) 0%, transparent 40%),
+                radial-gradient(circle at 70% 70%, rgba(255,0,170,0.1) 0%, transparent 40%);
+            animation: orbFloat 8s ease-in-out infinite;
+        }
+
+        @keyframes orbFloat {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(10px, -10px) rotate(5deg); }
+        }
+
+        .card-9::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--lf-cyan), var(--lf-magenta), var(--lf-cyan));
+            animation: borderGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes borderGlow {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        .card-9-content {
+            position: relative;
+            height: 100%;
+            padding: 32px;
+            z-index: 2;
+        }
+
+        .card-9-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .card-9-brand {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 10px;
+            letter-spacing: 3px;
+            color: var(--lf-cyan);
+        }
+
+        .card-9-status {
+            font-family: 'Space Mono', monospace;
+            font-size: 7px;
+            letter-spacing: 2px;
+            color: var(--lf-cyan);
+            opacity: 0.5;
+            padding: 4px 8px;
+            border: 1px solid rgba(0,212,255,0.3);
+        }
+
+        .card-9-main {
+            position: absolute;
+            top: 50%;
+            left: 32px;
+            right: 32px;
+            transform: translateY(-50%);
+            text-align: center;
+        }
+
+        .card-9-logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 24px;
+            border: 1px solid rgba(0,212,255,0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .card-9-logo::before {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            border: 1px solid rgba(0,212,255,0.1);
+            border-radius: 50%;
+            animation: logoPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes logoPulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.2; }
+        }
+
+        .card-9-logo::after {
+            content: 'FT';
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 24px;
+            color: var(--lf-cyan);
+        }
+
+        .card-9-name {
+            font-family: 'Syne', sans-serif;
+            font-weight: 600;
+            font-size: 28px;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .card-9-title {
+            font-family: 'Space Mono', monospace;
+            font-size: 9px;
+            letter-spacing: 2px;
+            color: var(--lf-magenta);
+            margin-bottom: 32px;
+        }
+
+        .card-9-glass {
+            background: var(--lf-frost);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 32px;
+        }
+
+        .card-9-contact {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .card-9-contact p {
+            font-family: 'Space Mono', monospace;
+            font-size: 9px;
+            color: rgba(255,255,255,0.5);
+            letter-spacing: 1px;
+        }
+
+        .card-9-footer {
+            position: absolute;
+            bottom: 32px;
+            left: 32px;
+            right: 32px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .card-9-badge {
+            font-family: 'Space Mono', monospace;
+            font-size: 7px;
+            letter-spacing: 1px;
+            color: rgba(255,255,255,0.3);
+            padding: 6px 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* ============================================
+           CARD 10: THE VINYL PRODUCER
+           ============================================ */
+        .card-10 {
+            background: var(--vp-matte);
+        }
+
+        .card-10::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at 100% 50%, rgba(255,255,255,0.03) 0%, transparent 50%);
+        }
+
+        .card-10::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -80px;
+            transform: translateY(-50%);
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: 
+                radial-gradient(circle at center, transparent 30px, var(--vp-white) 30px, var(--vp-white) 32px, transparent 32px),
+                radial-gradient(circle at center, transparent 60px, rgba(255,255,255,0.1) 60px, rgba(255,255,255,0.1) 62px, transparent 62px),
+                radial-gradient(circle at center, transparent 90px, rgba(255,255,255,0.05) 90px, rgba(255,255,255,0.05) 92px, transparent 92px),
+                radial-gradient(circle at center, transparent 120px, rgba(255,255,255,0.03) 120px, rgba(255,255,255,0.03) 122px, transparent 122px),
+                radial-gradient(circle at center, var(--vp-white) 0px, var(--vp-white) 8px, transparent 8px);
+        }
+
+        .card-10-content {
+            position: relative;
+            height: 100%;
+            padding: 40px;
+            z-index: 2;
+        }
+
+        .card-10-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .card-10-brand {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 10px;
+            letter-spacing: 4px;
+            color: var(--vp-white);
+            opacity: 0.3;
+        }
+
+        .card-10-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 7px;
+            letter-spacing: 2px;
+            color: var(--vp-white);
+            opacity: 0.2;
+        }
+
+        .card-10-main {
+            position: absolute;
+            top: 50%;
+            left: 40px;
+            transform: translateY(-50%);
+        }
+
+        .card-10-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 36px;
+            color: var(--vp-white);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .card-10-surname {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 300;
+            font-size: 36px;
+            color: var(--vp-white);
+            line-height: 1;
+            margin-bottom: 16px;
+        }
+
+        .card-10-title {
+            font-family: 'Space Mono', monospace;
+            font-size: 8px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--vp-white);
+            opacity: 0.4;
+        }
+
+        .card-10-contact {
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
+        }
+
+        .card-10-contact p {
+            font-family: 'Space Mono', monospace;
+            font-size: 9px;
+            color: var(--vp-white);
+            opacity: 0.3;
+            line-height: 2;
+            letter-spacing: 1px;
+        }
+
+        .card-10-line {
+            position: absolute;
+            top: 50%;
+            left: 40px;
+            width: 100px;
+            height: 1px;
+            background: var(--vp-white);
+            opacity: 0.1;
+            transform: translateY(-50%);
+        }
+
+        /* ============================================
+           CARD 11: THE MICHELIN CHEF
+           ============================================ */
+        .card-11 {
+            background: var(--mc-bone);
+        }
+
+        .card-11::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: var(--mc-charcoal);
+        }
+
+        .card-11::after {
+            content: '';
+            position: absolute;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1px;
+            height: calc(100% - 132px);
+            background: var(--mc-copper);
+        }
+
+        .card-11-content {
+            position: relative;
+            height: 100%;
+            z-index: 2;
+        }
+
+        .card-11-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+        }
+
+        .card-11-name {
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            font-size: 28px;
+            color: var(--mc-bone);
+            letter-spacing: 2px;
+        }
+
+        .card-11-main {
+            position: absolute;
+            top: 120px;
+            left: 32px;
+            right: 32px;
+        }
+
+        .card-11-section {
+            margin-bottom: 24px;
+        }
+
+        .card-11-section-label {
+            font-family: 'Libre Franklin', sans-serif;
+            font-weight: 500;
+            font-size: 7px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--mc-charcoal);
+            opacity: 0.4;
+            margin-bottom: 6px;
+        }
+
+        .card-11-section-value {
+            font-family: 'Libre Franklin', sans-serif;
+            font-weight: 300;
+            font-size: 11px;
+            color: var(--mc-charcoal);
+        }
+
+        .card-11-divider {
+            width: 100%;
+            height: 1px;
+            background: rgba(45,45,45,0.1);
+            margin: 16px 0;
+        }
+
+        .card-11-footer {
+            position: absolute;
+            bottom: 32px;
+            left: 32px;
+            right: 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .card-11-logo {
+            width: 48px;
+            height: 48px;
+            border: 1px solid var(--mc-copper);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-11-logo::before {
+            content: 'MC';
+            font-family: 'Cinzel', serif;
+            font-size: 12px;
+            color: var(--mc-copper);
+        }
+
+        .card-11-contact {
+            text-align: right;
+        }
+
+        .card-11-contact p {
+            font-family: 'Libre Franklin', sans-serif;
+            font-weight: 300;
+            font-size: 8px;
+            letter-spacing: 1px;
+            color: var(--mc-charcoal);
+            opacity: 0.5;
+            line-height: 2;
+        }
+
+        /* ============================================
+           CARD 12: THE AVANT-GARDE STUDIO
+           ============================================ */
+        .card-12 {
+            background: var(--ag-pitch);
+        }
+
+        .card-12::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 40%;
+            background: var(--ag-acid);
+            clip-path: polygon(0 0, 100% 0, 100% 60%, 0 100%);
+        }
+
+        .card-12::after {
+            content: 'DESIGN DESIGN DESIGN DESIGN DESIGN DESIGN DESIGN';
+            position: absolute;
+            top: 50%;
+            left: -100%;
+            transform: translateY(-50%) rotate(-90deg);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 12px;
+            letter-spacing: 8px;
+            color: var(--ag-acid);
+            opacity: 0.1;
+            white-space: nowrap;
+        }
+
+        .card-12-content {
+            position: relative;
+            height: 100%;
+            z-index: 2;
+        }
+
+        .card-12-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 40%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-12-brand {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 14px;
+            letter-spacing: 12px;
+            color: var(--ag-pitch);
+        }
+
+        .card-12-main {
+            position: absolute;
+            top: 50%;
+            left: 32px;
+            right: 32px;
+            transform: translateY(-50%);
+        }
+
+        .card-12-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 64px;
+            line-height: 0.9;
+            color: var(--vp-white);
+            mix-blend-mode: difference;
+            margin-bottom: 16px;
+        }
+
+        .card-12-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 16px;
+            letter-spacing: 8px;
+            color: var(--ag-acid);
+            margin-bottom: 32px;
+        }
+
+        .card-12-slash {
+            width: 60px;
+            height: 2px;
+            background: var(--ag-concrete);
+            margin-bottom: 24px;
+        }
+
+        .card-12-contact {
+            font-family: 'Space Mono', monospace;
+            font-size: 9px;
+            color: var(--vp-white);
+            opacity: 0.4;
+            line-height: 2.2;
+            letter-spacing: 1px;
+        }
+
+        .card-12-footer {
+            position: absolute;
+            bottom: 32px;
+            left: 32px;
+            right: 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-12-badge {
+            font-family: 'Space Mono', monospace;
+            font-size: 7px;
+            letter-spacing: 2px;
+            color: var(--ag-acid);
+            padding: 8px 16px;
+            border: 1px solid var(--ag-acid);
+        }
+
+        .card-12-id {
+            font-family: 'Space Mono', monospace;
+            font-size: 8px;
+            color: var(--vp-white);
+            opacity: 0.2;
+        }
+
+        /* ============================================
+           CARD 13: THE BOTANICAL FLORIST
+           ============================================ */
+        .card-13 {
+            background: var(--bf-linen);
+        }
+
+        .card-13::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at 70% 60%, rgba(232,196,168,0.4) 0%, transparent 50%),
+                radial-gradient(ellipse at 30% 80%, rgba(45,74,45,0.05) 0%, transparent 40%);
+        }
+
+        .card-13::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 120px;
+            height: 120px;
+            border: 1px solid rgba(45,74,45,0.08);
+            border-radius: 50% 0 50% 0;
+            transform: rotate(45deg);
+        }
+
+        .card-13-content {
+            position: relative;
+            height: 100%;
+            z-index: 2;
+        }
+
+        .card-13-leaf {
+            position: absolute;
+            top: 60px;
+            left: 40px;
+            width: 100px;
+            height: 100px;
+        }
+
+        .card-13-leaf::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 1px solid rgba(45,74,45,0.06);
+            border-radius: 50% 0 50% 0;
+            transform: rotate(-20deg);
+        }
+
+        .card-13-leaf::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 60%;
+            height: 60%;
+            border: 1px solid rgba(45,74,45,0.04);
+            border-radius: 50% 0 50% 0;
+            transform: rotate(-20deg);
+        }
+
+        .card-13-header {
+            position: absolute;
+            top: 40px;
+            left: 0;
+            right: 0;
+            text-align: center;
+        }
+
+        .card-13-brand {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400;
+            font-size: 8px;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--bf-forest);
+            margin-bottom: 8px;
+        }
+
+        .card-13-monogram {
+            width: 56px;
+            height: 56px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .card-13-monogram::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border: 1px solid var(--bf-forest);
+            border-radius: 50%;
+            opacity: 0.3;
+        }
+
+        .card-13-monogram::after {
+            content: 'F';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 24px;
+            font-style: italic;
+            color: var(--bf-forest);
+            opacity: 0.6;
+        }
+
+        .card-13-main {
+            position: absolute;
+            top: 50%;
+            left: 32px;
+            right: 32px;
+            transform: translateY(-50%);
+            text-align: center;
+        }
+
+        .card-13-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400;
+            font-size: 38px;
+            color: var(--bf-forest);
+            line-height: 1.1;
+            margin-bottom: 8px;
+        }
+
+        .card-13-title {
+            font-family: 'Libre Franklin', sans-serif;
+            font-weight: 300;
+            font-size: 8px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--bf-forest);
+            opacity: 0.5;
+            margin-bottom: 32px;
+        }
+
+        .card-13-divider {
+            width: 40px;
+            height: 1px;
+            background: rgba(45,74,45,0.2);
+            margin: 0 auto 32px;
+        }
+
+        .card-13-contact {
+            font-family: 'Libre Franklin', sans-serif;
+            font-weight: 300;
+            font-size: 9px;
+            letter-spacing: 1px;
+            color: var(--bf-forest);
+            opacity: 0.5;
+            line-height: 2.2;
+        }
+
+        .card-13-footer {
+            position: absolute;
+            bottom: 40px;
+            left: 32px;
+            right: 32px;
+            text-align: center;
+        }
+
+        .card-13-quote {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 12px;
+            color: rgba(45,74,45,0.4);
+        }
+
+        /* ============================================
+           CARD 14: THE CYBERPUNK DEVELOPER
+           ============================================ */
+        .card-14 {
+            background: var(--cp-slate);
+        }
+
+        .card-14::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 2px 2px, rgba(0,255,0,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .card-14::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 2px solid var(--cp-matrix);
+            box-shadow: 
+                inset 0 0 20px rgba(0,255,0,0.1),
+                0 0 20px rgba(0,255,0,0.1);
+        }
+
+        .card-14-content {
+            position: relative;
+            height: 100%;
+            padding: 32px;
+            z-index: 2;
+        }
+
+        .card-14-corner {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            z-index: 3;
+        }
+
+        .card-14-corner::before,
+        .card-14-corner::after {
+            content: '';
+            position: absolute;
+            background: var(--cp-matrix);
+            box-shadow: 0 0 10px var(--cp-matrix);
+        }
+
+        .card-14-corner::before {
+            width: 100%;
+            height: 2px;
+        }
+
+        .card-14-corner::after {
+            width: 2px;
+            height: 100%;
+        }
+
+        .card-14-corner-tl { top: 16px; left: 16px; }
+        .card-14-corner-tl::before { top: 0; left: 0; }
+        .card-14-corner-tl::after { top: 0; left: 0; }
+
+        .card-14-corner-tr { top: 16px; right: 16px; }
+        .card-14-corner-tr::before { top: 0; right: 0; }
+        .card-14-corner-tr::after { top: 0; right: 0; }
+
+        .card-14-corner-bl { bottom: 16px; left: 16px; }
+        .card-14-corner-bl::before { bottom: 0; left: 0; }
+        .card-14-corner-bl::after { bottom: 0; left: 0; }
+
+        .card-14-corner-br { bottom: 16px; right: 16px; }
+        .card-14-corner-br::before { bottom: 0; right: 0; }
+        .card-14-corner-br::after { bottom: 0; right: 0; }
+
+        .card-14-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .card-14-brand {
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            font-size: 10px;
+            letter-spacing: 3px;
+            color: var(--cp-matrix);
+            text-shadow: 0 0 10px rgba(0,255,0,0.5);
+        }
+
+        .card-14-status {
+            font-family: 'Space Mono', monospace;
+            font-size: 7px;
+            letter-spacing: 2px;
+            color: var(--cp-matrix);
+            opacity: 0.6;
+        }
+
+        .card-14-main {
+            position: absolute;
+            top: 50%;
+            left: 32px;
+            right: 32px;
+            transform: translateY(-50%);
+        }
+
+        .card-14-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 7px;
+            letter-spacing: 3px;
+            color: var(--cp-pink);
+            margin-bottom: 8px;
+        }
+
+        .card-14-name {
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            font-size: 32px;
+            color: var(--cp-matrix);
+            text-shadow: 0 0 20px rgba(0,255,0,0.4);
+            margin-bottom: 8px;
+            line-height: 1;
+        }
+
+        .card-14-slash {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .card-14-slash-line {
+            width: 24px;
+            height: 2px;
+            background: var(--cp-pink);
+            box-shadow: 0 0 10px rgba(255,0,128,0.5);
+        }
+
+        .card-14-slash-text {
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: var(--cp-pink);
+            text-shadow: 0 0 10px rgba(255,0,128,0.5);
+        }
+
+        .card-14-contact {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(0,255,0,0.2);
+            padding: 16px;
+        }
+
+        .card-14-contact p {
+            font-family: 'Space Mono', monospace;
+            font-size: 9px;
+            color: var(--cp-matrix);
+            opacity: 0.6;
+            line-height: 2.2;
+            letter-spacing: 1px;
+        }
+
+        .card-14-footer {
+            position: absolute;
+            bottom: 32px;
+            left: 32px;
+            right: 32px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .card-14-badge {
+            font-family: 'Space Mono', monospace;
+            font-size: 7px;
+            letter-spacing: 1px;
+            color: var(--cp-matrix);
+            padding: 6px 10px;
+            border: 1px solid rgba(0,255,0,0.3);
+        }
+
+        .card-14-version {
+            font-family: 'Space Mono', monospace;
+            font-size: 7px;
+            color: var(--cp-matrix);
+            opacity: 0.3;
+        }
+
+        /* ============================================
+           CARD 15: THE KINETIC TYPOGRAPHER
+           ============================================ */
+        .card-15 {
+            background: var(--kt-ultramarine);
+            overflow: hidden;
+        }
+
+        .card-15::before {
+            content: 'A';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 500px;
+            color: rgba(255,255,255,0.03);
+            line-height: 1;
+            z-index: 1;
+        }
+
+        .card-15::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--kt-stark);
+        }
+
+        .card-15-content {
+            position: relative;
+            height: 100%;
+            z-index: 2;
+        }
+
+        .card-15-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 24px 24px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            background: linear-gradient(180deg, rgba(0,0,0,0.2), transparent);
+        }
+
+        .card-15-brand {
+            font-family: 'Cinzel', serif;
+            font-weight: 400;
+            font-size: 8px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--kt-stark);
+            opacity: 0.6;
+        }
+
+        .card-15-year {
+            font-family: 'Space Mono', monospace;
+            font-size: 8px;
+            color: var(--kt-stark);
+            opacity: 0.4;
+        }
+
+        .card-15-main {
+            position: absolute;
+            bottom: 80px;
+            left: 24px;
+            right: 24px;
+        }
+
+        .card-15-name {
+            font-family: 'Cinzel', serif;
+            font-weight: 400;
+            font-size: 28px;
+            color: var(--kt-stark);
+            letter-spacing: 4px;
+            margin-bottom: 4px;
+        }
+
+        .card-15-surname {
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 28px;
+            color: var(--kt-stark);
+            letter-spacing: 4px;
+            margin-bottom: 16px;
+        }
+
+        .card-15-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 300;
+            font-size: 7px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--kt-stark);
+            opacity: 0.5;
+            margin-bottom: 20px;
+        }
+
+        .card-15-divider {
+            width: 40px;
+            height: 1px;
+            background: var(--kt-stark);
+            opacity: 0.2;
+            margin-bottom: 16px;
+        }
+
+        .card-15-contact {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .card-15-contact p {
+            font-family: 'Space Mono', monospace;
+            font-size: 8px;
+            color: var(--kt-stark);
+            opacity: 0.4;
+            letter-spacing: 1px;
+        }
+
+        .card-15-footer {
+            position: absolute;
+            bottom: 24px;
+            left: 24px;
+            right: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-15-badge {
+            font-family: 'Space Mono', monospace;
+            font-size: 7px;
+            letter-spacing: 2px;
+            color: var(--kt-stark);
+            padding: 6px 12px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .card-15-id {
+            font-family: 'Space Mono', monospace;
+            font-size: 8px;
+            color: var(--kt-stark);
+            opacity: 0.3;
+        }
+
+        /* Responsive */
+        @media (max-width: 1400px) {
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+                gap: 60px;
+            }
+
+            .card-frame {
+                width: 260px;
+                height: 462px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            body {
+                padding: 60px 30px;
+            }
+
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                gap: 40px;
+            }
+
+            .card-frame {
+                width: 220px;
+                height: 391px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-header">
+        <h1>Museum Collection</h1>
+        <p>Ultra-Premium Business Card Concepts</p>
+    </div>
+
+    <div class="gallery">
+        <!-- CARD 1: The Heritage Curator -->
+        <div class="card-frame">
+            <div class="card card-1">
+                <div class="card-1-content">
+                    <div class="card-1-monogram"></div>
+                    <div class="card-1-sidebar">
+                        <span class="card-1-brand">Heritage Collection</span>
+                        <div class="card-1-info">
+                            <p>alexandra@heritage.art</p>
+                            <p>+1 212 555 0147</p>
+                            <p>New York, NY</p>
+                        </div>
+                    </div>
+                    <div class="card-1-main">
+                        <p class="card-1-title">Creative Director</p>
+                        <h1 class="card-1-name"><span>Alexandra</span><span>Chen</span></h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 2: The Swiss Brutalist -->
+        <div class="card-frame">
+            <div class="card card-2">
+                <div class="card-2-content">
+                    <div class="card-2-header">
+                        <span class="card-2-brand">Axiom Studio</span>
+                        <span class="card-2-id">#AS-2847</span>
+                    </div>
+                    <div class="card-2-main">
+                        <p class="card-2-label">Lead Designer</p>
+                        <h1 class="card-2-name">Marcus<br>Webb</h1>
+                        <div class="card-2-block">
+                            <div class="card-2-data">
+                                <p class="card-2-data-label">Email</p>
+                                <p class="card-2-data-value">hello@axiom.co</p>
+                            </div>
+                            <div class="card-2-data">
+                                <p class="card-2-data-label">Phone</p>
+                                <p class="card-2-data-value">+1 415 555</p>
+                            </div>
+                            <div class="card-2-data">
+                                <p class="card-2-data-label">Location</p>
+                                <p class="card-2-data-value">San Francisco</p>
+                            </div>
+                            <div class="card-2-data">
+                                <p class="card-2-data-label">Status</p>
+                                <p class="card-2-data-value">Available</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-2-footer">
+                        <div class="card-2-contact">
+                            <p>marcus@axiom.studio</p>
+                            <p>+1 415 555 0192</p>
+                        </div>
+                        <div class="card-2-barcode">
+                            <span></span><span></span><span></span><span></span><span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 3: The High-Jewelry Minimalist -->
+        <div class="card-frame">
+            <div class="card card-3">
+                <div class="card-3-content">
+                    <div class="card-3-monogram"></div>
+                    <h1 class="card-3-name">Elena</h1>
+                    <p class="card-3-title">Art Director</p>
+                    <div class="card-3-ornament"></div>
+                    <div class="card-3-contact">
+                        <p>elena@jvlcollection.com</p>
+                        <p>+33 1 42 61 00 00</p>
+                        <p>Paris, France</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 4: The Haute Couture Editorial -->
+        <div class="card-frame">
+            <div class="card card-4">
+                <div class="card-4-content">
+                    <div class="card-4-header">
+                        <span class="card-4-brand">Maison Noir</span>
+                    </div>
+                    <div class="card-4-main">
+                        <h1 class="card-4-name">Valentina</h1>
+                        <p class="card-4-surname">Rousseau</p>
+                        <p class="card-4-title">Fashion Director</p>
+                    </div>
+                    <div class="card-4-monogram"></div>
+                    <div class="card-4-footer">
+                        <div class="card-4-contact">
+                            <p>valentina@maisonnoir.fr</p>
+                            <p>+33 1 47 20 00 00</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 5: The Artisan Roaster -->
+        <div class="card-frame">
+            <div class="card card-5">
+                <div class="card-5-content">
+                    <div class="card-5-header">
+                        <p class="card-5-brand">Artisan Coffee Co.</p>
+                        <div class="card-5-badge">
+                            <span class="card-5-badge-inner">EST. 2018</span>
+                        </div>
+                    </div>
+                    <h1 class="card-5-name">Amelia<br>Ross</h1>
+                    <p class="card-5-title">Head Roaster</p>
+                    <div class="card-5-divider"></div>
+                    <div class="card-5-contact">
+                        <p>amelia@artisancoffee.co</p>
+                        <p>+1 503 555 0128</p>
+                        <p>Portland, OR</p>
+                    </div>
+                    <div class="card-5-footer">
+                        <p class="card-5-tagline">"From bean to cup"</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 6: The Modern Apothecary -->
+        <div class="card-frame">
+            <div class="card card-6">
+                <div class="card-6-content">
+                    <div class="card-6-header">
+                        <p class="card-6-brand">Apothecary Studio</p>
+                        <div class="card-6-logo"></div>
+                    </div>
+                    <div class="card-6-main">
+                        <h1 class="card-6-name">Olivia Mason</h1>
+                        <p class="card-6-title">Wellness Director</p>
+                        <div class="card-6-divider"></div>
+                        <div class="card-6-contact">
+                            <div class="card-6-contact-item">
+                                <p>olivia@apothecary.studio</p>
+                            </div>
+                            <div class="card-6-contact-item">
+                                <p>+1 310 555 0182</p>
+                            </div>
+                            <div class="card-6-contact-item">
+                                <p>Los Angeles, CA</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-6-footer">
+                        <p class="card-6-quote">"Healing through design"</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 7: The Luxury Cosmetics -->
+        <div class="card-frame">
+            <div class="card card-7">
+                <div class="card-7-content">
+                    <div class="card-7-circles"></div>
+                    <div class="card-7-header">
+                        <div class="card-7-monogram"></div>
+                        <p class="card-7-brand">Lumière Cosmetics</p>
+                    </div>
+                    <div class="card-7-main">
+                        <h1 class="card-7-name">Sophie Laurent</h1>
+                        <p class="card-7-title">Brand Ambassador</p>
+                        <div class="card-7-divider"></div>
+                        <div class="card-7-contact">
+                            <p>sophie@lumiere-cos.com</p>
+                            <p>+44 20 7946 0000</p>
+                            <p>London, UK</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 8: The Private Wealth -->
+        <div class="card-frame">
+            <div class="card card-8">
+                <div class="card-8-content">
+                    <div class="card-8-crest"></div>
+                    <div class="card-8-header">
+                        <span class="card-8-brand">Private Wealth Partners</span>
+                    </div>
+                    <div class="card-8-main">
+                        <h1 class="card-8-name">James Harrington</h1>
+                        <p class="card-8-title">Managing Director</p>
+                        <div class="card-8-divider"></div>
+                        <div class="card-8-info">
+                            <div class="card-8-info-item">
+                                <p class="card-8-info-label">Direct</p>
+                                <p class="card-8-info-value">+1 212 555</p>
+                            </div>
+                            <div class="card-8-info-item">
+                                <p class="card-8-info-label">Office</p>
+                                <p class="card-8-info-value">+1 212 000</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-8-footer">
+                        <div class="card-8-contact">
+                            <p>j.harrington@pwp.com</p>
+                            <p>New York, NY</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 9: The Layered FinTech -->
+        <div class="card-frame">
+            <div class="card card-9">
+                <div class="card-9-content">
+                    <div class="card-9-header">
+                        <span class="card-9-brand">FinTech Labs</span>
+                        <span class="card-9-status">ACTIVE</span>
+                    </div>
+                    <div class="card-9-main">
+                        <div class="card-9-logo"></div>
+                        <h1 class="card-9-name">Aiden Park</h1>
+                        <p class="card-9-title">/ Lead Engineer</p>
+                        <div class="card-9-glass">
+                            <div class="card-9-contact">
+                                <p>aiden@fintechlabs.io</p>
+                                <p>+82 2 555 0187</p>
+                                <p>Seoul, Korea</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-9-footer">
+                        <span class="card-9-badge">v2.4.1</span>
+                        <span class="card-9-badge">SECURE</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 10: The Vinyl Producer -->
+        <div class="card-frame">
+            <div class="card card-10">
+                <div class="card-10-content">
+                    <div class="card-10-header">
+                        <span class="card-10-brand">Groove Records</span>
+                        <span class="card-10-label">EST. 1972</span>
+                    </div>
+                    <div class="card-10-main">
+                        <h1 class="card-10-name">Nathan</h1>
+                        <p class="card-10-surname">Cole</p>
+                        <p class="card-10-title">Record Producer</p>
+                    </div>
+                    <div class="card-10-line"></div>
+                    <div class="card-10-contact">
+                        <p>nathan@grooverecords.com</p>
+                        <p>+1 213 555 0195</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 11: The Michelin Chef -->
+        <div class="card-frame">
+            <div class="card card-11">
+                <div class="card-11-content">
+                    <div class="card-11-header">
+                        <h1 class="card-11-name">Lucas Martin</h1>
+                    </div>
+                    <div class="card-11-main">
+                        <div class="card-11-section">
+                            <p class="card-11-section-label">Title</p>
+                            <p class="card-11-section-value">Executive Chef</p>
+                        </div>
+                        <div class="card-11-divider"></div>
+                        <div class="card-11-section">
+                            <p class="card-11-section-label">Restaurant</p>
+                            <p class="card-11-section-value">Le Jardin Étoilé</p>
+                        </div>
+                        <div class="card-11-divider"></div>
+                        <div class="card-11-section">
+                            <p class="card-11-section-label">Specialty</p>
+                            <p class="card-11-section-value">French Contemporary</p>
+                        </div>
+                    </div>
+                    <div class="card-11-footer">
+                        <div class="card-11-logo"></div>
+                        <div class="card-11-contact">
+                            <p>lucas@lejardin.fr</p>
+                            <p>+33 1 43 00 00 00</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 12: The Avant-Garde Studio -->
+        <div class="card-frame">
+            <div class="card card-12">
+                <div class="card-12-content">
+                    <div class="card-12-header">
+                        <span class="card-12-brand">KONSTRUCT</span>
+                    </div>
+                    <div class="card-12-main">
+                        <h1 class="card-12-name">Owen<br>Blake</h1>
+                        <p class="card-12-title">Creative Director</p>
+                        <div class="card-12-slash"></div>
+                        <div class="card-12-contact">
+                            <p>owen@konstrukt.studio</p>
+                            <p>+1 917 555 0144</p>
+                            <p>Brooklyn, NY</p>
+                        </div>
+                    </div>
+                    <div class="card-12-footer">
+                        <span class="card-12-badge">AVAILABLE</span>
+                        <span class="card-12-id">KB-2024-001</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 13: The Botanical Florist -->
+        <div class="card-frame">
+            <div class="card card-13">
+                <div class="card-13-content">
+                    <div class="card-13-leaf"></div>
+                    <div class="card-13-header">
+                        <p class="card-13-brand">Verdant Studio</p>
+                        <div class="card-13-monogram"></div>
+                    </div>
+                    <div class="card-13-main">
+                        <h1 class="card-13-name">Flora Woods</h1>
+                        <p class="card-13-title">Master Florist</p>
+                        <div class="card-13-divider"></div>
+                        <div class="card-13-contact">
+                            <p>flora@verdantstudio.com</p>
+                            <p>+1 503 555 0128</p>
+                            <p>Portland, OR</p>
+                        </div>
+                    </div>
+                    <div class="card-13-footer">
+                        <p class="card-13-quote">"Where nature meets art"</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 14: The Cyberpunk Developer -->
+        <div class="card-frame">
+            <div class="card card-14">
+                <div class="card-14-content">
+                    <div class="card-14-corner card-14-corner-tl"></div>
+                    <div class="card-14-corner card-14-corner-tr"></div>
+                    <div class="card-14-corner card-14-corner-bl"></div>
+                    <div class="card-14-corner card-14-corner-br"></div>
+                    <div class="card-14-header">
+                        <span class="card-14-brand">NEXUS.CODE</span>
+                        <span class="card-14-status">ONLINE</span>
+                    </div>
+                    <div class="card-14-main">
+                        <p class="card-14-label">// FULL STACK</p>
+                        <h1 class="card-14-name">ALEX<br>KOVAC</h1>
+                        <div class="card-14-slash">
+                            <div class="card-14-slash-line"></div>
+                            <span class="card-14-slash-text">DEVELOPER</span>
+                        </div>
+                        <div class="card-14-contact">
+                            <p>alex@nexuscode.io</p>
+                            <p>+1 323 555 0161</p>
+                            <p>sys://secur3_conn</p>
+                        </div>
+                    </div>
+                    <div class="card-14-footer">
+                        <span class="card-14-badge">v3.2.1</span>
+                        <span class="card-14-version">BUILD: 2024.03</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 15: The Kinetic Typographer -->
+        <div class="card-frame">
+            <div class="card card-15">
+                <div class="card-15-content">
+                    <div class="card-15-header">
+                        <span class="card-15-brand">Atelier</span>
+                        <span class="card-15-year">MMXXIV</span>
+                    </div>
+                    <div class="card-15-main">
+                        <h1 class="card-15-name">Alexander</h1>
+                        <p class="card-15-surname">Hart</p>
+                        <p class="card-15-title">Typographic Designer</p>
+                        <div class="card-15-divider"></div>
+                        <div class="card-15-contact">
+                            <p>alexander@atelier.design</p>
+                            <p>+1 212 555 0144</p>
+                            <p>New York, NY</p>
+                        </div>
+                    </div>
+                    <div class="card-15-footer">
+                        <span class="card-15-badge">PORTFOLIO</span>
+                        <span class="card-15-id">A.H.024</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
