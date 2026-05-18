@@ -1,10 +1,11 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { ArrowLeft, Download, Trash2, RotateCcw, Save, FolderOpen } from 'lucide-react';
+import { ArrowLeft, Download, Trash2, RotateCcw, Save, FolderOpen, Type, Palette, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/sonner';
 import { supabase } from '@/integrations/supabase/client';
 import { CanvasElement, SavedCardDesign, ContactData } from '@/components/businesscard/types';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface TextField {
   id: string;
@@ -48,6 +49,157 @@ const FRAMES: Frame[] = [
   { id: 'bottom1', label: 'Bottom', style: { bottom: '20px', left: '20px', width: '260px', height: '100px', borderRadius: '8px' } }
 ];
 
+interface SidebarContentProps {
+  designName: string;
+  setDesignName: (v: string) => void;
+  bgType: 'gradient' | 'image' | 'solid';
+  setBgType: (v: 'gradient' | 'image' | 'solid') => void;
+  gradientColor1: string;
+  setGradientColor1: (v: string) => void;
+  gradientColor2: string;
+  setGradientColor2: (v: string) => void;
+  gradientAngle: number;
+  setGradientAngle: (v: number) => void;
+  solidColor: string;
+  setSolidColor: (v: string) => void;
+  bgImage: string | null;
+  handleImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  currentFrame: string;
+  setCurrentFrame: (v: string) => void;
+  selectedElement: CanvasElement | null;
+  updateSelectedElement: (updates: Partial<CanvasElement>) => void;
+  deleteSelected: () => void;
+}
+
+function SidebarContent({
+  designName, setDesignName, bgType, setBgType,
+  gradientColor1, setGradientColor1, gradientColor2, setGradientColor2,
+  gradientAngle, setGradientAngle, solidColor, setSolidColor,
+  bgImage, handleImageUpload, currentFrame, setCurrentFrame,
+  selectedElement, updateSelectedElement, deleteSelected,
+}: SidebarContentProps) {
+  return (
+    <>
+      <div className="mb-6">
+        <label className="text-xs text-gray-400 mb-1 block">Design Name</label>
+        <input
+          type="text"
+          value={designName}
+          onChange={(e) => setDesignName(e.target.value)}
+          className="w-full bg-gray-800 border border-gray-700 rounded px-2 py-1.5 text-sm"
+          placeholder="Untitled Design"
+        />
+      </div>
+
+      <hr className="border-gray-800 my-6" />
+
+      <h3 className="text-xs uppercase tracking-wider text-gray-500 mb-4">Background</h3>
+
+      <div className="space-y-2 mb-6">
+        <Button variant={bgType === 'gradient' ? 'default' : 'outline'} size="sm" className="w-full" onClick={() => setBgType('gradient')}>Gradient</Button>
+        <Button variant={bgType === 'image' ? 'default' : 'outline'} size="sm" className="w-full" onClick={() => setBgType('image')}>Image</Button>
+        <Button variant={bgType === 'solid' ? 'default' : 'outline'} size="sm" className="w-full" onClick={() => setBgType('solid')}>Solid Color</Button>
+      </div>
+
+      {bgType === 'gradient' && (
+        <div className="space-y-3 mb-6">
+          <div className="flex gap-2">
+            <div className="flex-1">
+              <label className="text-[9px] text-gray-500 mb-1 block">Color 1</label>
+              <input type="color" value={gradientColor1} onChange={(e) => setGradientColor1(e.target.value)} className="w-full h-10 rounded border border-gray-700 cursor-pointer" />
+            </div>
+            <div className="flex-1">
+              <label className="text-[9px] text-gray-500 mb-1 block">Color 2</label>
+              <input type="color" value={gradientColor2} onChange={(e) => setGradientColor2(e.target.value)} className="w-full h-10 rounded border border-gray-700 cursor-pointer" />
+            </div>
+          </div>
+          <div>
+            <label className="text-xs text-gray-400 mb-2 block">Angle: {gradientAngle}°</label>
+            <input type="range" min="0" max="360" value={gradientAngle} onChange={(e) => setGradientAngle(Number(e.target.value))} className="w-full" />
+          </div>
+        </div>
+      )}
+
+      {bgType === 'image' && (
+        <div className="mb-6">
+          <div onClick={() => document.getElementById('bgImageInput')?.click()} className="border-2 border-dashed border-gray-700 rounded-lg p-5 text-center cursor-pointer hover:border-gray-600 hover:bg-gray-800/50 transition-all">
+            <input id="bgImageInput" type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
+            <div className="text-xs text-gray-500">Click to upload image</div>
+          </div>
+        </div>
+      )}
+
+      {bgType === 'solid' && (
+        <div className="mb-6">
+          <input type="color" value={solidColor} onChange={(e) => setSolidColor(e.target.value)} className="w-full h-10 rounded border border-gray-700 cursor-pointer" />
+        </div>
+      )}
+
+      <hr className="border-gray-800 my-6" />
+
+      <h3 className="text-xs uppercase tracking-wider text-gray-500 mb-4">Frames</h3>
+      <div className="grid grid-cols-3 gap-2 mb-6">
+        {FRAMES.map(frame => (
+          <div key={frame.id} onClick={() => setCurrentFrame(frame.id)} className={`aspect-square border-2 rounded cursor-pointer transition-all relative ${currentFrame === frame.id ? 'border-cyan-400 bg-cyan-400/10' : 'border-gray-700 hover:border-gray-600'}`}>
+            <div className="absolute inset-2 border-2 border-gray-600 rounded-sm" />
+          </div>
+        ))}
+      </div>
+
+      {selectedElement && (
+        <>
+          <hr className="border-gray-800 my-6" />
+          <h3 className="text-xs uppercase tracking-wider text-gray-500 mb-4">Selected Element</h3>
+
+          <div className="space-y-3">
+            <div>
+              <label className="text-xs text-gray-400 mb-1 block">Font Family</label>
+              <select value={selectedElement.fontFamily} onChange={(e) => updateSelectedElement({ fontFamily: e.target.value })} className="w-full bg-gray-800 border border-gray-700 rounded px-2 py-1.5 text-sm">
+                <option value="Inter">Inter</option>
+                <option value="Playfair Display">Playfair Display</option>
+                <option value="Montserrat">Montserrat</option>
+                <option value="Roboto">Roboto</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="text-xs text-gray-400 mb-1 block">Font Size</label>
+              <input type="number" min="8" max="72" value={selectedElement.fontSize} onChange={(e) => updateSelectedElement({ fontSize: Number(e.target.value) })} className="w-full bg-gray-800 border border-gray-700 rounded px-2 py-1.5 text-sm" />
+            </div>
+
+            <div>
+              <label className="text-xs text-gray-400 mb-1 block">Font Weight</label>
+              <select value={selectedElement.fontWeight} onChange={(e) => updateSelectedElement({ fontWeight: Number(e.target.value) })} className="w-full bg-gray-800 border border-gray-700 rounded px-2 py-1.5 text-sm">
+                <option value="300">Light</option>
+                <option value="400">Regular</option>
+                <option value="500">Medium</option>
+                <option value="600">Semi Bold</option>
+                <option value="700">Bold</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="text-xs text-gray-400 mb-1 block">Text Color</label>
+              <input type="color" value={selectedElement.color} onChange={(e) => updateSelectedElement({ color: e.target.value })} className="w-full h-10 rounded border border-gray-700 cursor-pointer" />
+            </div>
+
+            <div>
+              <label className="text-xs text-gray-400 mb-1 block">Text Content</label>
+              <input type="text" value={selectedElement.text} onChange={(e) => updateSelectedElement({ text: e.target.value })} className="w-full bg-gray-800 border border-gray-700 rounded px-2 py-1.5 text-sm" />
+            </div>
+
+            <div className="p-2 bg-cyan-500/10 border border-cyan-500/20 rounded-lg text-[10px] text-cyan-300">
+              Scroll mouse wheel or pinch with 2 fingers to adjust font size
+            </div>
+
+            <Button variant="destructive" size="sm" className="w-full mt-3" onClick={deleteSelected}>Delete Element</Button>
+          </div>
+        </>
+      )}
+    </>
+  );
+}
+
 export default function CardDesigner() {
   const [searchParams] = useSearchParams();
   const designId = searchParams.get('id');
@@ -78,6 +230,8 @@ export default function CardDesigner() {
   const pinchStartFontSize = useRef<number>(16);
 
   const canvasRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
+  const [mobileTab, setMobileTab] = useState<'fields' | 'bg' | 'props'>('fields');
 
   const isTestUser = true;
   const userId = DEV_TEST_USER.id;
@@ -594,346 +748,471 @@ ${frame && frame.id !== 'none' ? `      <div style={{
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 text-white">
-      <div className="grid grid-cols-[280px_1fr_320px] h-screen">
-        {/* LEFT SIDEBAR */}
-        <div className="bg-gray-900 border-r border-gray-800 p-5 overflow-y-auto">
-          <div className="flex items-center gap-3 mb-4">
+    <div className="h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 text-white flex flex-col overflow-hidden">
+      {/* TOP TOOLBAR - mobile only */}
+      {isMobile && (
+        <div className="flex-shrink-0 bg-gray-900 border-b border-gray-800 px-3 py-2">
+          <div className="flex items-center justify-between">
             <Link to="/">
-              <Button variant="ghost" size="icon" className="h-8 w-8">
+              <Button variant="ghost" size="sm" className="h-9 w-9 p-0">
                 <ArrowLeft className="h-4 w-4" />
               </Button>
             </Link>
-            <h2 className="text-sm font-semibold">Text Fields</h2>
+            <span className="text-sm font-semibold truncate max-w-[120px]">{designName}</span>
+            <div className="flex gap-1">
+              <Button variant="ghost" size="sm" onClick={saveDesign} disabled={saving} className="h-9 w-9 p-0 text-green-400">
+                <Save className="h-4 w-4" />
+              </Button>
+              <Button variant="ghost" size="sm" onClick={() => setShowSavedList(true)} className="h-9 w-9 p-0">
+                <FolderOpen className="h-4 w-4" />
+              </Button>
+              <Button variant="ghost" size="sm" onClick={exportDesign} className="h-9 w-9 p-0">
+                <Download className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
-
-          <p className="text-[10px] text-muted-foreground mb-3">Drag to canvas or tap to add at center</p>
-
-          <div className="space-y-2">
-            {TEXT_FIELDS.map(field => (
-              <div
-                key={field.id}
-                draggable
-                onDragStart={() => handleDragStart(field)}
-                onClick={() => tapToAddField(field)}
-                className="bg-gray-800 border border-gray-700 rounded-lg p-3 cursor-grab active:cursor-grabbing hover:bg-gray-750 hover:border-gray-600 transition-all hover:translate-x-1 touch-manipulation"
-              >
-                <div className="text-xs font-medium text-gray-300 mb-1">{field.label}</div>
-                <div className="text-[10px] text-gray-500">{field.placeholder}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* CENTER - CANVAS */}
-        <div className="flex flex-col items-center justify-center p-10 relative">
-          <div className="absolute top-5 left-1/2 -translate-x-1/2 bg-black/80 backdrop-blur-md rounded-lg px-3 py-2 flex gap-2 z-50">
-            <Button variant="ghost" size="sm" onClick={saveDesign} disabled={saving} className="h-8 text-xs text-green-400 hover:text-green-300">
-              <Save className="h-3 w-3 mr-1" /> {saving ? 'Saving...' : 'Save'}
-            </Button>
-            <Button variant="ghost" size="sm" onClick={() => setShowSavedList(true)} className="h-8 text-xs">
-              <FolderOpen className="h-3 w-3 mr-1" /> My Designs
-            </Button>
-            <Button variant="ghost" size="sm" onClick={exportDesign} className="h-8 text-xs">
-              <Download className="h-3 w-3 mr-1" /> Export
-            </Button>
-            <Button variant="ghost" size="sm" onClick={clearCanvas} className="h-8 text-xs">
+          <div className="flex gap-1 mt-2 overflow-x-auto pb-1 -mx-1 px-1">
+            <Button variant="ghost" size="sm" onClick={clearCanvas} className="h-8 text-xs shrink-0">
               <Trash2 className="h-3 w-3 mr-1" /> Clear
             </Button>
-            <Button variant="ghost" size="sm" onClick={resetCanvas} className="h-8 text-xs">
+            <Button variant="ghost" size="sm" onClick={resetCanvas} className="h-8 text-xs shrink-0">
               <RotateCcw className="h-3 w-3 mr-1" /> Reset
             </Button>
           </div>
+        </div>
+      )}
 
-          <div className="relative w-[300px] h-[533px] shadow-2xl rounded overflow-hidden">
-            <div
-              ref={canvasRef}
-              onDragOver={(e) => e.preventDefault()}
-              onDrop={handleDrop}
-              onMouseMove={(e) => {
-                if (isDraggingElement) handleElementMouseMove(e);
-                if (isResizing) handleResizeMouseMove(e);
-              }}
-              onClick={(e) => {
-                if (e.target === canvasRef.current) setSelectedElement(null);
-              }}
-              onWheel={handleWheel}
-              onTouchStart={handleCanvasTouchStart}
-              onTouchMove={handleTouchMove}
-              onTouchEnd={handleTouchEnd}
-              className="w-full h-full relative cursor-default touch-none"
-              style={getBackgroundStyle()}
-            >
-              {/* Frame */}
-              {currentFrame !== 'none' && FRAMES.find(f => f.id === currentFrame) && (
-                <div
-                  className="absolute pointer-events-none border-2 border-black/20"
-                  style={FRAMES.find(f => f.id === currentFrame)!.style}
-                />
-              )}
+      {/* MAIN CONTENT */}
+      <div className="flex-1 flex overflow-hidden">
+        {/* LEFT SIDEBAR - desktop only */}
+        {!isMobile && (
+          <div className="w-[280px] flex-shrink-0 bg-gray-900 border-r border-gray-800 p-5 overflow-y-auto">
+            <div className="flex items-center gap-3 mb-4">
+              <Link to="/">
+                <Button variant="ghost" size="icon" className="h-8 w-8">
+                  <ArrowLeft className="h-4 w-4" />
+                </Button>
+              </Link>
+              <h2 className="text-sm font-semibold">Text Fields</h2>
+            </div>
 
-              {/* Elements */}
-              {elements.map(el => (
+            <p className="text-[10px] text-muted-foreground mb-3">Drag to canvas or tap to add at center</p>
+
+            <div className="space-y-2">
+              {TEXT_FIELDS.map(field => (
                 <div
-                  key={el.id}
-                  onMouseDown={(e) => handleElementMouseDown(e, el)}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSelectedElement(el);
-                  }}
-                  onTouchStart={(e) => handleTouchStart(e, el)}
-                  className={`absolute select-none p-2 min-w-[60px] min-h-[30px] touch-manipulation ${
-                    selectedElement?.id === el.id ? 'outline outline-2 outline-cyan-400 outline-offset-2' : ''
-                  } ${isDraggingElement && selectedElement?.id === el.id ? 'cursor-grabbing' : 'cursor-grab'}`}
-                  style={{
-                    left: el.x,
-                    top: el.y,
-                    width: el.width,
-                    minHeight: el.height,
-                    fontSize: el.fontSize,
-                    fontFamily: el.fontFamily,
-                    fontWeight: el.fontWeight,
-                    color: el.color,
-                    zIndex: el.zIndex,
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap'
-                  }}
+                  key={field.id}
+                  draggable
+                  onDragStart={() => handleDragStart(field)}
+                  onClick={() => tapToAddField(field)}
+                  className="bg-gray-800 border border-gray-700 rounded-lg p-3 cursor-grab active:cursor-grabbing hover:bg-gray-750 hover:border-gray-600 transition-all hover:translate-x-1 touch-manipulation"
                 >
-                  {el.text}
-                  {selectedElement?.id === el.id && (
-                    <div
-                      onMouseDown={(e) => handleResizeMouseDown(e, el)}
-                      onTouchStart={(e) => handleResizeTouchStart(e, el)}
-                      onTouchMove={handleResizeTouchMove}
-                      onTouchEnd={() => setIsResizing(false)}
-                      className="absolute bottom-0 right-0 w-3 h-3 bg-cyan-400 cursor-nwse-resize rounded-sm touch-none"
-                      style={{ pointerEvents: 'auto' }}
-                    />
-                  )}
+                  <div className="text-xs font-medium text-gray-300 mb-1">{field.label}</div>
+                  <div className="text-[10px] text-gray-500">{field.placeholder}</div>
                 </div>
               ))}
             </div>
           </div>
+        )}
 
-          <p className="text-[10px] text-muted-foreground mt-4">
-            {selectedElement ? `Selected: ${selectedElement.fieldId} (${selectedElement.fontSize}px) · Scroll/pinch to resize font` : 'Click an element to select it'}
-          </p>
+        {/* CENTER - CANVAS */}
+        <div className={`flex flex-col items-center justify-center relative ${isMobile ? 'p-4 flex-1 min-h-0' : 'p-10'}`}>
+          {/* Desktop toolbar - floating above canvas */}
+          {!isMobile && (
+            <div className="absolute top-5 left-1/2 -translate-x-1/2 bg-black/80 backdrop-blur-md rounded-lg px-3 py-2 flex gap-2 z-50">
+              <Button variant="ghost" size="sm" onClick={saveDesign} disabled={saving} className="h-8 text-xs text-green-400 hover:text-green-300">
+                <Save className="h-3 w-3 mr-1" /> {saving ? 'Saving...' : 'Save'}
+              </Button>
+              <Button variant="ghost" size="sm" onClick={() => setShowSavedList(true)} className="h-8 text-xs">
+                <FolderOpen className="h-3 w-3 mr-1" /> My Designs
+              </Button>
+              <Button variant="ghost" size="sm" onClick={exportDesign} className="h-8 text-xs">
+                <Download className="h-3 w-3 mr-1" /> Export
+              </Button>
+              <Button variant="ghost" size="sm" onClick={clearCanvas} className="h-8 text-xs">
+                <Trash2 className="h-3 w-3 mr-1" /> Clear
+              </Button>
+              <Button variant="ghost" size="sm" onClick={resetCanvas} className="h-8 text-xs">
+                <RotateCcw className="h-3 w-3 mr-1" /> Reset
+              </Button>
+            </div>
+          )}
+
+          <div className="relative flex-shrink-0" style={{ maxWidth: isMobile ? 'calc(100vw - 32px)' : undefined, maxHeight: isMobile ? 'calc(100vh - 140px)' : undefined }}>
+            <div className="relative w-[300px] h-[533px] shadow-2xl rounded overflow-hidden origin-top" style={isMobile ? {
+              transform: `scale(${Math.min(1, (window.innerWidth - 48) / 300, (window.innerHeight - 160) / 533)})`,
+            } : undefined}>
+              <div
+                ref={canvasRef}
+                onDragOver={(e) => e.preventDefault()}
+                onDrop={handleDrop}
+                onMouseMove={(e) => {
+                  if (isDraggingElement) handleElementMouseMove(e);
+                  if (isResizing) handleResizeMouseMove(e);
+                }}
+                onClick={(e) => {
+                  if (e.target === canvasRef.current) setSelectedElement(null);
+                }}
+                onWheel={handleWheel}
+                onTouchStart={handleCanvasTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+                className="w-full h-full relative cursor-default touch-none"
+                style={getBackgroundStyle()}
+              >
+                {/* Frame */}
+                {currentFrame !== 'none' && FRAMES.find(f => f.id === currentFrame) && (
+                  <div
+                    className="absolute pointer-events-none border-2 border-black/20"
+                    style={FRAMES.find(f => f.id === currentFrame)!.style}
+                  />
+                )}
+
+                {/* Elements */}
+                {elements.map(el => (
+                  <div
+                    key={el.id}
+                    onMouseDown={(e) => handleElementMouseDown(e, el)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedElement(el);
+                    }}
+                    onTouchStart={(e) => handleTouchStart(e, el)}
+                    className={`absolute select-none p-2 min-w-[60px] min-h-[30px] touch-manipulation ${
+                      selectedElement?.id === el.id ? 'outline outline-2 outline-cyan-400 outline-offset-2' : ''
+                    } ${isDraggingElement && selectedElement?.id === el.id ? 'cursor-grabbing' : 'cursor-grab'}`}
+                    style={{
+                      left: el.x,
+                      top: el.y,
+                      width: el.width,
+                      minHeight: el.height,
+                      fontSize: el.fontSize,
+                      fontFamily: el.fontFamily,
+                      fontWeight: el.fontWeight,
+                      color: el.color,
+                      zIndex: el.zIndex,
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap'
+                    }}
+                  >
+                    {el.text}
+                    {selectedElement?.id === el.id && (
+                      <div
+                        onMouseDown={(e) => handleResizeMouseDown(e, el)}
+                        onTouchStart={(e) => handleResizeTouchStart(e, el)}
+                        onTouchMove={handleResizeTouchMove}
+                        onTouchEnd={() => setIsResizing(false)}
+                        className="absolute bottom-0 right-0 w-4 h-4 bg-cyan-400 cursor-nwse-resize rounded-sm touch-none"
+                        style={{ pointerEvents: 'auto' }}
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {!isMobile && (
+            <p className="text-[10px] text-muted-foreground mt-4">
+              {selectedElement ? `Selected: ${selectedElement.fieldId} (${selectedElement.fontSize}px) · Scroll/pinch to resize font` : 'Click an element to select it'}
+            </p>
+          )}
         </div>
 
-        {/* RIGHT SIDEBAR */}
-        <div className="bg-gray-900 border-l border-gray-800 p-5 overflow-y-auto">
-          {/* Design Name */}
-          <div className="mb-6">
-            <label className="text-xs text-gray-400 mb-1 block">Design Name</label>
-            <input
-              type="text"
-              value={designName}
-              onChange={(e) => setDesignName(e.target.value)}
-              className="w-full bg-gray-800 border border-gray-700 rounded px-2 py-1.5 text-sm"
-              placeholder="Untitled Design"
+        {/* RIGHT SIDEBAR - desktop only */}
+        {!isMobile && (
+          <div className="w-[320px] flex-shrink-0 bg-gray-900 border-l border-gray-800 p-5 overflow-y-auto">
+            <SidebarContent
+              designName={designName}
+              setDesignName={setDesignName}
+              bgType={bgType}
+              setBgType={setBgType}
+              gradientColor1={gradientColor1}
+              setGradientColor1={setGradientColor1}
+              gradientColor2={gradientColor2}
+              setGradientColor2={setGradientColor2}
+              gradientAngle={gradientAngle}
+              setGradientAngle={setGradientAngle}
+              solidColor={solidColor}
+              setSolidColor={setSolidColor}
+              bgImage={bgImage}
+              handleImageUpload={handleImageUpload}
+              currentFrame={currentFrame}
+              setCurrentFrame={setCurrentFrame}
+              selectedElement={selectedElement}
+              updateSelectedElement={updateSelectedElement}
+              deleteSelected={deleteSelected}
             />
           </div>
+        )}
+      </div>
 
-          <hr className="border-gray-800 my-6" />
-
-          <h3 className="text-xs uppercase tracking-wider text-gray-500 mb-4">Background</h3>
-
-          <div className="space-y-2 mb-6">
-            <Button
-              variant={bgType === 'gradient' ? 'default' : 'outline'}
-              size="sm"
-              className="w-full"
-              onClick={() => setBgType('gradient')}
+      {/* MOBILE TAB PANEL */}
+      {isMobile && (
+        <div className="flex-shrink-0 bg-gray-900 border-t border-gray-800">
+          {/* Tab Bar */}
+          <div className="flex border-b border-gray-800">
+            <button
+              onClick={() => setMobileTab('fields')}
+              className={`flex-1 py-3 px-2 text-xs font-medium flex items-center justify-center gap-1.5 transition-colors ${
+                mobileTab === 'fields' ? 'text-cyan-400 border-b-2 border-cyan-400 bg-gray-800/50' : 'text-gray-400'
+              }`}
             >
-              Gradient
-            </Button>
-            <Button
-              variant={bgType === 'image' ? 'default' : 'outline'}
-              size="sm"
-              className="w-full"
-              onClick={() => setBgType('image')}
+              <Type className="h-3.5 w-3.5" /> Fields
+            </button>
+            <button
+              onClick={() => setMobileTab('bg')}
+              className={`flex-1 py-3 px-2 text-xs font-medium flex items-center justify-center gap-1.5 transition-colors ${
+                mobileTab === 'bg' ? 'text-cyan-400 border-b-2 border-cyan-400 bg-gray-800/50' : 'text-gray-400'
+              }`}
             >
-              Image
-            </Button>
-            <Button
-              variant={bgType === 'solid' ? 'default' : 'outline'}
-              size="sm"
-              className="w-full"
-              onClick={() => setBgType('solid')}
+              <Palette className="h-3.5 w-3.5" /> Background
+            </button>
+            <button
+              onClick={() => setMobileTab('props')}
+              className={`flex-1 py-3 px-2 text-xs font-medium flex items-center justify-center gap-1.5 transition-colors ${
+                mobileTab === 'props' ? 'text-cyan-400 border-b-2 border-cyan-400 bg-gray-800/50' : 'text-gray-400'
+              }`}
             >
-              Solid Color
-            </Button>
+              <Settings className="h-3.5 w-3.5" /> Properties
+              {selectedElement && <span className="w-2 h-2 bg-cyan-400 rounded-full ml-1" />}
+            </button>
           </div>
 
-          {bgType === 'gradient' && (
-            <div className="space-y-3 mb-6">
-              <div className="flex gap-2">
-                <div className="flex-1">
-                  <label className="text-[9px] text-gray-500 mb-1 block">Color 1</label>
-                  <input
-                    type="color"
-                    value={gradientColor1}
-                    onChange={(e) => setGradientColor1(e.target.value)}
-                    className="w-full h-10 rounded border border-gray-700 cursor-pointer"
-                  />
-                </div>
-                <div className="flex-1">
-                  <label className="text-[9px] text-gray-500 mb-1 block">Color 2</label>
-                  <input
-                    type="color"
-                    value={gradientColor2}
-                    onChange={(e) => setGradientColor2(e.target.value)}
-                    className="w-full h-10 rounded border border-gray-700 cursor-pointer"
-                  />
-                </div>
-              </div>
+          {/* Tab Content */}
+          <div className="max-h-[45vh] overflow-y-auto p-4">
+            {mobileTab === 'fields' && (
               <div>
-                <label className="text-xs text-gray-400 mb-2 block">Angle: {gradientAngle}°</label>
-                <input
-                  type="range"
-                  min="0"
-                  max="360"
-                  value={gradientAngle}
-                  onChange={(e) => setGradientAngle(Number(e.target.value))}
-                  className="w-full"
-                />
+                <p className="text-[11px] text-muted-foreground mb-3">Tap a field to add to canvas center</p>
+                <div className="grid grid-cols-2 gap-2">
+                  {TEXT_FIELDS.map(field => (
+                    <div
+                      key={field.id}
+                      onClick={() => tapToAddField(field)}
+                      className="bg-gray-800 border border-gray-700 rounded-lg p-3 active:bg-gray-700 transition-colors touch-manipulation"
+                    >
+                      <div className="text-xs font-medium text-gray-300 mb-0.5">{field.label}</div>
+                      <div className="text-[10px] text-gray-500 truncate">{field.placeholder}</div>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
-          {bgType === 'image' && (
-            <div className="mb-6">
-              <div
-                onClick={() => document.getElementById('bgImageInput')?.click()}
-                className="border-2 border-dashed border-gray-700 rounded-lg p-5 text-center cursor-pointer hover:border-gray-600 hover:bg-gray-800/50 transition-all"
-              >
-                <input
-                  id="bgImageInput"
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageUpload}
-                  className="hidden"
-                />
-                <div className="text-xs text-gray-500">Click to upload image</div>
-              </div>
-            </div>
-          )}
-
-          {bgType === 'solid' && (
-            <div className="mb-6">
-              <input
-                type="color"
-                value={solidColor}
-                onChange={(e) => setSolidColor(e.target.value)}
-                className="w-full h-10 rounded border border-gray-700 cursor-pointer"
-              />
-            </div>
-          )}
-
-          <hr className="border-gray-800 my-6" />
-
-          <h3 className="text-xs uppercase tracking-wider text-gray-500 mb-4">Frames</h3>
-          <div className="grid grid-cols-3 gap-2 mb-6">
-            {FRAMES.map(frame => (
-              <div
-                key={frame.id}
-                onClick={() => setCurrentFrame(frame.id)}
-                className={`aspect-square border-2 rounded cursor-pointer transition-all relative ${
-                  currentFrame === frame.id
-                    ? 'border-cyan-400 bg-cyan-400/10'
-                    : 'border-gray-700 hover:border-gray-600'
-                }`}
-              >
-                <div className="absolute inset-2 border-2 border-gray-600 rounded-sm" />
-              </div>
-            ))}
-          </div>
-
-          {selectedElement && (
-            <>
-              <hr className="border-gray-800 my-6" />
-              <h3 className="text-xs uppercase tracking-wider text-gray-500 mb-4">Selected Element</h3>
-
-              <div className="space-y-3">
-                <div>
-                  <label className="text-xs text-gray-400 mb-1 block">Font Family</label>
-                  <select
-                    value={selectedElement.fontFamily}
-                    onChange={(e) => updateSelectedElement({ fontFamily: e.target.value })}
-                    className="w-full bg-gray-800 border border-gray-700 rounded px-2 py-1.5 text-sm"
-                  >
-                    <option value="Inter">Inter</option>
-                    <option value="Playfair Display">Playfair Display</option>
-                    <option value="Montserrat">Montserrat</option>
-                    <option value="Roboto">Roboto</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="text-xs text-gray-400 mb-1 block">Font Size</label>
-                  <input
-                    type="number"
-                    min="8"
-                    max="72"
-                    value={selectedElement.fontSize}
-                    onChange={(e) => updateSelectedElement({ fontSize: Number(e.target.value) })}
-                    className="w-full bg-gray-800 border border-gray-700 rounded px-2 py-1.5 text-sm"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-xs text-gray-400 mb-1 block">Font Weight</label>
-                  <select
-                    value={selectedElement.fontWeight}
-                    onChange={(e) => updateSelectedElement({ fontWeight: Number(e.target.value) })}
-                    className="w-full bg-gray-800 border border-gray-700 rounded px-2 py-1.5 text-sm"
-                  >
-                    <option value="300">Light</option>
-                    <option value="400">Regular</option>
-                    <option value="500">Medium</option>
-                    <option value="600">Semi Bold</option>
-                    <option value="700">Bold</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="text-xs text-gray-400 mb-1 block">Text Color</label>
-                  <input
-                    type="color"
-                    value={selectedElement.color}
-                    onChange={(e) => updateSelectedElement({ color: e.target.value })}
-                    className="w-full h-10 rounded border border-gray-700 cursor-pointer"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-xs text-gray-400 mb-1 block">Text Content</label>
+            {mobileTab === 'bg' && (
+              <div>
+                {/* Design Name */}
+                <div className="mb-4">
+                  <label className="text-xs text-gray-400 mb-1 block">Design Name</label>
                   <input
                     type="text"
-                    value={selectedElement.text}
-                    onChange={(e) => updateSelectedElement({ text: e.target.value })}
-                    className="w-full bg-gray-800 border border-gray-700 rounded px-2 py-1.5 text-sm"
+                    value={designName}
+                    onChange={(e) => setDesignName(e.target.value)}
+                    className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2.5 text-sm"
+                    placeholder="Untitled Design"
                   />
                 </div>
 
-                <div className="p-2 bg-cyan-500/10 border border-cyan-500/20 rounded-lg text-[10px] text-cyan-300">
-                  💡 Scroll mouse wheel or pinch with 2 fingers to adjust font size
+                {/* Background Type */}
+                <div className="grid grid-cols-3 gap-2 mb-4">
+                  <Button
+                    variant={bgType === 'gradient' ? 'default' : 'outline'}
+                    size="sm"
+                    className="h-10"
+                    onClick={() => setBgType('gradient')}
+                  >
+                    Gradient
+                  </Button>
+                  <Button
+                    variant={bgType === 'image' ? 'default' : 'outline'}
+                    size="sm"
+                    className="h-10"
+                    onClick={() => setBgType('image')}
+                  >
+                    Image
+                  </Button>
+                  <Button
+                    variant={bgType === 'solid' ? 'default' : 'outline'}
+                    size="sm"
+                    className="h-10"
+                    onClick={() => setBgType('solid')}
+                  >
+                    Solid
+                  </Button>
                 </div>
 
-                <Button
-                  variant="destructive"
-                  size="sm"
-                  className="w-full mt-3"
-                  onClick={deleteSelected}
-                >
-                  Delete Element
-                </Button>
+                {bgType === 'gradient' && (
+                  <div className="space-y-3 mb-4">
+                    <div className="flex gap-3">
+                      <div className="flex-1">
+                        <label className="text-[11px] text-gray-500 mb-1 block">Color 1</label>
+                        <input
+                          type="color"
+                          value={gradientColor1}
+                          onChange={(e) => setGradientColor1(e.target.value)}
+                          className="w-full h-12 rounded-lg border border-gray-700 cursor-pointer"
+                        />
+                      </div>
+                      <div className="flex-1">
+                        <label className="text-[11px] text-gray-500 mb-1 block">Color 2</label>
+                        <input
+                          type="color"
+                          value={gradientColor2}
+                          onChange={(e) => setGradientColor2(e.target.value)}
+                          className="w-full h-12 rounded-lg border border-gray-700 cursor-pointer"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="text-xs text-gray-400 mb-2 block">Angle: {gradientAngle}°</label>
+                      <input
+                        type="range"
+                        min="0"
+                        max="360"
+                        value={gradientAngle}
+                        onChange={(e) => setGradientAngle(Number(e.target.value))}
+                        className="w-full h-10"
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {bgType === 'image' && (
+                  <div className="mb-4">
+                    <div
+                      onClick={() => document.getElementById('bgImageInputMobile')?.click()}
+                      className="border-2 border-dashed border-gray-700 rounded-lg p-6 text-center active:bg-gray-800/50 transition-colors touch-manipulation"
+                    >
+                      <input
+                        id="bgImageInputMobile"
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        className="hidden"
+                      />
+                      <div className="text-sm text-gray-400">Tap to upload image</div>
+                    </div>
+                  </div>
+                )}
+
+                {bgType === 'solid' && (
+                  <div className="mb-4">
+                    <input
+                      type="color"
+                      value={solidColor}
+                      onChange={(e) => setSolidColor(e.target.value)}
+                      className="w-full h-12 rounded-lg border border-gray-700 cursor-pointer"
+                    />
+                  </div>
+                )}
+
+                {/* Frames */}
+                <h4 className="text-xs uppercase tracking-wider text-gray-500 mb-3">Frames</h4>
+                <div className="grid grid-cols-5 gap-2">
+                  {FRAMES.map(frame => (
+                    <div
+                      key={frame.id}
+                      onClick={() => setCurrentFrame(frame.id)}
+                      className={`aspect-square border-2 rounded cursor-pointer transition-all relative ${
+                        currentFrame === frame.id
+                          ? 'border-cyan-400 bg-cyan-400/10'
+                          : 'border-gray-700 active:border-gray-500'
+                      }`}
+                    >
+                      <div className="absolute inset-1.5 border-2 border-gray-600 rounded-sm" />
+                    </div>
+                  ))}
+                </div>
               </div>
-            </>
-          )}
+            )}
+
+            {mobileTab === 'props' && (
+              selectedElement ? (
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="text-sm font-semibold">Element: {selectedElement.fieldId}</h4>
+                    <Button variant="destructive" size="sm" className="h-8 text-xs" onClick={deleteSelected}>
+                      <Trash2 className="h-3 w-3 mr-1" /> Delete
+                    </Button>
+                  </div>
+
+                  <div>
+                    <label className="text-xs text-gray-400 mb-1 block">Font Family</label>
+                    <select
+                      value={selectedElement.fontFamily}
+                      onChange={(e) => updateSelectedElement({ fontFamily: e.target.value })}
+                      className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2.5 text-sm"
+                    >
+                      <option value="Inter">Inter</option>
+                      <option value="Playfair Display">Playfair Display</option>
+                      <option value="Montserrat">Montserrat</option>
+                      <option value="Roboto">Roboto</option>
+                    </select>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="text-xs text-gray-400 mb-1 block">Font Size</label>
+                      <input
+                        type="number"
+                        min="8"
+                        max="72"
+                        value={selectedElement.fontSize}
+                        onChange={(e) => updateSelectedElement({ fontSize: Number(e.target.value) })}
+                        className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2.5 text-sm"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs text-gray-400 mb-1 block">Font Weight</label>
+                      <select
+                        value={selectedElement.fontWeight}
+                        onChange={(e) => updateSelectedElement({ fontWeight: Number(e.target.value) })}
+                        className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2.5 text-sm"
+                      >
+                        <option value="300">Light</option>
+                        <option value="400">Regular</option>
+                        <option value="500">Medium</option>
+                        <option value="600">Bold</option>
+                        <option value="700">Heavy</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="text-xs text-gray-400 mb-1 block">Text Color</label>
+                    <input
+                      type="color"
+                      value={selectedElement.color}
+                      onChange={(e) => updateSelectedElement({ color: e.target.value })}
+                      className="w-full h-12 rounded-lg border border-gray-700 cursor-pointer"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-xs text-gray-400 mb-1 block">Text Content</label>
+                    <input
+                      type="text"
+                      value={selectedElement.text}
+                      onChange={(e) => updateSelectedElement({ text: e.target.value })}
+                      className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2.5 text-sm"
+                    />
+                  </div>
+
+                  <div className="p-2.5 bg-cyan-500/10 border border-cyan-500/20 rounded-lg text-xs text-cyan-300">
+                    Pinch with 2 fingers on the element to resize font
+                  </div>
+                </div>
+              ) : (
+                <div className="text-center py-8 text-gray-500">
+                  <Settings className="h-8 w-8 mx-auto mb-2 opacity-40" />
+                  <p className="text-sm">Tap an element on the canvas to edit its properties</p>
+                </div>
+              )
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
