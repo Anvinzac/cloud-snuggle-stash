@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import CloudPaste from "./pages/CloudPaste";
 import BusinessCardGallery from "./pages/BusinessCardGallery";
 import CardDesigner from "./pages/CardDesigner";
+import TemplateSelection from "./pages/TemplateSelection";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -21,6 +22,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<BusinessCardGallery />} />
           <Route path="/share" element={<CloudPaste />} />
+          <Route path="/designer/new" element={<TemplateSelection />} />
           <Route path="/designer" element={<CardDesigner />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

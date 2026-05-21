@@ -112,7 +112,7 @@ export default function BusinessCardGallery() {
               {showMockData ? "Hide Test Data" : "Show Test Data"}
             </button>
 
-            <Link to="/designer">
+            <Link to="/designer/new">
               <button className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-500 to-violet-600 text-white rounded-lg font-semibold hover:from-cyan-600 hover:to-violet-700 transition-all shadow-lg">
                 <Palette className="w-4 h-4" /> Design Card
               </button>
@@ -195,23 +195,11 @@ export default function BusinessCardGallery() {
               <div className="w-full max-w-[220px] mx-auto rounded-2xl overflow-hidden shadow-2xl border border-border/20">
                 <CardPreview data={MOCK_DATA} design="avant-garde" color={color} selectedFields={selectedFields} compact />
               </div>
-              <Link to="/designer">
+              <Link to="/designer/new">
                 <button className="mt-3 flex items-center gap-2 mx-auto px-5 py-2.5 bg-gradient-to-r from-cyan-500 to-violet-600 text-white rounded-xl font-semibold hover:from-cyan-600 hover:to-violet-700 transition-all shadow-lg">
                   <Plus className="w-4 h-4" /> Create Your Card
                 </button>
               </Link>
-            </div>
-
-            {/* Color Picker */}
-            <div className="flex justify-center gap-2 bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm p-3 rounded-xl shadow-sm w-fit mx-auto">
-              {CARD_COLORS.slice(0, 8).map(c => (
-                <button
-                  key={c}
-                  onClick={() => setColor(c)}
-                  className={`w-7 h-7 rounded-full shrink-0 border-2 transition-transform ${color === c ? 'border-foreground scale-110' : 'border-transparent hover:scale-105'}`}
-                  style={{ backgroundColor: c }}
-                />
-              ))}
             </div>
 
             {/* Getting Started Guide */}

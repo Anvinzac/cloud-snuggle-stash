@@ -200,13 +200,23 @@ function SidebarContent({
   );
 }
 
+function adjustColor(hex: string, amount: number): string {
+  const num = parseInt(hex.replace('#', ''), 16);
+  const r = Math.min(255, Math.max(0, (num >> 16) + amount));
+  const g = Math.min(255, Math.max(0, ((num >> 8) & 0x00FF) + amount));
+  const b = Math.min(255, Math.max(0, (num & 0x0000FF) + amount));
+  return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, '0')}`;
+}
+
 export default function CardDesigner() {
   const [searchParams] = useSearchParams();
   const designId = searchParams.get('id');
+  const templateId = searchParams.get('template');
+  const templateColor = searchParams.get('templateColor') || '#667eea';
 
   const [bgType, setBgType] = useState<'gradient' | 'image' | 'solid'>('gradient');
-  const [gradientColor1, setGradientColor1] = useState('#667eea');
-  const [gradientColor2, setGradientColor2] = useState('#764ba2');
+  const [gradientColor1, setGradientColor1] = useState(templateId ? templateColor : '#667eea');
+  const [gradientColor2, setGradientColor2] = useState(templateId ? adjustColor(templateColor, -30) : '#764ba2');
   const [gradientAngle, setGradientAngle] = useState(135);
   const [solidColor, setSolidColor] = useState('#ffffff');
   const [bgImage, setBgImage] = useState<string | null>(null);
@@ -308,6 +318,7 @@ export default function CardDesigner() {
       elements: elements,
       card_data: cardData,
       selected_fields: selectedFields,
+      template_id: templateId || null,
     };
 
     if (isTestUser) {
@@ -319,7 +330,7 @@ export default function CardDesigner() {
         const newDesign: SavedCardDesign = {
           ...designData,
           id: `local-${Date.now()}`,
-          template_id: null,
+          template_id: templateId || null,
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
         };
