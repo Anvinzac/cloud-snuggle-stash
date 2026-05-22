@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Download, Trash2, RotateCcw, Save, FolderOpen, Type, Palette, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/sonner';
+import { useProfile } from '@/contexts/ProfileContext';
 import { supabase } from '@/integrations/supabase/client';
 import { CanvasElement, SavedCardDesign, ContactData } from '@/components/businesscard/types';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -213,6 +214,14 @@ export default function CardDesigner() {
   const designId = searchParams.get('id');
   const templateId = searchParams.get('template');
   const templateColor = searchParams.get('templateColor') || '#667eea';
+  const navigate = useNavigate();
+  const { profile } = useProfile();
+
+  useEffect(() => {
+    if (profile?.work_for) {
+      navigate('/designer/locked', { replace: true });
+    }
+  }, [profile, navigate]);
 
   const [bgType, setBgType] = useState<'gradient' | 'image' | 'solid'>('gradient');
   const [gradientColor1, setGradientColor1] = useState(templateId ? templateColor : '#667eea');

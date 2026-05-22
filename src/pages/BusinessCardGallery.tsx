@@ -2,10 +2,11 @@ import { useState, useEffect } from "react";
 import { CARD_DESIGNS, CARD_COLORS, MOCK_CONTACTS, SavedContact, SavedCardDesign } from "@/components/businesscard/types";
 import { CardPreview } from "@/components/businesscard/CardPreview";
 import { SavedCardsBrowser } from "@/components/businesscard/SavedCardsBrowser";
-import { ArrowLeft, Palette, Plus, Eye, EyeOff, CreditCard, QrCode, Zap, FolderOpen, Trash2 } from "lucide-react";
+import { Palette, Plus, Eye, EyeOff, CreditCard, QrCode, Zap, FolderOpen, Trash2, Building2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
+import { useProfile } from "@/contexts/ProfileContext";
 import { toast } from "@/components/ui/sonner";
 
 const MOCK_DATA = {
@@ -31,6 +32,8 @@ export default function BusinessCardGallery() {
   const [savedContacts, setSavedContacts] = useState<SavedContact[]>([]);
   const [savedDesigns, setSavedDesigns] = useState<SavedCardDesign[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const { profile, isCorporateAdmin } = useProfile();
 
   const isTestUser = true;
   const userId = DEV_TEST_USER.id;
@@ -112,15 +115,23 @@ export default function BusinessCardGallery() {
               {showMockData ? "Hide Test Data" : "Show Test Data"}
             </button>
 
-            <Link to="/designer/new">
+            <Link to={profile?.work_for ? "/designer/locked" : "/designer/new"}>
               <button className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-500 to-violet-600 text-white rounded-lg font-semibold hover:from-cyan-600 hover:to-violet-700 transition-all shadow-lg">
                 <Palette className="w-4 h-4" /> Design Card
               </button>
             </Link>
 
+            {isCorporateAdmin && (
+              <Link to="/corporate/setup">
+                <button className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 border border-border/50 rounded-lg font-semibold hover:bg-muted transition-all shadow-sm">
+                  <Building2 className="h-4 w-4 text-cyan-500" /> Corporate Template
+                </button>
+              </Link>
+            )}
+
             <Link to="/share">
               <button className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 border border-border/50 rounded-lg font-semibold hover:bg-muted transition-all shadow-sm">
-                <QrCode className="w-4 h-4" /> Share Fields
+                <QrCode className="h-4 w-4" /> Share Fields
               </button>
             </Link>
           </div>

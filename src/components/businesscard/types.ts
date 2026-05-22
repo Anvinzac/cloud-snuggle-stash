@@ -187,6 +187,27 @@ export const CARD_FIELDS = [
   { key: "tiktok", label: "TikTok", icon: "🎵" },
 ] as const;
 
+export interface CorporateAccount {
+  id: string;
+  name: string;
+  template_type: 'prebuilt' | 'custom';
+  template_id: string | null;
+  accent_color: string;
+  font_family: string;
+  font_size: number;
+  custom_design: SavedCardDesign | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface UserProfile {
+  id: string;
+  account_type: 'personal' | 'corporate';
+  work_for: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
 export const MOCK_CAREER_CATEGORIES: { name: string; name_vi: string; subs: { name: string; name_vi: string }[] }[] = [
   { name: "Marketing", name_vi: "Tiếp thị", subs: [
     { name: "Advertising", name_vi: "Quảng cáo" }, { name: "Promotion", name_vi: "Khuyến mãi" },

@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CARD_DESIGNS, TEMPLATE_DEFAULT_COLORS } from "@/components/businesscard/types";
 import { CardPreview } from "@/components/businesscard/CardPreview";
-import { ArrowLeft, Search } from "lucide-react";
+import { ArrowLeft, Search, Building2 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
+import { useProfile } from "@/contexts/ProfileContext";
 
 const MOCK_DATA = {
   name: "Alexander Hamilton",
@@ -19,6 +20,13 @@ const SELECTED_FIELDS = ["name", "title", "company", "phone", "email", "address"
 export default function TemplateSelection() {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
+  const { profile, isCorporateAdmin } = useProfile();
+
+  useEffect(() => {
+    if (profile?.work_for) {
+      navigate("/designer/locked", { replace: true });
+    }
+  }, [profile, navigate]);
 
   const filtered = CARD_DESIGNS.filter(
     (d) => !search || d.label.toLowerCase().includes(search.toLowerCase())
@@ -47,6 +55,15 @@ export default function TemplateSelection() {
               Select a design theme to start creating your card
             </p>
           </div>
+          {isCorporateAdmin && (
+            <Link
+              to="/corporate/setup"
+              className="ml-auto flex items-center gap-2 px-4 py-2 bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-border/30 rounded-xl text-sm font-semibold hover:bg-muted transition-all shadow-sm"
+            >
+              <Building2 className="h-4 w-4 text-cyan-500" />
+              Manage Corporate Template
+            </Link>
+          )}
         </div>
 
         {/* Search */}
